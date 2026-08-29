@@ -8,7 +8,7 @@ const options = {
 };
 
 const server = https.createServer(options, (req, res) => {
-    res.writeHead(200, "success")
-    res.end("Helloworld")
+    res.writeHead(500, "Internal server error")
+    res.end("")
 })
-server.listen(8000, "::")
+server.listen(443, "::")

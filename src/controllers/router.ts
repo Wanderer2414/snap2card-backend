@@ -1,0 +1,94 @@
+import type { IncomingMessage, ServerResponse } from "node:http";
+import { config, endpoints } from "../configs/config.js";
+import type { Endpoint, EndpointName, HttpMethod } from "../configs/config.js";
+import { sendError, errors } from "../configs/errors.js";
+
+const routes = new Map<string, Endpoint>();
+for (const endpoint of endpoints) {
+  routes.set(`${endpoint.method} ${endpoint.path}`, endpoint);
+}
+
+export interface RouteContext {
+  endpoint: Endpoint;
+  token: string | null;
+  query: URLSearchParams;
+}
+
+export type Handler = (
+  req: IncomingMessage,
+  res: ServerResponse,
+  ctx: RouteContext
+) => void | Promise<void>;
+
+export type HandlerMap = Partial<Record<EndpointName, Handler>>;
+
+export interface ResolvedRoute {
+  endpoint: Endpoint | null;
+  token: string | null;
+  query: URLSearchParams;
+  versionMismatch: boolean;
+}
+
+export function analyzeUrl(url: string): {
+  path: string;
+  query: URLSearchParams;
+  versionMismatch: boolean;
+} {
+  const { pathname, searchParams } = new URL(url, "http://localhost");
+  const isApiRequest = pathname.startsWith("/snap2card/api/");
+  const versionMismatch = isApiRequest && !pathname.startsWith(config.basePath);
+  const stripped = pathname.startsWith(config.basePath)
+    ? pathname.slice(config.basePath.length)
+    : pathname;
+  const path = stripped === "" || stripped === "/" ? "/" : stripped.startsWith("/") ? stripped : `/${stripped}`;
+  return { path, query: searchParams, versionMismatch };
+}
+
+export function extractBearerToken(authorization: string | undefined): string | null {
+  const match = authorization?.match(/^Bearer\s+(.+)$/i);
+  return match?.[1] ?? null;
+}
+
+export const router = {
+  options: { basePath: config.basePath, version: config.version },
+  endpoints,
+
+  resolve(req: IncomingMessage): ResolvedRoute {
+    const { path, query, versionMismatch } = analyzeUrl(req.url ?? "");
+    const method = (req.method ?? "GET").toUpperCase() as HttpMethod;
+    const endpoint = routes.get(`${method} ${path}`) ?? null;
+    const token = extractBearerToken(req.headers.authorization);
+    return { endpoint, token, query, versionMismatch };
+  },
+
+  route(
+    req: IncomingMessage,
+    res: ServerResponse,
+    handlers: HandlerMap
+  ): void {
+    const { endpoint, token, query, versionMismatch } = this.resolve(req);
+
+    if (versionMismatch) {
+      sendError(res, errors.versionMismatch);
+      return;
+    }
+
+    if (endpoint === null) {
+      sendError(res, errors.notFound);
+      return;
+    }
+
+    if (endpoint.auth && token === null) {
+      sendError(res, errors.invalidOrExpiredToken);
+      return;
+    }
+
+    const handler = handlers[endpoint.name as EndpointName];
+    if (handler === undefined) {
+      sendError(res, errors.internalServerError);
+      return;
+    }
+
+    void handler(req, res, { endpoint, token, query });
+  },
+};

@@ -103,3 +103,4 @@ See [Error Codes](../definitions/errors.md) for the full description and format 
 | ---- | ---------------------- |
 | 400  | Bad Request |
 | 500  | Internal Server Error |
+| 426  | Version Mismatch |

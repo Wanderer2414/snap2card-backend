@@ -45,3 +45,11 @@ Returned when an unexpected server failure occurs.
 | Message                 | Occurrence        |
 | ----------------------- | ----------------- |
 | `Internal server error` | All endpoints     |
+
+## 426 Version Mismatch
+
+Returned when the requested API version does not match the supported version.
+
+| Message                     | Occurrence     |
+| --------------------------- | -------------- |
+| `Version mismatch`          | All endpoints  |

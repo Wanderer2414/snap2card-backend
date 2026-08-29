@@ -1,6 +1,7 @@
 import https from "node:https";
-import fs from "node:fs"
-
+import fs from "node:fs";
+import { router } from "./controllers/router.js";
+import { handlers } from "./configs/config.js";
 
 const options = {
   key: fs.readFileSync("certs/server.key"),
@@ -8,7 +9,6 @@ const options = {
 };
 
 const server = https.createServer(options, (req, res) => {
-    res.writeHead(500, "Internal server error")
-    res.end("")
-})
-server.listen(443, "::")
+  router.route(req, res, handlers);
+});
+server.listen(443, "::");

@@ -1,7 +1,7 @@
 import https from "node:https";
 import fs from "node:fs";
 import { router } from "./controllers/router.js";
-import { handlers } from "./configs/config.js";
+import { handlers } from "./config.js";
 import readlineSync from "readline-sync"
 const port = readlineSync.questionInt("Port: ");
 const options = {

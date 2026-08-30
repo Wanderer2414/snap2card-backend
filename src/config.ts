@@ -1,6 +1,7 @@
 
-import { sendJson } from "../shared_functions/send.js";
-import type { Handler } from "../controllers/router.js";
+import { login_handler } from "./handlers/login.js";
+import { sendJson } from "./shared_functions/send.js";
+import type { Handler } from "./shared_type/handler.js";
 
 export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
@@ -10,6 +11,7 @@ export interface Endpoint {
   path: string;
   auth: boolean;
 }
+
 
 export const config = {
   name: "Snap2Card",
@@ -43,8 +45,12 @@ export const endpoints: readonly Endpoint[] = endpointDefinitions.map((definitio
 }));
 
 export const handlers = {} as Record<EndpointName, Handler>;
+
+handlers["account-login"] = login_handler;
+
 for (const definition of endpointDefinitions) {
-  handlers[definition.name] = (_req, res) => {
-    sendJson(_req, res, 501, { status: "error", message: "Not implemented" });
-  };
+  if (handlers[definition.name] == null)
+    handlers[definition.name] = async (_req, res) => {
+      sendJson(_req, res, 501, { status: "error", message: "Not implemented" });
+    };
 }

@@ -1,6 +1,7 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { config, endpoints } from "../configs/config.js";
-import type { Endpoint, EndpointName, HttpMethod } from "../configs/config.js";
+import { config, endpoints } from "../config.js";
+import type { Endpoint, EndpointName, HttpMethod } from "../config.js";
+import type { HandlerMap } from "../shared_type/handler.js";
 import { sendError, sendJson } from "../shared_functions/send.js";
 import { errors } from "../configs/errors.js"
 
@@ -14,14 +15,6 @@ export interface RouteContext {
   token: string | null;
   query: URLSearchParams;
 }
-
-export type Handler = (
-  req: IncomingMessage,
-  res: ServerResponse,
-  ctx: RouteContext
-) => void | Promise<void>;
-
-export type HandlerMap = Partial<Record<EndpointName, Handler>>;
 
 export interface ResolvedRoute {
   endpoint: Endpoint | null;

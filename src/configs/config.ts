@@ -1,4 +1,5 @@
-import type { IncomingMessage, ServerResponse } from "node:http";
+
+import { sendJson } from "../shared_functions/send.js";
 import type { Handler } from "../controllers/router.js";
 
 export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
@@ -41,18 +42,9 @@ export const endpoints: readonly Endpoint[] = endpointDefinitions.map((definitio
   auth: definition.auth
 }));
 
-export function sendJson(
-  res: ServerResponse,
-  status: number,
-  body: Record<string, unknown>
-): void {
-  res.writeHead(status, { "Content-Type": "application/json" });
-  res.end(JSON.stringify(body));
-}
-
 export const handlers = {} as Record<EndpointName, Handler>;
 for (const definition of endpointDefinitions) {
   handlers[definition.name] = (_req, res) => {
-    sendJson(res, 501, { status: "error", message: "Not implemented" });
+    sendJson(_req, res, 501, { status: "error", message: "Not implemented" });
   };
 }

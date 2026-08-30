@@ -1,7 +1,8 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { config, endpoints } from "../configs/config.js";
 import type { Endpoint, EndpointName, HttpMethod } from "../configs/config.js";
-import { sendError, errors } from "../configs/errors.js";
+import { sendError, sendJson } from "../shared_functions/send.js";
+import { errors } from "../configs/errors.js"
 
 const routes = new Map<string, Endpoint>();
 for (const endpoint of endpoints) {
@@ -69,23 +70,23 @@ export const router = {
     const { endpoint, token, query, versionMismatch } = this.resolve(req);
 
     if (versionMismatch) {
-      sendError(res, errors.versionMismatch);
+      sendError(req, res, errors.versionMismatch);
       return;
     }
 
     if (endpoint === null) {
-      sendError(res, errors.notFound);
+      sendError(req, res, errors.notFound);
       return;
     }
 
     if (endpoint.auth && token === null) {
-      sendError(res, errors.invalidOrExpiredToken);
+      sendError(req, res, errors.invalidOrExpiredToken);
       return;
     }
 
     const handler = handlers[endpoint.name as EndpointName];
     if (handler === undefined) {
-      sendError(res, errors.internalServerError);
+      sendError(req, res, errors.internalServerError);
       return;
     }
 

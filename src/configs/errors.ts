@@ -1,6 +1,3 @@
-import type { ServerResponse } from "node:http";
-import { sendJson } from "./config.js";
-
 export interface ErrorBody {
   status: "error";
   message: string;
@@ -25,7 +22,3 @@ export const errors = {
   internalServerError: { code: 500, message: "Internal server error" },
   versionMismatch: { code: 426, message: "Version mismatch" },
 } as const;
-
-export function sendError(res: ServerResponse, error: ApiError): void {
-  sendJson(res, error.code, { status: "error", message: error.message });
-}

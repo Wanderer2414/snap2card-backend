@@ -24,5 +24,11 @@
     "@types/node": "^26.4.0",
     "tsx": "^4.23.12",
     "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@types/pg": "^8.23.1",
+    "@types/readline-sync": "^1.4.8",
+    "pg": "^8.23.0",
+    "readline-sync": "^1.4.10"
   }
 }

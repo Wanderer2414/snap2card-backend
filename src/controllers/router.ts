@@ -77,7 +77,14 @@ export const router = {
       return;
     }
 
-    const handler = handlers[endpoint.name as EndpointName];
+    var handler = undefined;
+    try {
+      handler = handlers[endpoint.name as EndpointName];
+    }
+    catch (e) {
+      console.log(e)
+      sendError(req, res, errors.notFound)
+    }
     if (handler === undefined) {
       sendError(req, res, errors.internalServerError);
       return;

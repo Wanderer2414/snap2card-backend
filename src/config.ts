@@ -3,6 +3,7 @@ import { login_handler as account_login_handler } from "./handlers/account_login
 import { card_list_handler } from "./handlers/card_list.js";
 import { card_retrieve_handler } from "./handlers/card_retrieve.js";
 import { category_list_handler } from "./handlers/category_list.js";
+import { category_retrieve_handler } from "./handlers/category_retrieve.js";
 import { sendJson } from "./shared_functions/send.js";
 import type { Handler } from "./shared_type/handler.js";
 
@@ -53,6 +54,7 @@ handlers["account-login"] = account_login_handler;
 handlers["card-list"] = card_list_handler;
 handlers["card-retrieve"] = card_retrieve_handler
 handlers["category-list"] = category_list_handler
+handlers["category-retrieve"] = category_retrieve_handler
 
 for (const definition of endpointDefinitions) {
   if (handlers[definition.name] == null)

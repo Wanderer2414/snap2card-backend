@@ -6,27 +6,34 @@ import database_pool from "../controllers/db_router.js";
 import { errors } from "../configs/errors.js";
 import { getBody } from "../shared_functions/request.js";
 
-export const card_list_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => { 
+export const category_list_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => { 
     try {
         const body = JSON.parse(await getBody(req));
 
-        const cards = (
-            await database_pool.query("SELECT * FROM CARD_LIST($1);", [ctx.token!]).catch(
+        const categories = (
+            await database_pool.query("SELECT * FROM CATEGORY_LIST($1);", [ctx.token!]).catch(
                 (e) => {
                     console.log("DB Error: ", e.where)
                     throw e
                 }
             )
         )
-        const numOfCard = cards.rowCount
+        const numOfCat = categories.rowCount
         let output: Record<string, any>[] = []
-        cards.rows.forEach((row) => {
-            output.push({ "id": row["card_id"], "frontSide": row["component_text"]})
+        categories.rows.forEach((row) => {
+            output.push({ "id": row["category_id"], "name": row["category_name"], "createdAt": {
+                "year": row["year"],
+                "month": row["month"],
+                "day": row["day"],
+                "hour": row["hour"],
+                "minute": row["minute"],
+                "second": row["second"],
+                "gmt": row["gmt"]}})
         })
         sendJson(req, res, 200, {
             "data": {
-                "numOfCard": numOfCard,
-                "cards": output
+                "categoryNum": numOfCat,
+                "categories": output
                 }
             }
         )

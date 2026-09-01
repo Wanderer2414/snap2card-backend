@@ -28,5 +28,6 @@ export const login_handler: Handler = async (req: IncomingMessage, res: ServerRe
     }
     catch (e) {
         console.log("Error: ", e)
+        sendError(req, res, errors.invalidInputData)
     }
 }

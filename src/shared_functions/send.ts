@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import type { ApiError } from "../configs/errors.js";
+import { errors, type ApiError } from "../configs/errors.js";
 import "../controllers/db_router.js"
 import database_pool from "../controllers/db_router.js";
 import { getBody, getHeader } from "./request.js";
@@ -24,10 +24,12 @@ export function sendJson(
   try {
     database_pool.query("SELECT FN_REQUEST_LOG_INSERT($1, $2, $3, $4, $5)", [req.url!, getHeader(req), getBody(req), status.toString(), JSON.stringify(body)]).catch((e) => {
       console.log("DB Error: ", e)
+      throw e
     })
   }
   catch (e) {
     console.log("Error: ", e)
+    sendError(req, res, errors.invalidInputData)
   }
   console.log("New request comming, logged into database: ", req.url)
 }

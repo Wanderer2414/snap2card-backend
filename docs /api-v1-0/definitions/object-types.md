@@ -99,7 +99,11 @@ Represents a category.
     "minute": 0,
     "second": 0,
     "gmt": "+00:00"
-  }
+  },
+  "cardIds": [
+    "CARD1234567890",
+    "CARD2345678901"
+  ]
 }
 ```
 
@@ -110,4 +114,5 @@ Represents a category.
 | `id`        | [ID](../definitions/object-types.md#id) | Unique identifier of the category.       |
 | `name`      | string | Name of the category.                         |
 | `numOfCard` | number | Number of cards in the category.              |
-| `createdAt` | [Time](../definitions/object-types.md#time) | Timestamp when the category was created. |
+| `createdAt` | [Time](../definitions/object-types.md#time) | Timestamp when the first card was added to the category. |
+| `cardIds`   | array  | List of [Card IDs](../definitions/object-types.md#id) belonging to the category. |

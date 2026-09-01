@@ -19,7 +19,7 @@ Base URL: `/snap2card/api/v1.0`
 | GET    | `/cards`         | Bearer token | Retrieves one or more cards for the authenticated user. | [Card Retrieve](../protocols/card-retrieve.md) |
 | PUT    | `/categories`    | Bearer token | Updates an existing category for the authenticated user. | [Category Edit](../protocols/category-edit.md) |
 | GET    | `/categories/list` | Bearer token | Lists the categories for the authenticated user. | [Category List](../protocols/category-list.md) |
-| GET    | `/categories`    | Bearer token | Retrieves one or more categories for the authenticated user. | [Category Retrieve](../protocols/category-retrieve.md) |
+| GET    | `/categories`    | Bearer token | Retrieves a single category with its cards for the authenticated user. | [Category Retrieve](../protocols/category-retrieve.md) |
 | GET    | `/history`       | Bearer token | Retrieves the transaction/history log for the authenticated user. | [History Retrieve](../protocols/history-retrive.md) |
 
 ## Endpoint Details
@@ -53,8 +53,8 @@ Base URL: `/snap2card/api/v1.0`
 | Endpoint                  | Function                                                        |
 | ------------------------- | --------------------------------------------------------------- |
 | `PUT /categories`         | Updates a category name.                                        |
-| `GET /categories/list`    | Lists all categories (id and name).                             |
-| `GET /categories`         | Retrieves a category by `id`, or all when omitted.              |
+| `GET /categories/list`    | Lists all categories (id, name, numOfCard, and createdAt). |
+| `GET /categories`         | Retrieves a single category by `id`, including its `cardIds`. |
 
 ### History
 

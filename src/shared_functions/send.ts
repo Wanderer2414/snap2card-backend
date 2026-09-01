@@ -21,7 +21,14 @@ export function sendJson(
   res.writeHead(status, { "Content-Type": "application/json" });
   res.end(JSON.stringify(body));
   
-  database_pool.query("SELECT FN_REQUEST_LOG_INSERT($1, $2, $3, $4, $5)", [req.url!, getHeader(req), getBody(req), status.toString(), JSON.stringify(body)])
+  try {
+    database_pool.query("SELECT FN_REQUEST_LOG_INSERT($1, $2, $3, $4, $5)", [req.url!, getHeader(req), getBody(req), status.toString(), JSON.stringify(body)]).catch((e) => {
+      console.log("DB Error: ", e)
+    })
+  }
+  catch (e) {
+    console.log("Error: ", e)
+  }
   console.log("New request comming, logged into database: ", req.url)
 }
 

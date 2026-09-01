@@ -1,5 +1,7 @@
 
-import { login_handler } from "./handlers/login.js";
+import { login_handler as account_login_handler } from "./handlers/account_login.js";
+import { card_list_handler } from "./handlers/card_list.js";
+import { card_retrieve_handler } from "./handlers/card_retrieve.js";
 import { sendJson } from "./shared_functions/send.js";
 import type { Handler } from "./shared_type/handler.js";
 
@@ -46,7 +48,9 @@ export const endpoints: readonly Endpoint[] = endpointDefinitions.map((definitio
 
 export const handlers = {} as Record<EndpointName, Handler>;
 
-handlers["account-login"] = login_handler;
+handlers["account-login"] = account_login_handler;
+handlers["card-list"] = card_list_handler;
+handlers["card-retrieve"] = card_retrieve_handler
 
 for (const definition of endpointDefinitions) {
   if (handlers[definition.name] == null)

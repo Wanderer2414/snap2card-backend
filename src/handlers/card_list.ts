@@ -16,8 +16,6 @@ export const card_list_handler: Handler = async (req: IncomingMessage, res: Serv
             return;
         }
 
-        const body = JSON.parse(await getBody(req));
-
         const cards = (
             await database_pool.query("SELECT * FROM CARD_LIST($1);", [account_id]).catch(
                 (e) => {

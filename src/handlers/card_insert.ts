@@ -8,8 +8,6 @@ import { getBody } from "../shared_functions/request.js";
 
 export const card_insert_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => { 
     try {
-        const body = JSON.parse(await getBody(req));
-
         const cards = (
             await database_pool.query("SELECT * FROM CARD_LIST($1);", [ctx.token!]).catch(
                 (e) => {

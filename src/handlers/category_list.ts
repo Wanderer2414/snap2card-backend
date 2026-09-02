@@ -15,9 +15,6 @@ export const category_list_handler: Handler = async (req: IncomingMessage, res: 
             sendError(req, res, errors.invalidOrExpiredToken);
             return;
         }
-
-        const body = JSON.parse(await getBody(req));
-
         const categories = (
             await database_pool.query("SELECT * FROM CATEGORY_LIST($1);", [account_id]).catch(
                 (e) => {

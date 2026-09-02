@@ -62,15 +62,15 @@ handlers["account-login"] = account_login_handler;
 handlers["account-retrieve"] = account_retrieve_handler;
 handlers["account-edit"] = account_edit_handler;
 handlers["account-logout"] = account_logout_handler;
-handlers["activities-retrieve"] = activities_retrieve_handler;
-handlers["card-create"] = card_create_handler;
-handlers["card-edit"] = card_edit_handler;
+// handlers["activities-retrieve"] = activities_retrieve_handler;
+// handlers["card-create"] = card_create_handler;
+// handlers["card-edit"] = card_edit_handler;
 handlers["card-list"] = card_list_handler;
 handlers["card-retrieve"] = card_retrieve_handler;
-handlers["category-edit"] = category_edit_handler;
+// handlers["category-edit"] = category_edit_handler;
 handlers["category-list"] = category_list_handler;
 handlers["category-retrieve"] = category_retrieve_handler;
-handlers["history-retrieve"] = history_retrieve_handler;
+// handlers["history-retrieve"] = history_retrieve_handler;
 
 for (const definition of endpointDefinitions) {
   if (handlers[definition.name] == null)

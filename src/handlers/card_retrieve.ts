@@ -7,6 +7,7 @@ import { errors, resolveDatabaseError } from "../configs/errors.js";
 import { CardRetrieve, CardRetrieveItem } from "../definitions/responses.js";
 import { getBody } from "../shared_functions/request.js";
 import { checkSession } from "../shared_functions/check_session.js";
+import { isValidIds } from "../shared_functions/validate.js";
 
 export const card_retrieve_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => { 
     try {
@@ -19,13 +20,13 @@ export const card_retrieve_handler: Handler = async (req: IncomingMessage, res: 
         const body = JSON.parse(await getBody(req));
         const card_id = body["ids"] as string[] | undefined;
 
-        if (card_id == undefined) {
-            sendError(req, res, errors.invalidInputData);
+if (!isValidIds(card_id)) {
+            sendError(req, res, errors.invalidCardIdFormat);
             return;
-        }   
+        }
 
         const cards = (
-            await database_pool.query("SELECT * FROM CARD_RETRIEVE($1);", [card_id!]).catch(
+            await database_pool.query("SELECT * FROM CARD_RETRIEVE($1);", [card_id]).catch(
                 (e) => {
                     console.log("DB Error: ", e.where)
                     throw e

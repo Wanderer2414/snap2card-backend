@@ -7,6 +7,7 @@ import { errors, resolveDatabaseError } from "../configs/errors.js";
 import { CategoryRetrieve, Time } from "../definitions/responses.js";
 import { getBody } from "../shared_functions/request.js";
 import { checkSession } from "../shared_functions/check_session.js";
+import { isCategoryIdValid } from "../shared_functions/validate.js";
 
 export const category_retrieve_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => { 
     try {
@@ -19,8 +20,8 @@ export const category_retrieve_handler: Handler = async (req: IncomingMessage, r
         const body = JSON.parse(await getBody(req));
         const category_id = body["id"] as string | undefined;
 
-        if (category_id == undefined) {
-            sendError(req, res, errors.invalidInputData);
+        if (!isCategoryIdValid(category_id)) {
+            sendError(req, res, errors.invalidCategoryIdFormat);
             return;
         }   
 

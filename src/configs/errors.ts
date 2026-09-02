@@ -21,6 +21,17 @@ export const errors = {
   notFound: { code: 404, message: "Not found" },
   internalServerError: { code: 500, message: "Internal server error" },
   versionMismatch: { code: 426, message: "Version mismatch" },
+  invalidEmailFormat: { code: 400, message: "Invalid email format" },
+  invalidAccountIdFormat: { code: 400, message: "Invalid account id format" },
+  invalidCardIdFormat: { code: 400, message: "Invalid card id format" },
+  invalidCategoryIdFormat: { code: 400, message: "Invalid category id format" },
+  invalidSessionIdFormat: { code: 400, message: "Invalid session id format" },
+  invalidComponentIdFormat: { code: 400, message: "Invalid component id format" },
+  fieldTooLong: (field: string, max: number): ApiError => ({
+    code: 400,
+    message: `${field} must not exceed ${max} characters`,
+  }),
+  frontAndBackSame: { code: 400, message: "frontside and backside must be different" },
 } as const;
 
 export interface DbError {

@@ -6,6 +6,7 @@ import database_pool from "../controllers/db_router.js";
 import { errors, resolveDatabaseError } from "../configs/errors.js";
 import { AccountLogin } from "../definitions/responses.js";
 import { getBody } from "../shared_functions/request.js";
+import { isValidEmail, isValidLength } from "../shared_functions/validate.js";
 
 export const login_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => { 
     try {
@@ -14,7 +15,7 @@ export const login_handler: Handler = async (req: IncomingMessage, res: ServerRe
         const email = body["email"] as string | undefined;
         const password = body["password"] as string | undefined;
 
-        if ((email == undefined) || (password == undefined)) {
+        if (!isValidEmail(email) || !isValidLength(password, 100)) {
             sendError(req, res, errors.invalidEmailOrPassword);
             return;
         }   

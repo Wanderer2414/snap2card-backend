@@ -7,6 +7,7 @@ import { errors, resolveDatabaseError } from "../configs/errors.js";
 import { CardEdit } from "../definitions/responses.js";
 import { getBody } from "../shared_functions/request.js";
 import { checkSession } from "../shared_functions/check_session.js";
+import { isValidId, isValidIds } from "../shared_functions/validate.js";
 
 export const card_edit_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => {
     try {
@@ -23,8 +24,12 @@ export const card_edit_handler: Handler = async (req: IncomingMessage, res: Serv
         const backSide = body["backSide"] as string | undefined;
         const categories = body["categories"] as string[] | undefined;
 
-        if (id == undefined) {
-            sendError(req, res, errors.invalidInputData);
+        if (!isValidId(id)) {
+            sendError(req, res, errors.invalidCardIdFormat);
+            return;
+        }
+        if (categories != undefined && !isValidIds(categories)) {
+            sendError(req, res, errors.invalidCategoryIdFormat);
             return;
         }
 

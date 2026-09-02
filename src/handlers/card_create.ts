@@ -60,6 +60,10 @@ export const card_create_handler: Handler = async (req: IncomingMessage, res: Se
             sendError(req, res, errors.invalidInputData);
             return;
         }
+        if (frontSide === backSide) {
+            sendError(req, res, errors.frontAndBackSame);
+            return;
+        }
 
         const owner = await checkSession(ctx.token);
         if (owner == null) {

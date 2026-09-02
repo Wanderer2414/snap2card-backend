@@ -7,6 +7,7 @@ import { errors, resolveDatabaseError } from "../configs/errors.js";
 import { CategoryEdit } from "../definitions/responses.js";
 import { getBody } from "../shared_functions/request.js";
 import { checkSession } from "../shared_functions/check_session.js";
+import { isCategoryIdValid, isUppercase, isValidLength } from "../shared_functions/validate.js";
 
 export const category_edit_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => {
     try {
@@ -21,7 +22,11 @@ export const category_edit_handler: Handler = async (req: IncomingMessage, res: 
         const id = body["id"] as string | undefined;
         const name = body["name"] as string | undefined;
 
-        if (id == undefined || name == undefined) {
+        if (!isCategoryIdValid(id)) {
+            sendError(req, res, errors.invalidCategoryIdFormat);
+            return;
+        }
+        if (!isUppercase(name) || !isValidLength(name, 20)) {
             sendError(req, res, errors.invalidInputData);
             return;
         }

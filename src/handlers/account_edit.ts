@@ -7,6 +7,7 @@ import { errors, resolveDatabaseError } from "../configs/errors.js";
 import { AccountEdit } from "../definitions/responses.js";
 import { getBody } from "../shared_functions/request.js";
 import { checkSession } from "../shared_functions/check_session.js";
+import { isValidEmail, isValidLength } from "../shared_functions/validate.js";
 
 export const account_edit_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => {
     try {
@@ -27,30 +28,20 @@ export const account_edit_handler: Handler = async (req: IncomingMessage, res: S
             sendError(req, res, errors.invalidInputData);
             return;
         }
-
-        let fields: string[] = [];
-        let values: unknown[] = [];
-
-        if (type === "total" || type === "name") {
-            if (name !== undefined) { fields.push(`name = $${fields.length + 1}`); values.push(name); }
+        if (name != undefined && !isValidLength(name, 60)) {
+            sendError(req, res, errors.fieldTooLong("name", 60));
+            return;
         }
-        if (type === "total" || type === "email") {
-            if (email !== undefined) { fields.push(`email = $${fields.length + 1}`); values.push(email); }
-        }
-        if (type === "total" || type === "phone") {
-            if (phone !== undefined) { fields.push(`phone = $${fields.length + 1}`); values.push(phone); }
-        }
-
-        if (fields.length === 0) {
-            sendError(req, res, errors.invalidInputData);
+        if (email != undefined && !isValidEmail(email)) {
+            sendError(req, res, errors.invalidEmailFormat);
             return;
         }
 
-        values.push(account_id);
-        const query = `UPDATE ACCOUNT SET ${fields.join(", ")} WHERE id = $${values.length};`;
-
         const result = (
-            await database_pool.query(query, values).catch(
+            await database_pool.query(
+                "SELECT * FROM UPDATE_ACCOUNT($1, $2, $3, $4);",
+                [account_id, name ?? null, email ?? null, phone ?? null]
+            ).catch(
                 (e) => { console.log("DB Error: ", e); throw e; }
             )
         );

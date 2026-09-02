@@ -76,6 +76,24 @@ Errors: `50001`, `50006`.
 
 ---
 
+**`UPDATE_ACCOUNT`** — updates an account's name, email and/or phone.
+
+| Parameter      | Type                 |
+| -------------- | -------------------- |
+| `p_account_id` | `TYPE_ID`            |
+| `p_name`       | `TYPE_NAME_ACCOUNT`  |
+| `p_email`      | `TYPE_EMAIL`         |
+| `p_phone`      | `TYPE_PHONE`         |
+
+`p_name`, `p_email` and `p_phone` are optional; null fields keep the current
+value. At least one field must be provided.
+
+Returns: `TYPE_ID` — the updated account id (`ACNT...`).
+
+Errors: `50001`, `50002`, `50004`, `50006`.
+
+---
+
 ### Sessions
 
 **`SESSION_CHECK`** — validates a session and refreshes its expiry.

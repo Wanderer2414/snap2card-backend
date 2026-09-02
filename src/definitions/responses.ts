@@ -47,7 +47,8 @@ export interface ActivitiesRetrieveResponse extends SuccessResponse {
 
 export interface CardCreateResponse extends SuccessResponse {
   data: {
-    id: string;
+    numOfCard: number;
+    cards: CardListItem[];
   };
 }
 
@@ -176,8 +177,8 @@ export function ActivitiesRetrieve(
   return { status: "success", data: { streak, cardsThisMonth, offset, counts } };
 }
 
-export function CardCreate(id: string): CardCreateResponse {
-  return { status: "success", data: { id } };
+export function CardCreate(numOfCard: number, cards: CardListItem[]): CardCreateResponse {
+  return { status: "success", data: { numOfCard, cards } };
 }
 
 export function CardEdit(): CardEditResponse {

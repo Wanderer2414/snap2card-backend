@@ -1,9 +1,10 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Handler } from "../shared_type/handler.js";
 import type { RouteContext } from "../controllers/router.js";
-import { sendError, sendJson } from "../shared_functions/send.js";
+import { sendError, sendResponse } from "../shared_functions/send.js";
 import database_pool from "../controllers/db_router.js";
-import { errors } from "../configs/errors.js";
+import { errors, resolveDatabaseError } from "../configs/errors.js";
+import { AccountLogin } from "../definitions/responses.js";
 import { getBody } from "../shared_functions/request.js";
 
 export const login_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => { 
@@ -23,11 +24,11 @@ export const login_handler: Handler = async (req: IncomingMessage, res: ServerRe
             sendError(req, res, errors.invalidEmailOrPassword);
             return;
         }
-        sendJson(req, res, 200, { "data": { "token": id.rows[0].account_login } })
+        sendResponse(req, res, 200, AccountLogin(id.rows[0].account_login))
 
     }
     catch (e) {
         console.log("Error: ", e)
-        sendError(req, res, errors.invalidInputData)
+        sendError(req, res, resolveDatabaseError(e))
     }
 }

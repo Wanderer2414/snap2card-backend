@@ -20,7 +20,6 @@ Creates a new card for the authenticated user.
 ```json
 {
   "name": "My Card",
-  "categoryId": "CAT1234567890",
   "type": "manual",
   "text": "Full card details text",
   "image": {
@@ -37,7 +36,6 @@ Creates a new card for the authenticated user.
 | Field        | Type   | Required | Description                                                  |
 | ------------ | ------ | -------- | ------------------------------------------------------------ |
 | `name`       | string | Yes      | Name of the card.                                            |
-| `categoryId` | [Category ID](../definitions/object-types.md#id) | Yes      | Category the card belongs to.                                |
 | `type`       | string | Yes      | Creation type: `document`, `image`, or `manual`.      |
 | `text`       | string | No       | Large text input (used when `type` is `document`).        |
 | `image`      | [Image](../definitions/object-types.md#image) | No | Image input (used when `type` is `image`).        |
@@ -55,7 +53,6 @@ Card details are provided as a large text input.
 ```json
 {
   "name": "My Card",
-  "categoryId": "CAT1234567890",
   "type": "document",
   "text": "Full card details text"
 }
@@ -68,7 +65,6 @@ Card details are provided as an image.
 ```json
 {
   "name": "My Card",
-  "categoryId": "CAT1234567890",
   "type": "image",
   "image": {
     "image": "data:image/png;base64,iVBORw0KGgo...",
@@ -84,7 +80,6 @@ Card details are entered manually via front side and back side text.
 ```json
 {
   "name": "My Card",
-  "categoryId": "CAT1234567890",
   "type": "manual",
   "frontSide": "Front card text",
   "backSide": "Back card text"
@@ -99,10 +94,7 @@ Card details are entered manually via front side and back side text.
 {
   "status": "success",
   "data": {
-    "id": "CARD1234567890",
-    "categories": [
-      "CAT1234567890"
-    ]
+    "id": "CARD1234567890"
   }
 }
 ```
@@ -112,7 +104,6 @@ Card details are entered manually via front side and back side text.
 | Field         | Type   | Description                                   |
 | ------------- | ------ | --------------------------------------------- |
 | `id`          | [Card ID](../definitions/object-types.md#id) | Unique identifier of the card.                |
-| `categories`  | array  | List of category IDs the card belongs to.     |
 
 ## Errors
 

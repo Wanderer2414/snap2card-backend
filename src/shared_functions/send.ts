@@ -1,5 +1,6 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { errors, type ApiError } from "../configs/errors.js";
+import type { ApiResponse } from "../definitions/responses.js";
 import "../controllers/db_router.js"
 import database_pool from "../controllers/db_router.js";
 import { getBody, getHeader } from "./request.js";
@@ -36,4 +37,13 @@ export function sendJson(
 
 export function sendError(req:IncomingMessage, res: ServerResponse, error: ApiError): void {
   sendJson(req, res, error.code, { status: "error", message: error.message });
+}
+
+export function sendResponse(
+  req: IncomingMessage,
+  res: ServerResponse,
+  status: number,
+  body: ApiResponse
+): void {
+  sendJson(req, res, status, body as unknown as Record<string, unknown>);
 }

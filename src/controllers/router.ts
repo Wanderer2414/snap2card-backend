@@ -2,7 +2,7 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import { config, endpoints } from "../config.js";
 import type { Endpoint, EndpointName, HttpMethod } from "../config.js";
 import type { HandlerMap } from "../shared_type/handler.js";
-import { sendError, sendJson } from "../shared_functions/send.js";
+import { sendError } from "../shared_functions/send.js";
 import { errors } from "../configs/errors.js"
 
 const routes = new Map<string, Endpoint>();

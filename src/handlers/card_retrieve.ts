@@ -1,13 +1,21 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Handler } from "../shared_type/handler.js";
 import type { RouteContext } from "../controllers/router.js";
-import { sendError, sendJson } from "../shared_functions/send.js";
+import { sendError, sendResponse } from "../shared_functions/send.js";
 import database_pool from "../controllers/db_router.js";
-import { errors } from "../configs/errors.js";
+import { errors, resolveDatabaseError } from "../configs/errors.js";
+import { CardRetrieve, CardRetrieveItem } from "../definitions/responses.js";
 import { getBody } from "../shared_functions/request.js";
+import { checkSession } from "../shared_functions/check_session.js";
 
 export const card_retrieve_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => { 
     try {
+        const account_id = await checkSession(ctx.token);
+        if (account_id == null) {
+            sendError(req, res, errors.invalidOrExpiredToken);
+            return;
+        }
+
         const body = JSON.parse(await getBody(req));
         const card_id = body["ids"] as string[] | undefined;
 
@@ -24,14 +32,14 @@ export const card_retrieve_handler: Handler = async (req: IncomingMessage, res: 
                 }
             )
         )
-        let output: Record<string, any>[] = []
+        const output: CardRetrieveItem[] = []
         cards.rows.forEach((row) => {
-            output.push({ "id": row["card_id"], "frontSide": row["frontside_text"], "backside":row["backside_text"]})
+            output.push(CardRetrieveItem(row["card_id"], row["frontside_text"], row["backside_text"]))
         })
-        sendJson(req, res, 200, { "data": output })
+        sendResponse(req, res, 200, CardRetrieve(output))
     }
     catch (e) {
         console.log("Error: ", e)
-        sendError(req, res, errors.notFound)
+        sendError(req, res, resolveDatabaseError(e))
     }
 }

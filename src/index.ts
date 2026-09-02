@@ -3,7 +3,8 @@ import fs from "node:fs";
 import { router } from "./controllers/router.js";
 import { handlers } from "./config.js";
 import readlineSync from "readline-sync"
-const port = readlineSync.questionInt("Port: ");
+import { getPort } from "./shared_functions/certificate.js";
+const port = getPort()
 const options = {
   key: fs.readFileSync("certs/server.key"),
   cert: fs.readFileSync("certs/server.crt"),

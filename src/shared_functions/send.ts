@@ -4,6 +4,8 @@ import type { ApiResponse } from "../definitions/responses.js";
 import "../controllers/db_router.js"
 import database_pool from "../controllers/db_router.js";
 import { getBody, getHeader } from "./request.js";
+import { time } from "node:console";
+import { getTime } from "./get_time.js";
 
 // FN_REQUEST_LOG_INSERT(
 //     p_endpoint       VARCHAR(60),
@@ -32,7 +34,7 @@ export function sendJson(
     console.log("Error: ", e)
     sendError(req, res, errors.invalidInputData)
   }
-  console.log("New request comming, logged into database: ", req.url)
+  console.log(getTime(), ": New request comming, logged into database: ", req.url)
 }
 
 export function sendError(req:IncomingMessage, res: ServerResponse, error: ApiError): void {

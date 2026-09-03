@@ -16,6 +16,12 @@ import { exam_create_handler } from "./handlers/exam_create.js";
 import { exam_start_handler } from "./handlers/exam_start.js";
 import { exam_result_handler } from "./handlers/exam_result.js";
 import { exam_review_handler } from "./handlers/exam_review.js";
+import { account_register_handler } from "./handlers/account_register.js";
+import { category_create_handler } from "./handlers/category_create.js";
+import { category_to_card_handler } from "./handlers/category_to_card.js";
+import { card_to_category_handler } from "./handlers/card_to_category.js";
+import { category_log_related_handler } from "./handlers/category_log_related.js";
+import { exam_completed_handler } from "./handlers/exam_completed.js";
 import { sendJson } from "./shared_functions/send.js";
 import type { Handler } from "./shared_type/handler.js";
 
@@ -53,6 +59,12 @@ export const endpointDefinitions = [
   { name: "exam-start", method: "POST", path: "/exams/start", auth: true },
   { name: "exam-result", method: "POST", path: "/exams/result", auth: true },
   { name: "exam-review", method: "GET", path: "/exams/review", auth: true },
+  { name: "account-register", method: "POST", path: "/account/register", auth: false },
+  { name: "category-create", method: "POST", path: "/categories", auth: true },
+  { name: "category-to-card", method: "POST", path: "/cards/categorize", auth: true },
+  { name: "card-to-category", method: "POST", path: "/categories/categorize", auth: true },
+  { name: "category-log-related", method: "GET", path: "/categories/logs", auth: true },
+  { name: "exam-completed", method: "POST", path: "/exams/completed", auth: true },
 ] as const;
 
 export type EndpointName = (typeof endpointDefinitions)[number]["name"];
@@ -67,6 +79,7 @@ export const endpoints: readonly Endpoint[] = endpointDefinitions.map((definitio
 export const handlers = {} as Record<EndpointName, Handler>;
 
 handlers["account-login"] = account_login_handler;
+handlers["account-register"] = account_register_handler;
 handlers["account-retrieve"] = account_retrieve_handler;
 handlers["account-edit"] = account_edit_handler;
 handlers["account-logout"] = account_logout_handler;
@@ -78,10 +91,15 @@ handlers["card-retrieve"] = card_retrieve_handler;
 // handlers["category-edit"] = category_edit_handler;
 handlers["category-list"] = category_list_handler;
 handlers["category-retrieve"] = category_retrieve_handler;
+handlers["category-create"] = category_create_handler;
+handlers["category-to-card"] = category_to_card_handler;
+handlers["card-to-category"] = card_to_category_handler;
+handlers["category-log-related"] = category_log_related_handler;
 handlers["exam-create"] = exam_create_handler;
 handlers["exam-start"] = exam_start_handler;
 handlers["exam-result"] = exam_result_handler;
 handlers["exam-review"] = exam_review_handler;
+handlers["exam-completed"] = exam_completed_handler;
 // handlers["history-retrieve"] = history_retrieve_handler;
 
 for (const definition of endpointDefinitions) {

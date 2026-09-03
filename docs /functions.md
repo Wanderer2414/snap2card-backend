@@ -162,6 +162,25 @@ Errors: `50001`, `50006`.
 
 ### Categories
 
+**`CATEGORY_INSERT`** — creates a category owned by an account, or returns the
+existing one if the account already has a category with the same name.
+
+| Parameter | Type      |
+| --------- | --------- |
+| `p_owner` | `TYPE_ID` |
+| `p_name`  | `TEXT`    |
+
+`p_owner` is required and must reference an existing account. `p_name` must be
+uppercase (enforced by the `TYPE_NAME_CATEGORY` domain) and at most 20
+characters. Category names are unique per owner. (A `NULL` encounter is only for
+categories the system adds automatically, not for the protocol.)
+
+Returns: `TYPE_ID` — the category id (`CATE...`).
+
+Errors: `50001`, `50002`, `50004`, `50006`.
+
+---
+
 **`CATEGORY_LIST`** — lists the categories of an account with card counts.
 
 | Parameter      | Type      |
@@ -210,6 +229,44 @@ Returns a table:
 | `gmt`          | `CHAR(3)`        |
 
 Errors: `50001`, `50006`.
+
+---
+
+**`CATEGORY_LOG_RELATED`** — lists an account's completed exam logs whose exams
+belong to a given category.
+
+| Parameter      | Type      |
+| -------------- | --------- |
+| `p_account_id` | `TYPE_ID` |
+| `p_category_id`| `TYPE_ID` |
+
+Returns a table:
+
+| Column         | Type             |
+| -------------- | ---------------- |
+| `log_id`       | `TYPE_ID`        |
+| `exam_name`    | `TYPE_NAME_EXAM` |
+| `score`        | `INT`            |
+| `total_score`  | `INT`            |
+| `YEAR_START`   | `INTEGER`        |
+| `MONTH_START`  | `INTEGER`        |
+| `DAY_START`    | `INTEGER`        |
+| `HOUR_START`   | `INTEGER`        |
+| `MINUTE_START` | `INTEGER`        |
+| `SECOND_START` | `INTEGER`        |
+| `GMT_START`    | `CHAR(3)`        |
+| `YEAR_END`     | `INTEGER`        |
+| `MONTH_END`    | `INTEGER`        |
+| `DAY_END`      | `INTEGER`        |
+| `HOUR_END`     | `INTEGER`        |
+| `MINUTE_END`   | `INTEGER`        |
+| `SECOND_END`   | `INTEGER`        |
+| `GMT_END`      | `CHAR(3)`        |
+
+The `_START`/`_END` columns are the `FN_GET_GMT` split of the exam log's
+`start_time`/`end_time`.
+
+Errors: `50001`, `50004`, `50006`.
 
 ---
 

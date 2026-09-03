@@ -142,6 +142,37 @@ export interface ExamReviewResponse extends SuccessResponse {
   };
 }
 
+export interface AccountRegisterResponse extends SuccessResponse {
+  data: {
+    accountId: string;
+  };
+}
+
+export interface CategoryCreateResponse extends SuccessResponse {
+  data: {
+    categoryId: string;
+  };
+}
+
+export type CategoryToCardResponse = SuccessResponse;
+
+export type CardToCategoryResponse = SuccessResponse;
+
+export interface CategoryLogItem {
+  logId: string;
+  examName: string;
+  score: number;
+  totalScore: number;
+  start: Time;
+  end: Time;
+}
+
+export interface CategoryLogRelatedResponse extends SuccessResponse {
+  data: CategoryLogItem[];
+}
+
+export type ExamCompletedResponse = SuccessResponse;
+
 export type ApiResponse =
   | AccountLoginResponse
   | AccountRetrieveResponse
@@ -160,6 +191,12 @@ export type ApiResponse =
   | ExamStartResponse
   | ExamResultResponse
   | ExamReviewResponse
+  | AccountRegisterResponse
+  | CategoryCreateResponse
+  | CategoryToCardResponse
+  | CardToCategoryResponse
+  | CategoryLogRelatedResponse
+  | ExamCompletedResponse
   | ErrorResponse;
 
 export function Time(
@@ -299,6 +336,41 @@ export function ExamQuizItem(quizId: string, frontSide: string, backSide: string
 
 export function ExamReview(numOfQuiz: number, quizzes: ExamQuizItem[]): ExamReviewResponse {
   return { status: "success", data: { numOfQuiz, quizzes } };
+}
+
+export function AccountRegister(accountId: string): AccountRegisterResponse {
+  return { status: "success", data: { accountId } };
+}
+
+export function CategoryCreate(categoryId: string): CategoryCreateResponse {
+  return { status: "success", data: { categoryId } };
+}
+
+export function CategoryToCard(): CategoryToCardResponse {
+  return { status: "success" };
+}
+
+export function CardToCategory(): CardToCategoryResponse {
+  return { status: "success" };
+}
+
+export function CategoryLogItem(
+  logId: string,
+  examName: string,
+  score: number,
+  totalScore: number,
+  start: Time,
+  end: Time
+): CategoryLogItem {
+  return { logId, examName, score, totalScore, start, end };
+}
+
+export function CategoryLogRelated(data: CategoryLogItem[]): CategoryLogRelatedResponse {
+  return { status: "success", data };
+}
+
+export function ExamCompleted(): ExamCompletedResponse {
+  return { status: "success" };
 }
 
 export function ErrorResponse(message: string): ErrorResponse {

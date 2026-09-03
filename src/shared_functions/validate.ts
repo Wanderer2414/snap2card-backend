@@ -8,6 +8,10 @@ export function isCategoryIdValid(id: string | null | undefined): id is string {
     return id != null && id.length === idLength && id.startsWith("CATE");
 }
 
+export function isCardIdValid(id: string | null | undefined): id is string {
+    return id != null && id.length === idLength && id.startsWith("CARD");
+}
+
 export function isExamIdValid(id: string | null | undefined): id is string {
     return id != null && id.length === idLength && id.startsWith("EXAM");
 }

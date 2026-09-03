@@ -21,6 +21,10 @@ Base URL: `/snap2card/api/v1.0`
 | GET    | `/categories/list` | Bearer token | Lists the categories for the authenticated user. | [Category List](../protocols/category-list.md) |
 | GET    | `/categories`    | Bearer token | Retrieves a single category with its cards for the authenticated user. | [Category Retrieve](../protocols/category-retrieve.md) |
 | GET    | `/history`       | Bearer token | Retrieves the transaction/history log for the authenticated user. | [History Retrieve](../protocols/history-retrive.md) |
+| POST   | `/exams/create`  | Bearer token | Creates a new exam from a category.  | [Exam Create](../protocols/exam-create.md) |
+| POST   | `/exams/start`   | Bearer token | Starts an exam session.              | [Exam Start](../protocols/exam-start.md) |
+| POST   | `/exams/result`  | Bearer token | Saves a quiz result against an exam log. | [Exam Result](../protocols/exam-result.md) |
+| GET    | `/exams/review`  | Bearer token | Retrieves the quizzes for reviewing an exam. | [Exam Review](../protocols/exam-review.md) |
 
 ## Endpoint Details
 
@@ -61,6 +65,15 @@ Base URL: `/snap2card/api/v1.0`
 | Endpoint             | Function                                                        |
 | -------------------- | --------------------------------------------------------------- |
 | `GET /history`       | Retrieves the transaction/history log with pagination (`from`, `to`, `limit`, `page`). |
+
+### Exams
+
+| Endpoint              | Function                                                        |
+| --------------------- | --------------------------------------------------------------- |
+| `POST /exams/create`  | Creates an exam from all reviewable cards in a category, returning the new exam id. |
+| `POST /exams/start`   | Starts an exam session for an exam, returning a new exam log.    |
+| `POST /exams/result`  | Records a user's answer to a review quiz on an exam log.         |
+| `GET /exams/review`   | Retrieves the review questions (quizzes) of an exam.             |
 
 ## Notes
 

@@ -20,3 +20,20 @@ documented in [`docs/error.md`](error.md)) and then delegate to the internal
 Returns: nothing.
 
 Errors: `50001`, `50005`, `50006`.
+
+---
+
+### Exams
+
+**`EXAM_LOG_REVIEW_RESULT`** — records a user's answer to a review quiz on an
+exam log.
+
+| Parameter      | Type      |
+| -------------- | --------- |
+| `p_exam_log_id`| `TYPE_ID` |
+| `p_quiz_id`    | `TYPE_ID` |
+| `p_result`     | `BOOLEAN` |
+
+Returns: nothing.
+
+Errors: `50001`, `50004`, `50006`.

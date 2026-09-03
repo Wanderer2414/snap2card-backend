@@ -119,6 +119,29 @@ export interface HistoryRetrieveResponse extends SuccessResponse {
   };
 }
 
+export interface ExamCreateResponse extends SuccessResponse {
+  data: {
+    examId: string;
+  };
+}
+
+export type ExamStartResponse = SuccessResponse;
+
+export type ExamResultResponse = SuccessResponse;
+
+export interface ExamQuizItem {
+  quizId: string;
+  frontSide: string;
+  backSide: string;
+}
+
+export interface ExamReviewResponse extends SuccessResponse {
+  data: {
+    numOfQuiz: number;
+    quizzes: ExamQuizItem[];
+  };
+}
+
 export type ApiResponse =
   | AccountLoginResponse
   | AccountRetrieveResponse
@@ -133,6 +156,10 @@ export type ApiResponse =
   | CategoryListResponse
   | CategoryRetrieveResponse
   | HistoryRetrieveResponse
+  | ExamCreateResponse
+  | ExamStartResponse
+  | ExamResultResponse
+  | ExamReviewResponse
   | ErrorResponse;
 
 export function Time(
@@ -252,6 +279,26 @@ export function HistoryRetrieve(
   total: number
 ): HistoryRetrieveResponse {
   return { status: "success", data, meta: { page, limit, total } };
+}
+
+export function ExamCreate(examId: string): ExamCreateResponse {
+  return { status: "success", data: { examId } };
+}
+
+export function ExamStart(): ExamStartResponse {
+  return { status: "success" };
+}
+
+export function ExamResult(): ExamResultResponse {
+  return { status: "success" };
+}
+
+export function ExamQuizItem(quizId: string, frontSide: string, backSide: string): ExamQuizItem {
+  return { quizId, frontSide, backSide };
+}
+
+export function ExamReview(numOfQuiz: number, quizzes: ExamQuizItem[]): ExamReviewResponse {
+  return { status: "success", data: { numOfQuiz, quizzes } };
 }
 
 export function ErrorResponse(message: string): ErrorResponse {

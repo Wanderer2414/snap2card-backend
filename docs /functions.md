@@ -13,7 +13,7 @@ Custom domain types used by protocol signatures:
 
 | Type                | Underlying      | Constraint                                        |
 | ------------------- | --------------- | ------------------------------------------------- |
-| `TYPE_ID`           | `CHAR(15)`      | `LENGTH(VALUE) = 15`; prefix defines entity: `ACNT`, `CARD`, `CATE`, `SESS`, `COMP` |
+| `TYPE_ID`           | `CHAR(15)`      | `LENGTH(VALUE) = 15`; prefix defines entity: `ACNT`, `CARD`, `CATE`, `SESS`, `COMP`, `EXAM`, `QUIZ`, `LOG` |
 | `TYPE_EMAIL`        | `citext`        | Valid email pattern                               |
 | `TYPE_PASSWORD`     | `CHAR(100)`     | Max 100 characters                                |
 | `TYPE_NAME_ACCOUNT` | `VARCHAR(60)`   | Max 60 characters                                 |
@@ -255,3 +255,56 @@ Errors: `50001`, `50004`, `50007`.
 Returns: `INT` — the new request id.
 
 Errors: `50001`, `50002`.
+
+---
+
+### Exams
+
+**`EXAM_CREATE`** — creates an exam from all reviewable cards in a category.
+
+| Parameter      | Type      |
+| -------------- | --------- |
+| `p_category_id`| `TYPE_ID` |
+
+Returns: `TYPE_ID` — the new exam id (`EXAM...`).
+
+Errors: `50001`, `50004`, `50006`.
+
+---
+
+**`EXAM_START`** — starts an exam session, creating an exam log for an active
+session.
+
+| Parameter      | Type      |
+| -------------- | --------- |
+| `p_session_id` | `TYPE_ID` |
+| `p_exam_id`    | `TYPE_ID` |
+
+Returns: `TYPE_ID` — the new exam log id (`LOG...`).
+
+Errors: `50001`, `50004`, `50005`, `50006`.
+
+---
+
+**`EXAM_REVIEW_RETRIEVE`** — retrieves the review questions of an exam.
+
+| Parameter  | Type      |
+| ---------- | --------- |
+| `p_exam_id`| `TYPE_ID` |
+
+Returns a table:
+
+| Column         | Type        |
+| -------------- | ----------- |
+| `quiz_id`      | `TYPE_ID`   |
+| `frontSide`    | `TEXT`      |
+| `backSide`     | `TEXT`      |
+| `YEAR`         | `INTEGER`   |
+| `MONTH`        | `INTEGER`   |
+| `DAY`          | `INTEGER`   |
+| `HOUR`         | `INTEGER`   |
+| `MINUTE`       | `INTEGER`   |
+| `SECOND`       | `INTEGER`   |
+| `gmt`          | `CHAR(3)`   |
+
+Errors: `50001`, `50004`, `50006`.

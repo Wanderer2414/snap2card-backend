@@ -13,8 +13,17 @@ Retrieves a single category for the authenticated user, including all of its car
 | Header | Type | Required | Description |
 | ------ | ---- | -------- | ----------- |
 | `Authorization` | string | Yes | `Bearer <token>` |
+| `Content-Type` | string | Yes | `application/json` |
 
-### Query Parameters
+### Body
+
+```json
+{
+  "id": "CATE1234567890"
+}
+```
+
+### Parameters
 
 | Field | Type | Required | Description                       |
 | ----- | ---- | -------- | --------------------------------- |

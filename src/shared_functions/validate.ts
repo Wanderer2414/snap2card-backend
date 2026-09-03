@@ -8,6 +8,18 @@ export function isCategoryIdValid(id: string | null | undefined): id is string {
     return id != null && id.length === idLength && id.startsWith("CATE");
 }
 
+export function isExamIdValid(id: string | null | undefined): id is string {
+    return id != null && id.length === idLength && id.startsWith("EXAM");
+}
+
+export function isQuizIdValid(id: string | null | undefined): id is string {
+    return id != null && id.length === idLength && id.startsWith("QUIZ");
+}
+
+export function isExamLogIdValid(id: string | null | undefined): id is string {
+    return id != null && id.length === idLength && id.startsWith("LOG");
+}
+
 export function isValidIds(ids: string[] | null | undefined): ids is string[] {
     return ids != null && ids.length > 0 && ids.every((id) => isValidId(id));
 }

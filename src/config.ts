@@ -12,6 +12,10 @@ import { category_edit_handler } from "./handlers/category_edit.js";
 import { category_list_handler } from "./handlers/category_list.js";
 import { category_retrieve_handler } from "./handlers/category_retrieve.js";
 import { history_retrieve_handler } from "./handlers/history_retrieve.js";
+import { exam_create_handler } from "./handlers/exam_create.js";
+import { exam_start_handler } from "./handlers/exam_start.js";
+import { exam_result_handler } from "./handlers/exam_result.js";
+import { exam_review_handler } from "./handlers/exam_review.js";
 import { sendJson } from "./shared_functions/send.js";
 import type { Handler } from "./shared_type/handler.js";
 
@@ -45,6 +49,10 @@ export const endpointDefinitions = [
   { name: "category-list", method: "GET", path: "/categories/list", auth: true },
   { name: "category-retrieve", method: "GET", path: "/categories", auth: true },
   { name: "history-retrieve", method: "GET", path: "/history", auth: true },
+  { name: "exam-create", method: "POST", path: "/exams/create", auth: true },
+  { name: "exam-start", method: "POST", path: "/exams/start", auth: true },
+  { name: "exam-result", method: "POST", path: "/exams/result", auth: true },
+  { name: "exam-review", method: "GET", path: "/exams/review", auth: true },
 ] as const;
 
 export type EndpointName = (typeof endpointDefinitions)[number]["name"];
@@ -70,6 +78,10 @@ handlers["card-retrieve"] = card_retrieve_handler;
 // handlers["category-edit"] = category_edit_handler;
 handlers["category-list"] = category_list_handler;
 handlers["category-retrieve"] = category_retrieve_handler;
+handlers["exam-create"] = exam_create_handler;
+handlers["exam-start"] = exam_start_handler;
+handlers["exam-result"] = exam_result_handler;
+handlers["exam-review"] = exam_review_handler;
 // handlers["history-retrieve"] = history_retrieve_handler;
 
 for (const definition of endpointDefinitions) {

@@ -6,6 +6,7 @@ import database_pool from "../controllers/db_router.js";
 import { errors, resolveDatabaseError } from "../configs/errors.js";
 import { HistoryItem, HistoryRetrieve, Time } from "../definitions/responses.js";
 import { checkSession } from "../shared_functions/check_session.js";
+import { getBody } from "../shared_functions/request.js";
 
 export const history_retrieve_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => {
     try {
@@ -15,10 +16,11 @@ export const history_retrieve_handler: Handler = async (req: IncomingMessage, re
             return;
         }
 
-        const from = ctx.query.get("from") ?? null;
-        const to = ctx.query.get("to") ?? null;
-        const limit = ctx.query.get("limit");
-        const page = ctx.query.get("page");
+        const body = JSON.parse(await getBody(req));
+        const from = (body["from"] as string | undefined) ?? null;
+        const to = (body["to"] as string | undefined) ?? null;
+        const limit = body["limit"] as string | undefined;
+        const page = body["page"] as string | undefined;
 
         const history = (
             await database_pool.query(

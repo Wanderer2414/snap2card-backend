@@ -79,6 +79,9 @@ Each ID type has an explicit `typeCode` prefix. The full identifier is always `<
 | `activityId`  | `ACT`    | `ACT<id>`       | `ACT1234567890`  |
 | `categoryId`  | `CAT`    | `CAT<id>`       | `CAT1234567890`  |
 | `cardId`      | `CARD`   | `CARD<id>`      | `CARD1234567890` |
+| `examId`      | `EXAM`   | `EXAM<id>`      | `EXAM1234567890` |
+| `quizId`      | `QUIZ`   | `QUIZ<id>`      | `QUIZ1234567890` |
+| `examLogId`   | `LOG`    | `LOG<id>`       | `LOG1234567890`  |
 
 ## Category
 
@@ -116,3 +119,67 @@ Represents a category.
 | `numOfCard` | number | Number of cards in the category.              |
 | `createdAt` | [Time](../definitions/object-types.md#time) | Timestamp when the first card was added to the category. |
 | `cardIds`   | array  | List of [Card IDs](../definitions/object-types.md#id) belonging to the category. |
+
+## Exam
+
+Represents an exam.
+
+### Example
+
+```json
+{
+  "examId": "EXAM1234567890",
+  "examName": "Beginner Vocabulary",
+  "numOfQuestion": 20,
+  "dateCreated": {
+    "year": 2026,
+    "month": 1,
+    "day": 1,
+    "hour": 0,
+    "minute": 0,
+    "second": 0,
+    "gmt": "+00:00"
+  }
+}
+```
+
+### Fields
+
+| Field           | Type   | Description                          |
+| --------------- | ------ | ------------------------------------ |
+| `examId`        | string | Unique identifier of the exam.       |
+| `examName`      | string | Name of the exam.                    |
+| `numOfQuestion` | number | Number of questions in the exam.     |
+| `dateCreated`   | [Time](../definitions/object-types.md#time) | Timestamp when the exam was created. |
+
+## Quiz
+
+Represents a single quiz within an exam.
+
+### Example
+
+```json
+{
+  "quizId": "QUIZ1234567890",
+  "frontSide": "Front side text",
+  "backSide": "Back side text",
+  "dateCreated": {
+    "year": 2026,
+    "month": 1,
+    "day": 1,
+    "hour": 0,
+    "minute": 0,
+    "second": 0,
+    "gmt": "+00:00"
+  }
+}
+```
+
+### Fields
+
+| Field        | Type   | Description                          |
+| ------------ | ------ | ------------------------------------ |
+| `quizId`     | string | Unique identifier of the quiz.       |
+| `frontSide`  | string | Front side text of the quiz.         |
+| `backSide`   | string | Back side text of the quiz.          |
+| `dateCreated` | [Time](../definitions/object-types.md#time) | Timestamp when the quiz was created. |

@@ -13,8 +13,20 @@ Retrieves the transaction/history log for the authenticated user.
 | Header | Type | Required | Description |
 | ------ | ---- | -------- | ----------- |
 | `Authorization` | string | Yes | `Bearer <token>` |
+| `Content-Type` | string | Yes | `application/json` |
 
-### Query Parameters
+### Body
+
+```json
+{
+  "from": "2024-01-01",
+  "to": "2024-01-31",
+  "limit": 50,
+  "page": 1
+}
+```
+
+### Parameters
 
 | Field    | Type | Required | Description                          |
 | -------- | ---- | -------- | ------------------------------------ |

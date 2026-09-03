@@ -13,8 +13,17 @@ Retrieves one or more cards for the authenticated user.
 | Header | Type | Required | Description |
 | ------ | ---- | -------- | ----------- |
 | `Authorization` | string | Yes | `Bearer <token>` |
+| `Content-Type` | string | Yes | `application/json` |
 
-### Query Parameters
+### Body
+
+```json
+{
+  "ids": ["CARD1234567890"]
+}
+```
+
+### Parameters
 
 | Field | Type | Required | Description                          |
 | ----- | ---- | -------- | ------------------------------------ |

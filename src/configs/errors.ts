@@ -27,6 +27,9 @@ export const errors = {
   invalidCategoryIdFormat: { code: 400, message: "Invalid category id format" },
   invalidSessionIdFormat: { code: 400, message: "Invalid session id format" },
   invalidComponentIdFormat: { code: 400, message: "Invalid component id format" },
+  invalidExamIdFormat: { code: 400, message: "Invalid exam id format" },
+  invalidQuizIdFormat: { code: 400, message: "Invalid quiz id format" },
+  invalidExamLogIdFormat: { code: 400, message: "Invalid exam log id format" },
   fieldTooLong: (field: string, max: number): ApiError => ({
     code: 400,
     message: `${field} must not exceed ${max} characters`,

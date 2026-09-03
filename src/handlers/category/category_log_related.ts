@@ -5,12 +5,10 @@ import { sendError, sendResponse } from "../../shared_functions/send.js";
 import database_pool from "../../controllers/db_router.js";
 import { errors, resolveDatabaseError } from "../../configs/errors.js";
 import { CategoryLogItem, CategoryLogRelated, Time } from "../../definitions/responses.js";
-import { getBody } from "../../shared_functions/request.js";
 import { checkSession } from "../../shared_functions/check_session.js";
 import { isCategoryIdValid } from "../../shared_functions/validate.js";
 
 export const category_log_related_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => {
-    let rawBody: string | undefined;
     try {
         const account_id = await checkSession(ctx.token);
         if (account_id == null) {
@@ -18,12 +16,10 @@ export const category_log_related_handler: Handler = async (req: IncomingMessage
             return;
         }
 
-        rawBody = await getBody(req);
-        const body = JSON.parse(rawBody);
-        const category_id = body["categoryId"] as string | undefined;
+        const category_id = ctx.query.get("categoryId") ?? undefined;
 
         if (!isCategoryIdValid(category_id)) {
-            sendError(req, res, errors.invalidCategoryIdFormat, rawBody);
+            sendError(req, res, errors.invalidCategoryIdFormat);
             return;
         }
 
@@ -50,10 +46,10 @@ export const category_log_related_handler: Handler = async (req: IncomingMessage
             );
         });
 
-        sendResponse(req, res, 200, CategoryLogRelated(output), rawBody);
+        sendResponse(req, res, 200, CategoryLogRelated(output));
     }
     catch (e) {
         console.log("Error: ", e);
-        sendError(req, res, resolveDatabaseError(e), rawBody);
+        sendError(req, res, resolveDatabaseError(e));
     }
 }

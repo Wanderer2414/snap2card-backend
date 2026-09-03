@@ -5,7 +5,6 @@ import { sendError, sendResponse } from "../../shared_functions/send.js";
 import database_pool from "../../controllers/db_router.js";
 import { errors, resolveDatabaseError } from "../../configs/errors.js";
 import { CardList, CardListItem } from "../../definitions/responses.js";
-import { getBody } from "../../shared_functions/request.js";
 import { checkSession } from "../../shared_functions/check_session.js";
 
 export const card_list_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => { 

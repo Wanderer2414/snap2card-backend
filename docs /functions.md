@@ -297,6 +297,25 @@ Errors: `50001`, `50004`, `50007`.
 
 ---
 
+### Files
+
+**`FILE_INSERT`** — creates a file record owned by an account.
+
+| Parameter       | Type             |
+| --------------- | ---------------- |
+| `p_file_source` | `TEXT`           |
+| `p_file_type`   | `TYPE_FILE_TYPE` |
+| `p_owner_id`    | `TYPE_ID`        |
+
+`p_file_type` is an enum (`TYPE_FILE_TYPE`), currently `pdf`. `p_owner_id`
+must reference an existing account.
+
+Returns: `TYPE_ID` — the new file id (`FILE...`).
+
+Errors: `50001`, `50004`, `50006`.
+
+---
+
 ### Request logs
 
 **`REQUEST_LOG_INSERT`** — records an incoming request and its response.

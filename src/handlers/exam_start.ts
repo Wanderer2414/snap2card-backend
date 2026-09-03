@@ -33,12 +33,13 @@ export const exam_start_handler: Handler = async (req: IncomingMessage, res: Ser
             )
         );
 
-        if (log.rows[0]?.exam_start == null) {
+        const exam_log_id = log.rows[0].exam_start as string | null | undefined;
+        if (exam_log_id == null) {
             sendError(req, res, errors.notFound, rawBody);
             return;
         }
 
-        sendResponse(req, res, 200, ExamStart(), rawBody);
+        sendResponse(req, res, 200, ExamStart(exam_log_id), rawBody);
     }
     catch (e) {
         console.log("Error: ", e);

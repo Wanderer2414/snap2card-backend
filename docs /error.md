@@ -22,7 +22,7 @@ RAISE EXCEPTION 'email must not be null' USING ERRCODE = '50001';
 
 | SQLSTATE   | Meaning                  | Message                                  |
 | ---------- | ------------------------ | ---------------------------------------- |
-| `50001`    | Missing required input   | `name must not be null`, `at least one field must not be null`, `email must not be null`, `phone must not be null`, `password must not be null`, `text must not be null`, `frontside must not be null`, `backside must not be null`, `creator must not be null`, `owner id must not be null`, `endpoint must not be null`, `header must not be null`, `body must not be null`, `response header must not be null`, `response body must not be null`, `account id must not be null`, `category id must not be null`, `card ids must not be null`, `card id must not be null`, `category ids must not be null`, `session id must not be null`, `exam id must not be null`, `exam log id must not be null`, `quiz id must not be null`, `result must not be null` |
+| `50001`    | Missing required input   | `name must not be null`, `at least one field must not be null`, `email must not be null`, `phone must not be null`, `password must not be null`, `text must not be null`, `file source must not be null`, `file type must not be null`, `frontside must not be null`, `backside must not be null`, `creator must not be null`, `owner id must not be null`, `endpoint must not be null`, `header must not be null`, `body must not be null`, `response header must not be null`, `response body must not be null`, `account id must not be null`, `category id must not be null`, `card ids must not be null`, `card id must not be null`, `category ids must not be null`, `session id must not be null`, `exam id must not be null`, `exam log id must not be null`, `quiz id must not be null`, `result must not be null` |
 | `50002`    | Value exceeds max length | `name must not exceed 60 characters`, `name must not exceed 20 characters`, `password must not exceed 100 characters`, `endpoint must not exceed 60 characters` |
 | `50003`    | Conflicting values       | `frontside and backside must be different`, `exam log has no answered questions` |
 | `50004`    | Referenced record missing| `owner id does not exist`, `component not found`, `account does not exist`, `card not found`, `category not found`, `exam not found`, `exam log not found`, `quiz not found` |
@@ -55,6 +55,7 @@ log).
 | `CATEGORY_LOG_RELATED`   | `50001`, `50004`, `50006`      |
 | `COMPONENT_INSERT`       | `50001`, `50004`, `50006`      |
 | `COMPONENT_RETRIEVE`     | `50001`, `50004`, `50007`      |
+| `FILE_INSERT`            | `50001`, `50004`, `50006`      |
 | `REQUEST_LOG_INSERT`     | `50001`, `50002`               |
 | `SESSION_CHECK`          | `50006`                        |
 | `EXAM_CREATE`            | `50001`, `50004`, `50006`      |

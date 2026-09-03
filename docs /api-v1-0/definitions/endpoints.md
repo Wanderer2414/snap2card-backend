@@ -14,7 +14,9 @@ Base URL: `/snap2card/api/v1.0`
 | PUT    | `/account`       | Bearer token | Updates the authenticated user's account details.  | [Account Edit](../protocols/account-edit.md) |
 | POST   | `/account/logout` | Bearer token | Invalidates the current user's session/token.      | [Account Logout](../protocols/account-logout.md) |
 | GET    | `/activities`    | Bearer token | Retrieves activity history for the authenticated user. | [Activities Retrieve](../protocols/activies-retrieve.md) |
-| POST   | `/cards`         | Bearer token | Creates a new card for the authenticated user.     | [Card Create](../protocols/card-create.md) |
+| POST   | `/cards/pdf`     | Bearer token | Saves a PDF file and records it in the database. | [Card Create PDF](../protocols/card-create-pdf.md) |
+| POST   | `/cards/document` | Bearer token | Creates a new card from a text document. | [Card Create Document](../protocols/card-create-document.md) |
+| POST   | `/cards/manual`  | Bearer token | Creates a new card from front/back text manually. | [Card Create Manual](../protocols/card-create-manual.md) |
 | PUT    | `/cards`         | Bearer token | Updates an existing card for the authenticated user. | [Card Edit](../protocols/card-edit.md) |
 | GET    | `/cards/list`    | Bearer token | Lists the cards for the authenticated user.        | [Card List](../protocols/card-list.md) |
 | GET    | `/cards`         | Bearer token | Retrieves one or more cards for the authenticated user. | [Card Retrieve](../protocols/card-retrieve.md) |
@@ -54,7 +56,9 @@ Base URL: `/snap2card/api/v1.0`
 
 | Endpoint              | Function                                                        |
 | --------------------- | --------------------------------------------------------------- |
-| `POST /cards`         | Creates a new card. The `type` field selects the data source: `document`, `image`, or `manual`. |
+| `POST /cards/pdf`     | Saves a PDF file and records it via `FILE_INSERT`.                 |
+| `POST /cards/document`| Creates a new card from a large text document.                     |
+| `POST /cards/manual`  | Creates a new card from manually entered `frontSide`/`backSide`.   |
 | `PUT /cards`          | Updates a card's front/back side text and its categories.       |
 | `GET /cards/list`     | Lists all cards (id and front side text).                       |
 | `GET /cards`          | Retrieves one or more cards by `ids`, or all when omitted.      |

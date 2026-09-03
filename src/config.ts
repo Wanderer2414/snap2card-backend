@@ -4,7 +4,9 @@ import { account_retrieve_handler } from "./handlers/account_retrieve.js";
 import { account_edit_handler } from "./handlers/account_edit.js";
 import { account_logout_handler } from "./handlers/account_logout.js";
 import { activities_retrieve_handler } from "./handlers/activities_retrieve.js";
-import { card_create_handler } from "./handlers/card_create.js";
+import { card_create_manual_handler } from "./handlers/card_create_manual.js";
+import { card_create_document_handler } from "./handlers/card_create_document.js";
+import { card_create_pdf_handler } from "./handlers/card_create_pdf.js";
 import { card_edit_handler } from "./handlers/card_edit.js";
 import { card_list_handler } from "./handlers/card_list.js";
 import { card_retrieve_handler } from "./handlers/card_retrieve.js";
@@ -49,7 +51,9 @@ export const endpointDefinitions = [
   { name: "account-edit", method: "PUT", path: "/account", auth: true },
   { name: "account-logout", method: "POST", path: "/account/logout", auth: true },
   { name: "activities-retrieve", method: "GET", path: "/activities", auth: true },
-  { name: "card-create", method: "POST", path: "/cards", auth: true },
+  { name: "card-create-pdf", method: "POST", path: "/cards/pdf", auth: true },
+  { name: "card-create-document", method: "POST", path: "/cards/document", auth: true },
+  { name: "card-create-manual", method: "POST", path: "/cards/manual", auth: true },
   { name: "card-edit", method: "PUT", path: "/cards", auth: true },
   { name: "card-list", method: "GET", path: "/cards/list", auth: true },
   { name: "card-retrieve", method: "GET", path: "/cards", auth: true },
@@ -88,7 +92,9 @@ handlers["account-retrieve"] = account_retrieve_handler;
 handlers["account-edit"] = account_edit_handler;
 handlers["account-logout"] = account_logout_handler;
 // handlers["activities-retrieve"] = activities_retrieve_handler;
-handlers["card-create"] = card_create_handler;
+handlers["card-create-pdf"] = card_create_pdf_handler;
+handlers["card-create-document"] = card_create_document_handler;
+handlers["card-create-manual"] = card_create_manual_handler;
 // handlers["card-edit"] = card_edit_handler;
 handlers["card-list"] = card_list_handler;
 handlers["card-retrieve"] = card_retrieve_handler;

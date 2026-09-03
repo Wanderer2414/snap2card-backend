@@ -35,9 +35,18 @@ Starts an exam session for the authenticated user.
 
 ```json
 {
-  "status": "success"
+  "status": "success",
+  "data": {
+    "examLogId": "LOG1234567890"
+  }
 }
 ```
+
+### Response Parameters
+
+| Field        | Type   | Description                                        |
+| ------------ | ------ | -------------------------------------------------- |
+| `examLogId`  | string | Unique identifier of the created exam log/session. |
 
 ## Errors
 

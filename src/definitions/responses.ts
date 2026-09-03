@@ -125,7 +125,11 @@ export interface ExamCreateResponse extends SuccessResponse {
   };
 }
 
-export type ExamStartResponse = SuccessResponse;
+export interface ExamStartResponse extends SuccessResponse {
+  data: {
+    examLogId: string;
+  };
+}
 
 export type ExamResultResponse = SuccessResponse;
 
@@ -344,8 +348,8 @@ export function ExamCreate(examId: string): ExamCreateResponse {
   return { status: "success", data: { examId } };
 }
 
-export function ExamStart(): ExamStartResponse {
-  return { status: "success" };
+export function ExamStart(examLogId: string): ExamStartResponse {
+  return { status: "success", data: { examLogId } };
 }
 
 export function ExamResult(): ExamResultResponse {

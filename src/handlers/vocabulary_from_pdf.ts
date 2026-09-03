@@ -6,12 +6,11 @@ import { errors } from "../configs/errors.js";
 import { VocabularyGeneration } from "../definitions/responses.js";
 import { PdfTextExtractionService } from "../services/pdf_text_extraction.js";
 import {
+  getVocabularyGenerationService,
   parseVocabularyFromTextRequest,
-  VocabularyGenerationService,
 } from "../services/vocabulary_generation.js";
 
 const pdfTextExtractionService = new PdfTextExtractionService();
-const vocabularyGenerationService = new VocabularyGenerationService();
 
 export const vocabulary_from_pdf_handler: Handler = async (req: IncomingMessage, res: ServerResponse) => {
   try {
@@ -47,11 +46,16 @@ export const vocabulary_from_pdf_handler: Handler = async (req: IncomingMessage,
       return;
     }
 
-    const cards = vocabularyGenerationService.generateFromText({
+    const generation = await getVocabularyGenerationService().generateFromText({
       ...requestOptions.request,
       text: extraction.data.text,
     });
-    sendResponse(req, res, 200, VocabularyGeneration({ type: "pdf" }, cards));
+    if (!generation.ok) {
+      sendError(req, res, generation.error);
+      return;
+    }
+
+    sendResponse(req, res, 200, VocabularyGeneration({ type: "pdf" }, generation.data));
   } catch (_error) {
     sendError(req, res, errors.invalidPdf);
   }

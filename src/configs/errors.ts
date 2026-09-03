@@ -32,6 +32,9 @@ export const errors = {
   pdfTooLarge: { code: 400, message: "PDF exceeds the page or file size limit" },
   pdfPasswordProtected: { code: 400, message: "Password-protected PDFs are not supported" },
   noReadableText: { code: 400, message: "PDF does not contain enough readable text" },
+  vocabularyInputTooLarge: { code: 400, message: "Vocabulary input is too large" },
+  vocabularyGenerationUnavailable: { code: 503, message: "Vocabulary generation is temporarily unavailable" },
+  vocabularyGenerationFailed: { code: 502, message: "Vocabulary generation failed" },
   fieldTooLong: (field: string, max: number): ApiError => ({
     code: 400,
     message: `${field} must not exceed ${max} characters`,

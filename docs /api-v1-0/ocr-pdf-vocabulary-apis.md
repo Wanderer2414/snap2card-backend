@@ -59,7 +59,7 @@ Validation:
 
 ## `POST /vocabulary/from-pdf`
 
-Used by the PDF upload flow. The backend validates the PDF, extracts readable text with PyMuPDF, then sends that text through the same mock vocabulary generator.
+Used by the PDF upload flow. The backend validates the PDF, extracts readable text with PyMuPDF, then sends that text through the same LLM vocabulary generator.
 
 Request type: `multipart/form-data`
 
@@ -125,10 +125,25 @@ Relevant errors:
 | 400 | `PDF exceeds the page or file size limit` |
 | 400 | `Password-protected PDFs are not supported` |
 | 400 | `PDF does not contain enough readable text` |
+| 400 | `Vocabulary input is too large` |
 | 401 | `Invalid or expired token` |
+| 502 | `Vocabulary generation failed` |
+| 503 | `Vocabulary generation is temporarily unavailable` |
+
+## Backend Environment
+
+Required for real vocabulary generation:
+
+- `GEMINI_API_KEY`
+
+Optional configuration:
+
+- `VOCABULARY_LLM_MODEL`, default `gemini-1.5-flash`
+- `MAX_VOCABULARY_INPUT_CHARACTERS`, default `12000`
+- `VOCABULARY_LLM_TIMEOUT_MS`, default `30000`
 
 ## Notes
 
 - Android camera/image OCR runs on-device with ML Kit. The backend does not receive scan image files for OCR.
-- Both scan text and PDF text converge on the same mock vocabulary generator.
-- Vocabulary generation is still mock in this phase.
+- Both scan text and PDF text converge on the same LLM vocabulary generator.
+- Vocabulary generation is real when `GEMINI_API_KEY` is configured. There is no production fallback to mock cards.

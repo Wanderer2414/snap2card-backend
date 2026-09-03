@@ -5,11 +5,9 @@ import { getBody } from "../shared_functions/request.js";
 import { errors } from "../configs/errors.js";
 import { VocabularyGeneration } from "../definitions/responses.js";
 import {
+  getVocabularyGenerationService,
   parseVocabularyFromTextRequest,
-  VocabularyGenerationService,
 } from "../services/vocabulary_generation.js";
-
-const vocabularyGenerationService = new VocabularyGenerationService();
 
 export const vocabulary_from_text_handler: Handler = async (req: IncomingMessage, res: ServerResponse) => {
   let body: unknown;
@@ -26,11 +24,16 @@ export const vocabulary_from_text_handler: Handler = async (req: IncomingMessage
     return;
   }
 
-  const cards = vocabularyGenerationService.generateFromText(validation.request);
+  const generation = await getVocabularyGenerationService().generateFromText(validation.request);
+  if (!generation.ok) {
+    sendError(req, res, generation.error);
+    return;
+  }
+
   sendResponse(
     req,
     res,
     200,
-    VocabularyGeneration({ type: validation.request.sourceType }, cards)
+    VocabularyGeneration({ type: validation.request.sourceType }, generation.data)
   );
 };

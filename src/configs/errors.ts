@@ -27,6 +27,11 @@ export const errors = {
   invalidCategoryIdFormat: { code: 400, message: "Invalid category id format" },
   invalidSessionIdFormat: { code: 400, message: "Invalid session id format" },
   invalidComponentIdFormat: { code: 400, message: "Invalid component id format" },
+  invalidPdf: { code: 400, message: "Invalid PDF" },
+  emptyPdf: { code: 400, message: "Empty PDF" },
+  pdfTooLarge: { code: 400, message: "PDF exceeds the page or file size limit" },
+  pdfPasswordProtected: { code: 400, message: "Password-protected PDFs are not supported" },
+  noReadableText: { code: 400, message: "PDF does not contain enough readable text" },
   fieldTooLong: (field: string, max: number): ApiError => ({
     code: 400,
     message: `${field} must not exceed ${max} characters`,

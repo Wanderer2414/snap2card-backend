@@ -22,6 +22,8 @@ import { category_to_card_handler } from "./handlers/category_to_card.js";
 import { card_to_category_handler } from "./handlers/card_to_category.js";
 import { category_log_related_handler } from "./handlers/category_log_related.js";
 import { exam_completed_handler } from "./handlers/exam_completed.js";
+import { vocabulary_from_pdf_handler } from "./handlers/vocabulary_from_pdf.js";
+import { vocabulary_from_text_handler } from "./handlers/vocabulary_from_text.js";
 import { sendJson } from "./shared_functions/send.js";
 import type { Handler } from "./shared_type/handler.js";
 
@@ -65,6 +67,8 @@ export const endpointDefinitions = [
   { name: "card-to-category", method: "POST", path: "/categories/categorize", auth: true },
   { name: "category-log-related", method: "GET", path: "/categories/logs", auth: true },
   { name: "exam-completed", method: "POST", path: "/exams/completed", auth: true },
+  { name: "vocabulary-from-text", method: "POST", path: "/vocabulary/from-text", auth: true },
+  { name: "vocabulary-from-pdf", method: "POST", path: "/vocabulary/from-pdf", auth: true },
 ] as const;
 
 export type EndpointName = (typeof endpointDefinitions)[number]["name"];
@@ -101,6 +105,8 @@ handlers["exam-result"] = exam_result_handler;
 handlers["exam-review"] = exam_review_handler;
 handlers["exam-completed"] = exam_completed_handler;
 // handlers["history-retrieve"] = history_retrieve_handler;
+handlers["vocabulary-from-text"] = vocabulary_from_text_handler;
+handlers["vocabulary-from-pdf"] = vocabulary_from_pdf_handler;
 
 for (const definition of endpointDefinitions) {
   if (handlers[definition.name] == null)

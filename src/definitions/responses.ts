@@ -173,6 +173,27 @@ export interface CategoryLogRelatedResponse extends SuccessResponse {
 
 export type ExamCompletedResponse = SuccessResponse;
 
+export interface VocabularyGenerationSource {
+  type: "scan" | "pdf";
+}
+
+export interface GeneratedVocabularyCard {
+  term: string;
+  definition: string;
+  translation: string;
+  partOfSpeech?: string | null;
+  example?: string | null;
+  sourceSentence?: string | null;
+  difficulty?: string | null;
+}
+
+export interface VocabularyGenerationResponse extends SuccessResponse {
+  data: {
+    source: VocabularyGenerationSource;
+    cards: GeneratedVocabularyCard[];
+  };
+}
+
 export type ApiResponse =
   | AccountLoginResponse
   | AccountRetrieveResponse
@@ -197,6 +218,7 @@ export type ApiResponse =
   | CardToCategoryResponse
   | CategoryLogRelatedResponse
   | ExamCompletedResponse
+  | VocabularyGenerationResponse
   | ErrorResponse;
 
 export function Time(
@@ -371,6 +393,25 @@ export function CategoryLogRelated(data: CategoryLogItem[]): CategoryLogRelatedR
 
 export function ExamCompleted(): ExamCompletedResponse {
   return { status: "success" };
+}
+
+export function GeneratedVocabularyCard(
+  term: string,
+  definition: string,
+  translation: string,
+  partOfSpeech: string | null = null,
+  example: string | null = null,
+  sourceSentence: string | null = null,
+  difficulty: string | null = null
+): GeneratedVocabularyCard {
+  return { term, definition, translation, partOfSpeech, example, sourceSentence, difficulty };
+}
+
+export function VocabularyGeneration(
+  source: VocabularyGenerationSource,
+  cards: GeneratedVocabularyCard[]
+): VocabularyGenerationResponse {
+  return { status: "success", data: { source, cards } };
 }
 
 export function ErrorResponse(message: string): ErrorResponse {

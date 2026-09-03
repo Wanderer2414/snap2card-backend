@@ -44,6 +44,7 @@ export const category_retrieve_handler: Handler = async (req: IncomingMessage, r
             CategoryRetrieve(
                 row["category_name"],
                 row["numofcard"],
+                row["mastery"] as number | null,
                 Time(row["year"], row["month"], row["day"], row["hour"], row["minute"], row["second"], row["gmt"]),
                 cardIds
             )

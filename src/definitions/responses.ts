@@ -97,6 +97,7 @@ export interface CategoryRetrieveResponse extends SuccessResponse {
   data: {
     name: string;
     numOfCard: number;
+    mastery: number | null;
     createdAt: Time;
     cardIds: string[];
   };
@@ -320,10 +321,11 @@ export function CategoryList(
 export function CategoryRetrieve(
   name: string,
   numOfCard: number,
+  mastery: number | null,
   createdAt: Time,
   cardIds: string[]
 ): CategoryRetrieveResponse {
-  return { status: "success", data: { name, numOfCard, createdAt, cardIds } };
+  return { status: "success", data: { name, numOfCard, mastery, createdAt, cardIds } };
 }
 
 export function HistoryItem(

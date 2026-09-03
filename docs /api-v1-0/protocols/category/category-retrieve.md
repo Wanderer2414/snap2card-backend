@@ -15,19 +15,17 @@ Retrieves a single category for the authenticated user, including all of its car
 | `Authorization` | string | Yes | `Bearer <token>` |
 | `Content-Type` | string | Yes | `application/json` |
 
-### Body
-
-```json
-{
-  "id": "CATE1234567890"
-}
-```
-
-### Parameters
+### Query Parameters
 
 | Field | Type | Required | Description                       |
 | ----- | ---- | -------- | --------------------------------- |
 | `id`  | [Category ID](../definitions/object-types.md#id) | Yes     | Category ID to retrieve.          |
+
+Example:
+
+```http
+GET /snap2card/api/v1.0/categories?id=CATE1234567890
+```
 
 ## Response
 
@@ -39,6 +37,7 @@ Retrieves a single category for the authenticated user, including all of its car
   "data": {
     "name": "Banking",
     "numOfCard": 12,
+    "mastery": 2.5,
     "createdAt": {
       "year": 2026,
       "month": 1,
@@ -62,6 +61,7 @@ Retrieves a single category for the authenticated user, including all of its car
 | ----------- | ------ | --------------------------------------------- |
 | `name`      | string | Name of the category.                         |
 | `numOfCard` | number | Number of cards in the category.              |
+| `mastery`   | number/null | The category mastery, the average of each card's `true_count / false_count` ratio. `null` when the category has no cards. |
 | `createdAt` | [Time](../definitions/object-types.md#time) | Timestamp when the first card was added to the category. |
 | `cardIds`   | array  | List of [Card IDs](../definitions/object-types.md#id) belonging to the category. |
 

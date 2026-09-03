@@ -10,6 +10,7 @@ import { checkSession } from "../shared_functions/check_session.js";
 import { isExamLogIdValid } from "../shared_functions/validate.js";
 
 export const exam_completed_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => {
+    let rawBody: string | undefined;
     try {
         const account_id = await checkSession(ctx.token);
         if (account_id == null) {
@@ -17,11 +18,12 @@ export const exam_completed_handler: Handler = async (req: IncomingMessage, res:
             return;
         }
 
-        const body = JSON.parse(await getBody(req));
+        rawBody = await getBody(req);
+        const body = JSON.parse(rawBody);
         const exam_log_id = body["examLogId"] as string | undefined;
 
         if (!isExamLogIdValid(exam_log_id)) {
-            sendError(req, res, errors.invalidExamLogIdFormat);
+            sendError(req, res, errors.invalidExamLogIdFormat, rawBody);
             return;
         }
 
@@ -29,10 +31,10 @@ export const exam_completed_handler: Handler = async (req: IncomingMessage, res:
             (e) => { console.log("DB Error: ", e.where); throw e; }
         );
 
-        sendResponse(req, res, 200, ExamCompleted());
+        sendResponse(req, res, 200, ExamCompleted(), rawBody);
     }
     catch (e) {
         console.log("Error: ", e);
-        sendError(req, res, resolveDatabaseError(e));
+        sendError(req, res, resolveDatabaseError(e), rawBody);
     }
 }

@@ -10,6 +10,7 @@ import { checkSession } from "../shared_functions/check_session.js";
 import { isValidIds } from "../shared_functions/validate.js";
 
 export const card_retrieve_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => { 
+    let rawBody: string | undefined;
     try {
         const account_id = await checkSession(ctx.token);
         if (account_id == null) {
@@ -17,11 +18,12 @@ export const card_retrieve_handler: Handler = async (req: IncomingMessage, res: 
             return;
         }
 
-        const body = JSON.parse(await getBody(req));
+        rawBody = await getBody(req);
+        const body = JSON.parse(rawBody);
         const card_id = body["ids"] as string[] | undefined;
 
 if (!isValidIds(card_id)) {
-            sendError(req, res, errors.invalidCardIdFormat);
+            sendError(req, res, errors.invalidCardIdFormat, rawBody);
             return;
         }
 
@@ -37,10 +39,10 @@ if (!isValidIds(card_id)) {
         cards.rows.forEach((row) => {
             output.push(CardRetrieveItem(row["card_id"], row["frontside_text"], row["backside_text"]))
         })
-        sendResponse(req, res, 200, CardRetrieve(output))
+        sendResponse(req, res, 200, CardRetrieve(output), rawBody)
     }
     catch (e) {
         console.log("Error: ", e)
-        sendError(req, res, resolveDatabaseError(e))
+        sendError(req, res, resolveDatabaseError(e), rawBody)
     }
 }

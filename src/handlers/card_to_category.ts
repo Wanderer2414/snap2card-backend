@@ -10,6 +10,7 @@ import { checkSession } from "../shared_functions/check_session.js";
 import { isCategoryIdValid, isValidIds } from "../shared_functions/validate.js";
 
 export const card_to_category_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => {
+    let rawBody: string | undefined;
     try {
         const account_id = await checkSession(ctx.token);
         if (account_id == null) {
@@ -17,12 +18,13 @@ export const card_to_category_handler: Handler = async (req: IncomingMessage, re
             return;
         }
 
-        const body = JSON.parse(await getBody(req));
+        rawBody = await getBody(req);
+        const body = JSON.parse(rawBody);
         const category_id = body["categoryId"] as string | undefined;
         const card_ids = body["cardIds"] as string[] | undefined;
 
         if (!isCategoryIdValid(category_id) || !isValidIds(card_ids)) {
-            sendError(req, res, errors.invalidInputData);
+            sendError(req, res, errors.invalidInputData, rawBody);
             return;
         }
 
@@ -33,10 +35,10 @@ export const card_to_category_handler: Handler = async (req: IncomingMessage, re
             (e) => { console.log("DB Error: ", e.where); throw e; }
         );
 
-        sendResponse(req, res, 200, CardToCategory());
+        sendResponse(req, res, 200, CardToCategory(), rawBody);
     }
     catch (e) {
         console.log("Error: ", e);
-        sendError(req, res, resolveDatabaseError(e));
+        sendError(req, res, resolveDatabaseError(e), rawBody);
     }
 }

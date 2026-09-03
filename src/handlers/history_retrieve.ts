@@ -9,6 +9,7 @@ import { checkSession } from "../shared_functions/check_session.js";
 import { getBody } from "../shared_functions/request.js";
 
 export const history_retrieve_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => {
+    let rawBody: string | undefined;
     try {
         const account_id = await checkSession(ctx.token);
         if (account_id == null) {
@@ -16,7 +17,8 @@ export const history_retrieve_handler: Handler = async (req: IncomingMessage, re
             return;
         }
 
-        const body = JSON.parse(await getBody(req));
+        rawBody = await getBody(req);
+        const body = JSON.parse(rawBody);
         const from = (body["from"] as string | undefined) ?? null;
         const to = (body["to"] as string | undefined) ?? null;
         const limit = body["limit"] as string | undefined;
@@ -48,10 +50,10 @@ export const history_retrieve_handler: Handler = async (req: IncomingMessage, re
 
         const pageNum = page == null ? 1 : Number(page);
         const limitNum = limit == null ? 50 : Number(limit);
-        sendResponse(req, res, 200, HistoryRetrieve(output, pageNum, limitNum, output.length));
+        sendResponse(req, res, 200, HistoryRetrieve(output, pageNum, limitNum, output.length), rawBody);
     }
     catch (e) {
         console.log("Error: ", e);
-        sendError(req, res, resolveDatabaseError(e));
+        sendError(req, res, resolveDatabaseError(e), rawBody);
     }
 }

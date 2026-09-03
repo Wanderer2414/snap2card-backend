@@ -10,6 +10,7 @@ import { checkSession } from "../shared_functions/check_session.js";
 import { isValidId, isValidIds } from "../shared_functions/validate.js";
 
 export const card_edit_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => {
+    let rawBody: string | undefined;
     try {
         const account_id = await checkSession(ctx.token);
         if (account_id == null) {
@@ -17,7 +18,8 @@ export const card_edit_handler: Handler = async (req: IncomingMessage, res: Serv
             return;
         }
 
-        const body = JSON.parse(await getBody(req));
+        rawBody = await getBody(req);
+        const body = JSON.parse(rawBody);
 
         const id = body["id"] as string | undefined;
         const frontSide = body["frontSide"] as string | undefined;
@@ -25,11 +27,11 @@ export const card_edit_handler: Handler = async (req: IncomingMessage, res: Serv
         const categories = body["categories"] as string[] | undefined;
 
         if (!isValidId(id)) {
-            sendError(req, res, errors.invalidCardIdFormat);
+            sendError(req, res, errors.invalidCardIdFormat, rawBody);
             return;
         }
         if (categories != undefined && !isValidIds(categories)) {
-            sendError(req, res, errors.invalidCategoryIdFormat);
+            sendError(req, res, errors.invalidCategoryIdFormat, rawBody);
             return;
         }
 
@@ -43,14 +45,14 @@ export const card_edit_handler: Handler = async (req: IncomingMessage, res: Serv
         );
 
         if (result.rowCount != 1) {
-            sendError(req, res, errors.cardNotFound);
+            sendError(req, res, errors.cardNotFound, rawBody);
             return;
         }
 
-        sendResponse(req, res, 200, CardEdit());
+        sendResponse(req, res, 200, CardEdit(), rawBody);
     }
     catch (e) {
         console.log("Error: ", e);
-        sendError(req, res, resolveDatabaseError(e));
+        sendError(req, res, resolveDatabaseError(e), rawBody);
     }
 }

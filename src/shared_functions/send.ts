@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import type { ApiError } from "../configs/errors.js";
 import type { ApiResponse } from "../definitions/responses.js";
-import { getBody, getHeader } from "./request.js";
+import { getHeader } from "./request.js";
 import { getTime } from "./get_time.js";
 
 // FN_REQUEST_LOG_INSERT(
@@ -16,7 +16,8 @@ export function sendJson(
   req: IncomingMessage,
   res: ServerResponse,
   status: number,
-  body: Record<string, unknown>
+  body: Record<string, unknown>,
+  headerBody: string = "[body not captured]"
 ): void {
   res.writeHead(status, { "Content-Type": "application/json" });
   res.end(JSON.stringify(body));
@@ -25,8 +26,7 @@ export function sendJson(
   
   void import("../controllers/db_router.js")
     .then(async ({ default: database_pool }) => {
-      const requestBody = isMultipart(req) ? "[multipart body omitted]" : await getBody(req);
-      return database_pool.query("SELECT FN_REQUEST_LOG_INSERT($1, $2, $3, $4, $5)", [req.url!, getHeader(req), requestBody, status.toString(), JSON.stringify(body)]);
+      return database_pool.query("SELECT FN_REQUEST_LOG_INSERT($1, $2, $3, $4, $5)", [req.url!, getHeader(req), headerBody, status.toString(), JSON.stringify(body)]);
     })
     .catch((e) => {
       console.log("DB Error: ", e);
@@ -34,20 +34,21 @@ export function sendJson(
   console.log(getTime(), ": New request comming, logged into database: ", req.url);
 }
 
-function isMultipart(req: IncomingMessage): boolean {
-  const contentType = req.headers["content-type"];
-  return typeof contentType === "string" && contentType.toLowerCase().startsWith("multipart/form-data");
-}
-
-export function sendError(req:IncomingMessage, res: ServerResponse, error: ApiError): void {
-  sendJson(req, res, error.code, { status: "error", message: error.message });
+export function sendError(
+  req: IncomingMessage,
+  res: ServerResponse,
+  error: ApiError,
+  headerBody: string = "[body not captured]"
+): void {
+  sendJson(req, res, error.code, { status: "error", message: error.message }, headerBody);
 }
 
 export function sendResponse(
   req: IncomingMessage,
   res: ServerResponse,
   status: number,
-  body: ApiResponse
+  body: ApiResponse,
+  headerBody: string = "[body not captured]"
 ): void {
-  sendJson(req, res, status, body as unknown as Record<string, unknown>);
+  sendJson(req, res, status, body as unknown as Record<string, unknown>, headerBody);
 }

@@ -10,6 +10,7 @@ import { checkSession } from "../shared_functions/check_session.js";
 import { isExamIdValid } from "../shared_functions/validate.js";
 
 export const exam_start_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => {
+    let rawBody: string | undefined;
     try {
         const account_id = await checkSession(ctx.token);
         if (account_id == null || ctx.token == null) {
@@ -17,11 +18,12 @@ export const exam_start_handler: Handler = async (req: IncomingMessage, res: Ser
             return;
         }
 
-        const body = JSON.parse(await getBody(req));
+        rawBody = await getBody(req);
+        const body = JSON.parse(rawBody);
         const exam_id = body["examId"] as string | undefined;
 
         if (!isExamIdValid(exam_id)) {
-            sendError(req, res, errors.invalidExamIdFormat);
+            sendError(req, res, errors.invalidExamIdFormat, rawBody);
             return;
         }
 
@@ -32,14 +34,14 @@ export const exam_start_handler: Handler = async (req: IncomingMessage, res: Ser
         );
 
         if (log.rows[0]?.exam_start == null) {
-            sendError(req, res, errors.notFound);
+            sendError(req, res, errors.notFound, rawBody);
             return;
         }
 
-        sendResponse(req, res, 200, ExamStart());
+        sendResponse(req, res, 200, ExamStart(), rawBody);
     }
     catch (e) {
         console.log("Error: ", e);
-        sendError(req, res, resolveDatabaseError(e));
+        sendError(req, res, resolveDatabaseError(e), rawBody);
     }
 }

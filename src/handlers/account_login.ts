@@ -10,22 +10,23 @@ import { isValidEmail, isValidLength } from "../shared_functions/validate.js";
 
 export const login_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => { 
     try {
-        const body = JSON.parse(await getBody(req));
+        const rawBody = await getBody(req);
+        const body = JSON.parse(rawBody);
         
         const email = body["email"] as string | undefined;
         const password = body["password"] as string | undefined;
 
         if (!isValidEmail(email) || !isValidLength(password, 100)) {
-            sendError(req, res, errors.invalidEmailOrPassword);
+            sendError(req, res, errors.invalidEmailOrPassword, rawBody);
             return;
         }   
 
         const id = await database_pool.query("SELECT * FROM ACCOUNT_LOGIN($1, $2);", [email, password])
         if ((id.rowCount != 1) || id.rows[0].account_login == null) {
-            sendError(req, res, errors.invalidEmailOrPassword);
+            sendError(req, res, errors.invalidEmailOrPassword, rawBody);
             return;
         }
-        sendResponse(req, res, 200, AccountLogin(id.rows[0].account_login))
+        sendResponse(req, res, 200, AccountLogin(id.rows[0].account_login), rawBody)
 
     }
     catch (e) {

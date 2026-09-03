@@ -10,6 +10,7 @@ import { checkSession } from "../shared_functions/check_session.js";
 import { isUppercase, isValidLength } from "../shared_functions/validate.js";
 
 export const category_create_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => {
+    let rawBody: string | undefined;
     try {
         const account_id = await checkSession(ctx.token);
         if (account_id == null) {
@@ -17,11 +18,12 @@ export const category_create_handler: Handler = async (req: IncomingMessage, res
             return;
         }
 
-        const body = JSON.parse(await getBody(req));
+        rawBody = await getBody(req);
+        const body = JSON.parse(rawBody);
         const name = body["name"] as string | undefined;
 
         if (!isUppercase(name) || !isValidLength(name, 20)) {
-            sendError(req, res, errors.invalidInputData);
+            sendError(req, res, errors.invalidInputData, rawBody);
             return;
         }
 
@@ -33,14 +35,14 @@ export const category_create_handler: Handler = async (req: IncomingMessage, res
 
         const category_id = created.rows[0].category_insert as string | null | undefined;
         if (category_id == null) {
-            sendError(req, res, errors.notFound);
+            sendError(req, res, errors.notFound, rawBody);
             return;
         }
 
-        sendResponse(req, res, 200, CategoryCreate(category_id));
+        sendResponse(req, res, 200, CategoryCreate(category_id), rawBody);
     }
     catch (e) {
         console.log("Error: ", e);
-        sendError(req, res, resolveDatabaseError(e));
+        sendError(req, res, resolveDatabaseError(e), rawBody);
     }
 }

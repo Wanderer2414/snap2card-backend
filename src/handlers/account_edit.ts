@@ -17,7 +17,8 @@ export const account_edit_handler: Handler = async (req: IncomingMessage, res: S
             return;
         }
 
-        const body = JSON.parse(await getBody(req));
+        const rawBody = await getBody(req);
+        const body = JSON.parse(rawBody);
 
         const type = body["type"] as string | undefined;
         const name = body["name"] as string | undefined;
@@ -25,15 +26,15 @@ export const account_edit_handler: Handler = async (req: IncomingMessage, res: S
         const phone = body["phone"] as string | undefined;
 
         if (type == undefined) {
-            sendError(req, res, errors.invalidInputData);
+            sendError(req, res, errors.invalidInputData, rawBody);
             return;
         }
         if (name != undefined && !isValidLength(name, 60)) {
-            sendError(req, res, errors.fieldTooLong("name", 60));
+            sendError(req, res, errors.fieldTooLong("name", 60), rawBody);
             return;
         }
         if (email != undefined && !isValidEmail(email)) {
-            sendError(req, res, errors.invalidEmailFormat);
+            sendError(req, res, errors.invalidEmailFormat, rawBody);
             return;
         }
 
@@ -47,11 +48,11 @@ export const account_edit_handler: Handler = async (req: IncomingMessage, res: S
         );
 
         if (result.rowCount != 1) {
-            sendError(req, res, errors.notFound);
+            sendError(req, res, errors.notFound, rawBody);
             return;
         }
 
-        sendResponse(req, res, 200, AccountEdit());
+        sendResponse(req, res, 200, AccountEdit(), rawBody);
     }
     catch (e) {
         console.log("Error: ", e);

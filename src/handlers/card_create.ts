@@ -18,11 +18,11 @@ async function createComponent(text: string, owner: string): Promise<string> {
     return created.rows[0].component_insert as string;
 }
 
-export async function create_card_manual(req: IncomingMessage, res: ServerResponse, ctx: RouteContext, frontSide: string, backSide: string, owner: string) {
+export async function create_card_manual(req: IncomingMessage, res: ServerResponse, ctx: RouteContext, frontSide: string, backSide: string, owner: string, rawBody?: string) {
     const front_id = await createComponent(frontSide, owner);
     const back_id = await createComponent(backSide, owner);
     if (!isValidId(front_id) || !isValidId(back_id)) {
-        sendError(req, res, errors.invalidInputData);
+        sendError(req, res, errors.invalidInputData, rawBody);
         return;
     }
     const card = (
@@ -31,19 +31,21 @@ export async function create_card_manual(req: IncomingMessage, res: ServerRespon
         )
     );
     if (card.rows[0].card_insert != null)
-        sendResponse(req, res, 201, CardCreate(card.rowCount!, [CardListItem(card.rows[0].card_id, frontSide)]));
+        sendResponse(req, res, 201, CardCreate(card.rowCount!, [CardListItem(card.rows[0].card_id, frontSide)]), rawBody);
     else 
-        sendResponse(req, res, 201, CardCreate(0, []));
+        sendResponse(req, res, 201, CardCreate(0, []), rawBody);
 }
 
 export const card_create_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => {
+    let rawBody: string | undefined;
     try {
-        const body = JSON.parse(await getBody(req));
+        rawBody = await getBody(req);
+        const body = JSON.parse(rawBody);
 
         const type = body["type"] as string | undefined;
 
         if (type == undefined) {
-            sendError(req, res, errors.invalidInputData);
+            sendError(req, res, errors.invalidInputData, rawBody);
             return;
         }
 
@@ -61,41 +63,41 @@ export const card_create_handler: Handler = async (req: IncomingMessage, res: Se
             frontSide = body["frontSide"] as string | undefined;
             backSide = body["backSide"] as string | undefined;
             if (frontSide == undefined || backSide == undefined) {
-                sendError(req, res, errors.invalidInputData)
+                sendError(req, res, errors.invalidInputData, rawBody)
                 return;
             }
             if (frontSide === backSide) {
-                sendError(req, res, errors.frontAndBackSame);
+                sendError(req, res, errors.frontAndBackSame, rawBody);
                 return;
             }
-            await create_card_manual(req, res, ctx, frontSide!, backSide!, owner)
+            await create_card_manual(req, res, ctx, frontSide!, backSide!, owner, rawBody)
             return;
 
         } else if (type === "document") {
             const text = body["text"] as string | undefined;
             if (text == undefined) {
-                sendError(req, res, errors.invalidInputData);
+                sendError(req, res, errors.invalidInputData, rawBody);
                 return;
             }
             console.log(text)
-            sendJson(req, res, 501, { status: "error", message: "Not implemented" });
+            sendJson(req, res, 501, { status: "error", message: "Not implemented" }, rawBody);
             backSide = text;
         } else if (type === "image") {
-            sendJson(req, res, 501, { status: "error", message: "Not implemented" });
+            sendJson(req, res, 501, { status: "error", message: "Not implemented" }, rawBody);
             const image = body["image"] as { image?: string } | undefined;
             if (image?.image == undefined) {
-                sendError(req, res, errors.invalidInputData);
+                sendError(req, res, errors.invalidInputData, rawBody);
                 return;
             }
             backSide = image.image;
         } else {
-            sendError(req, res, errors.invalidInputData);
+            sendError(req, res, errors.invalidInputData, rawBody);
             return;
         }
 
     }
     catch (e) {
         console.log("Error: ", e);
-        sendError(req, res, resolveDatabaseError(e));
+        sendError(req, res, resolveDatabaseError(e), rawBody);
     }
 }

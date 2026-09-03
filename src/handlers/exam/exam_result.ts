@@ -29,7 +29,7 @@ export const exam_result_handler: Handler = async (req: IncomingMessage, res: Se
             return;
         }
 
-        await database_pool.query("CALL EXAM_LOG_REVIEW_RESULT($1, $2, $3);", [exam_log_id, quiz_id, result]).catch(
+        await database_pool.query("SELECT * FROM EXAM_LOG_REVIEW_RESULT($1, $2, $3);", [exam_log_id, quiz_id, result]).catch(
             (e) => { console.log("DB Error: ", e.where); throw e; }
         );
 

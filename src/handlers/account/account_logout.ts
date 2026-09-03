@@ -15,7 +15,7 @@ export const account_logout_handler: Handler = async (req: IncomingMessage, res:
             return;
         }
 
-        await database_pool.query("CALL ACCOUNT_LOGOUT($1);", [account_id]).catch(
+        await database_pool.query("SELECT * FROM ACCOUNT_LOGOUT($1);", [account_id]).catch(
             (e) => { console.log("DB Error: ", e); throw e; }
         );
 

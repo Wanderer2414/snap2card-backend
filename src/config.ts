@@ -20,6 +20,7 @@ import { category_list_handler } from "./handlers/category/category_list.js";
 import { category_retrieve_handler } from "./handlers/category/category_retrieve.js";
 import { category_to_card_handler } from "./handlers/category/category_to_card.js";
 import { category_log_related_handler } from "./handlers/category/category_log_related.js";
+import { recent_category_take_list_handler } from "./handlers/category/recent_category_take_list.js";
 import { history_retrieve_handler } from "./handlers/history/history_retrieve.js";
 import { exam_create_handler } from "./handlers/exam/exam_create.js";
 import { exam_start_handler } from "./handlers/exam/exam_start.js";
@@ -83,6 +84,7 @@ export const endpointDefinitions: readonly EndpointDefinition[] = [
   { name: "category-to-card", method: "POST", path: "/cards/categorize", auth: true, contentType: "application/json" },
   { name: "card-to-category", method: "POST", path: "/categories/categorize", auth: true, contentType: "application/json" },
   { name: "category-log-related", method: "GET", path: "/categories/logs", auth: true, contentType: "application/json" },
+  { name: "recent-category-take-list", method: "GET", path: "/categories/recent", auth: true, contentType: "application/json" },
   { name: "exam-completed", method: "POST", path: "/exams/completed", auth: true, contentType: "application/json" },
   { name: "vocabulary-from-text", method: "POST", path: "/vocabulary/from-text", auth: true, contentType: "application/json" },
   { name: "vocabulary-from-pdf", method: "POST", path: "/vocabulary/from-pdf", auth: true, contentType: "application/pdf" },
@@ -121,6 +123,7 @@ handlers["category-create"] = category_create_handler;
 handlers["category-to-card"] = category_to_card_handler;
 handlers["card-to-category"] = card_to_category_handler;
 handlers["category-log-related"] = category_log_related_handler;
+handlers["recent-category-take-list"] = recent_category_take_list_handler;
 handlers["exam-create"] = exam_create_handler;
 handlers["exam-start"] = exam_start_handler;
 handlers["exam-result"] = exam_result_handler;

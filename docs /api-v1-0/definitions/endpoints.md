@@ -29,6 +29,7 @@ Base URL: `/snap2card/api/v1.0`
 | POST   | `/cards/categorize` | Bearer token | Assigns a card to one or more categories. | [Category To Card](../protocols/category/category-to-card.md) |
 | POST   | `/categories/categorize` | Bearer token | Assigns one or more cards to a category. | [Card To Category](../protocols/card/card-to-category.md) |
 | GET    | `/categories/logs` | Bearer token | Lists completed exam logs for a category. | [Category Log Related](../protocols/category/category-log-related.md) |
+| GET    | `/categories/recent` | Bearer token | Lists the most recent categories the user took exams in. | [Recent Category Take List](../protocols/category/recent-category-take-list.md) |
 | GET    | `/history`       | Bearer token | Retrieves the transaction/history log for the authenticated user. | [History Retrieve](../protocols/history/history-retrive.md) |
 | POST   | `/exams/create`  | Bearer token | Creates a new exam from a category.  | [Exam Create](../protocols/exam/exam-create.md) |
 | POST   | `/exams/start`   | Bearer token | Starts an exam session.              | [Exam Start](../protocols/exam/exam-start.md) |
@@ -80,6 +81,7 @@ Base URL: `/snap2card/api/v1.0`
 | `POST /cards/categorize`  | Assigns a card to one or more categories.                       |
 | `POST /categories/categorize` | Assigns one or more cards to a category.                    |
 | `GET /categories/logs`    | Lists completed exam logs whose exams belong to a category.     |
+| `GET /categories/recent`  | Lists the `n` most recent categories the account has taken exams in, with mastery. |
 
 ### History
 

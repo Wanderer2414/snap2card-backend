@@ -29,6 +29,7 @@ Lists the categories for the authenticated user.
         "id": "CAT1234567890",
         "name": "Banking",
         "numOfCard": 12,
+        "mastery": 2.5,
         "createdAt": {
           "year": 2026,
           "month": 1,
@@ -53,6 +54,7 @@ Lists the categories for the authenticated user.
 | `categories[].id`  | [Category ID](../definitions/object-types.md#id) | Unique identifier of the category. |
 | `categories[].name` | string | Name of the category.                |
 | `categories[].numOfCard` | number | Number of cards in the category. |
+| `categories[].mastery` | number/null | The category mastery read from `ACCOUNT_CATEGORY_FOLLOW.mastery_score`. `null` when the account has no mastery recorded for the category. |
 | `categories[].createdAt` | [Time](../definitions/object-types.md#time) | Timestamp when the first card was added to the category. |
 
 ## Errors

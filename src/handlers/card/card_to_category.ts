@@ -29,7 +29,7 @@ export const card_to_category_handler: Handler = async (req: IncomingMessage, re
         }
 
         await database_pool.query(
-            "CALL CARD_TO_CATEGORY_CATEGORIZE($1, $2);",
+            "SELECT * FROM CARD_TO_CATEGORY_CATEGORIZE($1, $2);",
             [category_id, card_ids]
         ).catch(
             (e) => { console.log("DB Error: ", e.where); throw e; }

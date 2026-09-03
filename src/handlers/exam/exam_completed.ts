@@ -27,7 +27,7 @@ export const exam_completed_handler: Handler = async (req: IncomingMessage, res:
             return;
         }
 
-        await database_pool.query("CALL EXAM_COMPLETED($1);", [exam_log_id]).catch(
+        await database_pool.query("SELECT * FROM EXAM_COMPLETED($1);", [exam_log_id]).catch(
             (e) => { console.log("DB Error: ", e.where); throw e; }
         );
 

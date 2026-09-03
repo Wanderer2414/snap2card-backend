@@ -83,6 +83,7 @@ export interface CategoryItem {
   id: string;
   name: string;
   numOfCard: number;
+  mastery: number | null;
   createdAt: Time;
 }
 
@@ -101,6 +102,17 @@ export interface CategoryRetrieveResponse extends SuccessResponse {
     createdAt: Time;
     cardIds: string[];
   };
+}
+
+export interface RecentCategoryItem {
+  categoryId: string;
+  name: string;
+  mastery: number | null;
+  lastTakenAt: Time;
+}
+
+export interface RecentCategoryTakeListResponse extends SuccessResponse {
+  data: RecentCategoryItem[];
 }
 
 export interface HistoryItem {
@@ -213,6 +225,7 @@ export type ApiResponse =
   | CategoryEditResponse
   | CategoryListResponse
   | CategoryRetrieveResponse
+  | RecentCategoryTakeListResponse
   | HistoryRetrieveResponse
   | ExamCreateResponse
   | ExamStartResponse
@@ -306,9 +319,10 @@ export function CategoryItem(
   id: string,
   name: string,
   numOfCard: number,
+  mastery: number | null,
   createdAt: Time
 ): CategoryItem {
-  return { id, name, numOfCard, createdAt };
+  return { id, name, numOfCard, mastery, createdAt };
 }
 
 export function CategoryList(
@@ -326,6 +340,19 @@ export function CategoryRetrieve(
   cardIds: string[]
 ): CategoryRetrieveResponse {
   return { status: "success", data: { name, numOfCard, mastery, createdAt, cardIds } };
+}
+
+export function RecentCategoryItem(
+  categoryId: string,
+  name: string,
+  mastery: number | null,
+  lastTakenAt: Time
+): RecentCategoryItem {
+  return { categoryId, name, mastery, lastTakenAt };
+}
+
+export function RecentCategoryTakeList(data: RecentCategoryItem[]): RecentCategoryTakeListResponse {
+  return { status: "success", data };
 }
 
 export function HistoryItem(

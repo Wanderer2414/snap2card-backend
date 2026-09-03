@@ -4,41 +4,46 @@ import type { RouteContext } from "../../controllers/router.js";
 import { sendError, sendResponse } from "../../shared_functions/send.js";
 import database_pool from "../../controllers/db_router.js";
 import { errors, resolveDatabaseError } from "../../configs/errors.js";
-import { CategoryItem, CategoryList, Time } from "../../definitions/responses.js";
+import { RecentCategoryItem, RecentCategoryTakeList, Time } from "../../definitions/responses.js";
 import { checkSession } from "../../shared_functions/check_session.js";
 
-export const category_list_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => { 
+export const recent_category_take_list_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => {
     try {
         const account_id = await checkSession(ctx.token);
         if (account_id == null) {
             sendError(req, res, errors.invalidOrExpiredToken);
             return;
         }
+
+        const n = ctx.query.get("n") ?? "10";
+        const nNum = Number(n);
+        if (!Number.isInteger(nNum) || nNum <= 0) {
+            sendError(req, res, errors.invalidInputData);
+            return;
+        }
+
         const categories = (
-            await database_pool.query("SELECT * FROM CATEGORY_LIST($1);", [account_id]).catch(
-                (e) => {
-                    console.log("DB Error: ", e.where)
-                    throw e
-                }
+            await database_pool.query("SELECT * FROM RECENT_CATEGORY_TAKE_LIST($1, $2);", [account_id, nNum]).catch(
+                (e) => { console.log("DB Error: ", e.where); throw e; }
             )
-        )
-        const numOfCat = categories.rowCount
-        const output: CategoryItem[] = []
+        );
+
+        const output: RecentCategoryItem[] = [];
         categories.rows.forEach((row) => {
             output.push(
-                CategoryItem(
+                RecentCategoryItem(
                     row["category_id"],
                     row["category_name"],
-                    row["numofcard"],
                     row["mastery"] as number | null,
                     Time(row["year"], row["month"], row["day"], row["hour"], row["minute"], row["second"], row["gmt"])
                 )
-            )
-        })
-        sendResponse(req, res, 200, CategoryList(numOfCat ?? 0, output))
+            );
+        });
+
+        sendResponse(req, res, 200, RecentCategoryTakeList(output));
     }
     catch (e) {
-        console.log("Error: ", e)
-        sendError(req, res, resolveDatabaseError(e))
+        console.log("Error: ", e);
+        sendError(req, res, resolveDatabaseError(e));
     }
 }

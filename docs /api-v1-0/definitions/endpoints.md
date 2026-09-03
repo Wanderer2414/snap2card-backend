@@ -8,33 +8,33 @@ Base URL: `/snap2card/api/v1.0`
 
 | Method | Path             | Auth        | Description                                        | Protocol                                  |
 | ------ | ---------------- | ----------- | -------------------------------------------------- | ----------------------------------------- |
-| POST   | `/account/login` | None        | Authenticates a user and returns an access token.  | [Account Login](../protocols/account-login.md) |
-| POST   | `/account/register` | None     | Creates a new account.                             | [Account Register](../protocols/account-register.md) |
-| GET    | `/account`       | Bearer token | Retrieves the authenticated user's account details. | [Account Retrieve](../protocols/account-retrieve.md) |
-| PUT    | `/account`       | Bearer token | Updates the authenticated user's account details.  | [Account Edit](../protocols/account-edit.md) |
-| POST   | `/account/logout` | Bearer token | Invalidates the current user's session/token.      | [Account Logout](../protocols/account-logout.md) |
-| GET    | `/activities`    | Bearer token | Retrieves activity history for the authenticated user. | [Activities Retrieve](../protocols/activies-retrieve.md) |
-| POST   | `/cards/pdf`     | Bearer token | Saves a PDF file and records it in the database. | [Card Create PDF](../protocols/card-create-pdf.md) |
-| POST   | `/cards/document` | Bearer token | Creates a new card from a text document. | [Card Create Document](../protocols/card-create-document.md) |
-| POST   | `/cards/manual`  | Bearer token | Creates a new card from front/back text manually. | [Card Create Manual](../protocols/card-create-manual.md) |
-| PUT    | `/cards`         | Bearer token | Updates an existing card for the authenticated user. | [Card Edit](../protocols/card-edit.md) |
-| GET    | `/cards/list`    | Bearer token | Lists the cards for the authenticated user.        | [Card List](../protocols/card-list.md) |
-| GET    | `/cards`         | Bearer token | Retrieves one or more cards for the authenticated user. | [Card Retrieve](../protocols/card-retrieve.md) |
-| PUT    | `/categories`    | Bearer token | Updates an existing category for the authenticated user. | [Category Edit](../protocols/category-edit.md) |
-| POST   | `/categories`    | Bearer token | Creates a new category for the authenticated user. | [Category Create](../protocols/category-create.md) |
-| GET    | `/categories/list` | Bearer token | Lists the categories for the authenticated user. | [Category List](../protocols/category-list.md) |
-| GET    | `/categories`    | Bearer token | Retrieves a single category with its cards for the authenticated user. | [Category Retrieve](../protocols/category-retrieve.md) |
-| POST   | `/cards/categorize` | Bearer token | Assigns a card to one or more categories. | [Category To Card](../protocols/category-to-card.md) |
-| POST   | `/categories/categorize` | Bearer token | Assigns one or more cards to a category. | [Card To Category](../protocols/card-to-category.md) |
-| GET    | `/categories/logs` | Bearer token | Lists completed exam logs for a category. | [Category Log Related](../protocols/category-log-related.md) |
-| GET    | `/history`       | Bearer token | Retrieves the transaction/history log for the authenticated user. | [History Retrieve](../protocols/history-retrive.md) |
-| POST   | `/exams/create`  | Bearer token | Creates a new exam from a category.  | [Exam Create](../protocols/exam-create.md) |
-| POST   | `/exams/start`   | Bearer token | Starts an exam session.              | [Exam Start](../protocols/exam-start.md) |
-| POST   | `/exams/result`  | Bearer token | Saves a quiz result against an exam log. | [Exam Result](../protocols/exam-result.md) |
-| GET    | `/exams/review`  | Bearer token | Retrieves the quizzes for reviewing an exam. | [Exam Review](../protocols/exam-review.md) |
-| POST   | `/exams/completed` | Bearer token | Finalizes an exam log and grades the exam. | [Exam Completed](../protocols/exam-completed.md) |
-| POST   | `/vocabulary/from-text` | Bearer token | Generates vocabulary cards from a text document. | [Vocabulary From Text](../protocols/vocabulary-from-text.md) |
-| POST   | `/vocabulary/from-pdf` | Bearer token | Generates vocabulary cards from a PDF file. | [Vocabulary From PDF](../protocols/vocabulary-from-pdf.md) |
+| POST   | `/account/login` | None        | Authenticates a user and returns an access token.  | [Account Login](../protocols/account/account-login.md) |
+| POST   | `/account/register` | None     | Creates a new account.                             | [Account Register](../protocols/account/account-register.md) |
+| GET    | `/account`       | Bearer token | Retrieves the authenticated user's account details. | [Account Retrieve](../protocols/account/account-retrieve.md) |
+| PUT    | `/account`       | Bearer token | Updates the authenticated user's account details.  | [Account Edit](../protocols/account/account-edit.md) |
+| POST   | `/account/logout` | Bearer token | Invalidates the current user's session/token.      | [Account Logout](../protocols/account/account-logout.md) |
+| GET    | `/activities`    | Bearer token | Retrieves activity history for the authenticated user. | [Activities Retrieve](../protocols/activities/activies-retrieve.md) |
+| POST   | `/cards/pdf`     | Bearer token | Saves a PDF file and records it in the database. | [Card Create PDF](../protocols/card/card-create-pdf.md) |
+| POST   | `/cards/document` | Bearer token | Creates a new card from a text document. | [Card Create Document](../protocols/card/card-create-document.md) |
+| POST   | `/cards/manual`  | Bearer token | Creates a new card from front/back text manually. | [Card Create Manual](../protocols/card/card-create-manual.md) |
+| PUT    | `/cards`         | Bearer token | Updates an existing card for the authenticated user. | [Card Edit](../protocols/card/card-edit.md) |
+| GET    | `/cards/list`    | Bearer token | Lists the cards for the authenticated user.        | [Card List](../protocols/card/card-list.md) |
+| GET    | `/cards`         | Bearer token | Retrieves one or more cards for the authenticated user. | [Card Retrieve](../protocols/card/card-retrieve.md) |
+| PUT    | `/categories`    | Bearer token | Updates an existing category for the authenticated user. | [Category Edit](../protocols/category/category-edit.md) |
+| POST   | `/categories`    | Bearer token | Creates a new category for the authenticated user. | [Category Create](../protocols/category/category-create.md) |
+| GET    | `/categories/list` | Bearer token | Lists the categories for the authenticated user. | [Category List](../protocols/category/category-list.md) |
+| GET    | `/categories`    | Bearer token | Retrieves a single category with its cards for the authenticated user. | [Category Retrieve](../protocols/category/category-retrieve.md) |
+| POST   | `/cards/categorize` | Bearer token | Assigns a card to one or more categories. | [Category To Card](../protocols/category/category-to-card.md) |
+| POST   | `/categories/categorize` | Bearer token | Assigns one or more cards to a category. | [Card To Category](../protocols/card/card-to-category.md) |
+| GET    | `/categories/logs` | Bearer token | Lists completed exam logs for a category. | [Category Log Related](../protocols/category/category-log-related.md) |
+| GET    | `/history`       | Bearer token | Retrieves the transaction/history log for the authenticated user. | [History Retrieve](../protocols/history/history-retrive.md) |
+| POST   | `/exams/create`  | Bearer token | Creates a new exam from a category.  | [Exam Create](../protocols/exam/exam-create.md) |
+| POST   | `/exams/start`   | Bearer token | Starts an exam session.              | [Exam Start](../protocols/exam/exam-start.md) |
+| POST   | `/exams/result`  | Bearer token | Saves a quiz result against an exam log. | [Exam Result](../protocols/exam/exam-result.md) |
+| GET    | `/exams/review`  | Bearer token | Retrieves the quizzes for reviewing an exam. | [Exam Review](../protocols/exam/exam-review.md) |
+| POST   | `/exams/completed` | Bearer token | Finalizes an exam log and grades the exam. | [Exam Completed](../protocols/exam/exam-completed.md) |
+| POST   | `/vocabulary/from-text` | Bearer token | Generates vocabulary cards from a text document. | [Vocabulary From Text](../protocols/vocabulary/vocabulary-from-text.md) |
+| POST   | `/vocabulary/from-pdf` | Bearer token | Generates vocabulary cards from a PDF file. | [Vocabulary From PDF](../protocols/vocabulary/vocabulary-from-pdf.md) |
 
 ## Endpoint Details
 

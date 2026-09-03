@@ -13,11 +13,13 @@ Custom domain types used by protocol signatures:
 
 | Type                | Underlying      | Constraint                                        |
 | ------------------- | --------------- | ------------------------------------------------- |
-| `TYPE_ID`           | `CHAR(15)`      | `LENGTH(VALUE) = 15`; prefix defines entity: `ACNT`, `CARD`, `CATE`, `SESS`, `COMP`, `EXAM`, `QUIZ`, `LOG` |
+| `TYPE_ID`           | `CHAR(15)`      | `LENGTH(VALUE) = 15`; prefix defines entity: `ACNT`, `CARD`, `CATE`, `SESS`, `COMP`, `EXAM`, `QUIZ`, `LOG`, `FILE` |
 | `TYPE_EMAIL`        | `citext`        | Valid email pattern                               |
 | `TYPE_PASSWORD`     | `CHAR(100)`     | Max 100 characters                                |
 | `TYPE_NAME_ACCOUNT` | `VARCHAR(60)`   | Max 60 characters                                 |
 | `TYPE_NAME_CATEGORY`| `VARCHAR(20)`   | Must be uppercase                                 |
+| `TYPE_NAME_FILE`    | `VARCHAR(60)`   | Max 60 characters                                 |
+| `TYPE_FILE_TYPE`    | enum            | Currently `pdf`                                   |
 
 ## Functions
 
@@ -304,15 +306,20 @@ Errors: `50001`, `50004`, `50007`.
 | Parameter       | Type             |
 | --------------- | ---------------- |
 | `p_file_source` | `TEXT`           |
+| `p_file_name`   | `TEXT`           |
+| `p_hash_code`   | `TEXT`           |
 | `p_file_type`   | `TYPE_FILE_TYPE` |
 | `p_owner_id`    | `TYPE_ID`        |
 
-`p_file_type` is an enum (`TYPE_FILE_TYPE`), currently `pdf`. `p_owner_id`
-must reference an existing account.
+`p_file_name` must be at most 60 characters (store as `TYPE_NAME_FILE`).
+`p_hash_code` is the SHA-256 hash of the file, supplied by the backend; it must
+be at most 64 characters and is stored as `CHAR(64)`. `p_file_type` is an enum
+(`TYPE_FILE_TYPE`), currently `pdf`. `p_owner_id` must reference an existing
+account.
 
 Returns: `TYPE_ID` — the new file id (`FILE...`).
 
-Errors: `50001`, `50004`, `50006`.
+Errors: `50001`, `50002`, `50004`, `50006`.
 
 ---
 

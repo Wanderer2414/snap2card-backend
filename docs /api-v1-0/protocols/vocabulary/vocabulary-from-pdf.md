@@ -13,16 +13,30 @@ Generates vocabulary cards from a PDF file for the authenticated user.
 | Header | Type | Required | Description |
 | ------ | ---- | -------- | ----------- |
 | `Authorization` | string | Yes | `Bearer <token>` |
-| `Content-Type` | string | Yes | `multipart/form-data` |
+| `Content-Type` | string | Yes | `application/pdf` |
 
-### Body (multipart/form-data)
+### Body
 
-| Field | Type | Required | Description |
-| ----- | ---- | -------- | ----------- |
-| `file` | PDF file | Yes | The PDF to extract vocabulary from, under the `file` field name. |
-| `level` | string | No | Difficulty level. |
-| `count` | string | No | Desired number of cards. |
-| `includePhrases` | string | No | `true`/`false` whether to include phrases. |
+The raw PDF file bytes (no multipart wrapper). The request `Content-Type` must
+be `application/pdf` and the body must be a valid PDF file.
+
+### Query Parameters
+
+| Parameter | Type   | Required | Description                                    |
+| --------- | ------ | -------- | ---------------------------------------------- |
+| `level`   | string | No       | Difficulty level.                              |
+| `count`   | number | No       | Desired number of cards.                       |
+| `includePhrases` | boolean | No  | `true`/`false` whether to include phrases.     |
+
+For example, with `curl`:
+
+```bash
+curl -X POST \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/pdf" \
+  --data-binary @document.pdf \
+  "https://host/snap2card/api/v1.0/vocabulary/from-pdf?level=b1&count=10&includePhrases=true"
+```
 
 ## Response
 

@@ -2,7 +2,6 @@ import { createHash } from "node:crypto";
 import path from "node:path";
 import { LocalStorage } from "./storage.js";
 import database_pool from "../controllers/db_router.js";
-import type { MultipartFile } from "./request.js";
 
 function sha256(data: Buffer): string {
     return createHash("sha256").update(data).digest("hex");
@@ -16,14 +15,14 @@ export interface FileSaveResult {
     fileType: string;
 }
 
-export async function saveFile(file: MultipartFile, fileType: string, ownerId: string): Promise<FileSaveResult | null> {
-    const hashCode = sha256(file.data);
-    const fileName = path.basename(file.filename.slice(0, 60));
+export async function saveFile(data: Buffer, fileName: string, fileType: string, ownerId: string): Promise<FileSaveResult | null> {
+    const hashCode = sha256(data);
+    const safeName = path.basename(fileName.slice(0, 60));
 
     const created = (
         await database_pool.query(
             "SELECT * FROM FILE_INSERT($1, $2, $3, $4);",
-            [fileName, hashCode, fileType, ownerId]
+            [safeName, hashCode, fileType, ownerId]
         ).catch(
             (e) => { console.log("DB Error: ", e); throw e; }
         )
@@ -37,9 +36,9 @@ export async function saveFile(file: MultipartFile, fileType: string, ownerId: s
 
     const alreadyExists = await LocalStorage.exists(source);
     if (!alreadyExists) {
-        await LocalStorage.save(path.basename(source), file.data);
+        await LocalStorage.save(path.basename(source), data);
     }
     source = LocalStorage.getAbsPath(source)
 
-    return { fileId, source, fileName, hashCode, fileType };
+    return { fileId, source, fileName: safeName, hashCode, fileType };
 }

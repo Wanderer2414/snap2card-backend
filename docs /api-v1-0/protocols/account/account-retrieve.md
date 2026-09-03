@@ -26,6 +26,7 @@ Retrieves the authenticated user's account details.
     "email": "user@example.com",
     "name": "John Doe",
     "phone": "+1234567890",
+    "dailyGoal": 10,
     "createdAt": {
       "year": 2026,
       "month": 1,
@@ -46,6 +47,7 @@ Retrieves the authenticated user's account details.
 | `email`        | string | Email address of the user.                    |
 | `name`         | string | Display name of the user.                     |
 | `phone`        | string | Phone number of the user.                     |
+| `dailyGoal`    | number | The user's daily goal.                        |
 | `createdAt`    | object | Timestamp when the account was created ([Time](../definitions/object-types.md#time)). |
 
 ## Errors

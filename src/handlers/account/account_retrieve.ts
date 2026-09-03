@@ -33,6 +33,7 @@ export const account_retrieve_handler: Handler = async (req: IncomingMessage, re
                 row["account_email"],
                 row["account_name"],
                 row["account_phone"],
+                row["account_daily_goal"],
                 Time(row["year"], row["month"], row["day"], row["hour"], row["minute"], row["second"], row["gmt"])
             )
         );

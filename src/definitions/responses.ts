@@ -28,6 +28,7 @@ export interface AccountRetrieveResponse extends SuccessResponse {
     email: string;
     name: string;
     phone: string;
+    dailyGoal: number;
     createdAt: Time;
   };
 }
@@ -245,9 +246,10 @@ export function AccountRetrieve(
   email: string,
   name: string,
   phone: string,
+  dailyGoal: number,
   createdAt: Time
 ): AccountRetrieveResponse {
-  return { status: "success", data: { email, name, phone, createdAt } };
+  return { status: "success", data: { email, name, phone, dailyGoal, createdAt } };
 }
 
 export function AccountEdit(): AccountEditResponse {

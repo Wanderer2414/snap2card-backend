@@ -11,6 +11,8 @@ Base URL: `/snap2card/api/v1.0`
 | POST   | `/account/login` | None        | Authenticates a user and returns an access token.  | [Account Login](../protocols/account/account-login.md) |
 | POST   | `/account/register` | None     | Creates a new account.                             | [Account Register](../protocols/account/account-register.md) |
 | GET    | `/account`       | Bearer token | Retrieves the authenticated user's account details. | [Account Retrieve](../protocols/account/account-retrieve.md) |
+| GET    | `/account/avatar` | Bearer token | Retrieves the authenticated user's avatar as PNG image data. | [Account Avatar Retrieve](../protocols/account/account-avatar-retrieve.md) |
+| PUT    | `/account/avatar` | Bearer token | Updates the avatar by uploading a PNG file. | [Account Avatar Update](../protocols/account/account-avatar-update.md) |
 | PUT    | `/account`       | Bearer token | Updates the authenticated user's account details.  | [Account Edit](../protocols/account/account-edit.md) |
 | POST   | `/account/logout` | Bearer token | Invalidates the current user's session/token.      | [Account Logout](../protocols/account/account-logout.md) |
 | GET    | `/activities`    | Bearer token | Retrieves activity history for the authenticated user. | [Activities Retrieve](../protocols/activities/activies-retrieve.md) |
@@ -45,7 +47,9 @@ Base URL: `/snap2card/api/v1.0`
 | `POST /account/login`              | Authenticates a user with email and password and returns a session token. |
 | `POST /account/register`           | Creates a new account from name, email, phone and password. |
 | `GET /account`                     | Retrieves the authenticated user's account details.         |
-| `PUT /account`                     | Updates account details. The `type` field selects the field to update: `total`, `name`, `email`, or `phone`. |
+| `GET /account/avatar`              | Retrieves the authenticated user's avatar as raw PNG image data. |
+| `PUT /account/avatar`              | Updates the authenticated user's avatar by uploading a PNG file. |
+| `PUT /account`                     | Updates account details. The `type` field selects the field to update: `total`, `name`, `email`, `phone`, or `dailyGoal`. |
 | `POST /account/logout`             | Invalidates the current user's session/token.               |
 
 ### Activities
@@ -103,7 +107,7 @@ Base URL: `/snap2card/api/v1.0`
 ## Notes
 
 - All endpoints except `POST /account/login` and `POST /account/register` require a `Bearer <token>` in the `Authorization` header.
-- All endpoints require the appropriate `Content-Type` header (`application/json`, or `multipart/form-data` for PDF uploads). Missing/mismatched `Content-Type` returns `415 Unsupported Media Type`.
+- All endpoints require the appropriate `Content-Type` header (`application/json`, `application/pdf` for PDF uploads, or `image/png` for the avatar upload). Missing/mismatched `Content-Type` returns `415 Unsupported Media Type`.
 - Full request/response details for each endpoint are described in the [Protocols](../protocols/) directory.
 - Shared object definitions are described in [Object Types](../definitions/object-types.md).
 - Error codes and formats are described in [Error Codes](../definitions/errors.md).

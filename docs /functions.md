@@ -349,6 +349,32 @@ Errors: `50001`, `50002`, `50004`, `50006`.
 
 ---
 
+**`FILE_RETRIEVE`** — retrieves a file record by its id.
+
+| Parameter    | Type      |
+| ------------ | --------- |
+| `p_file_id`  | `TYPE_ID` |
+
+Returns a table:
+
+| Column        | Type                 |
+| ------------- | -------------------- |
+| `file_source` | `TEXT`               |
+| `file_name`   | `TYPE_NAME_FILE`     |
+| `file_type`   | `TYPE_FILE_TYPE`     |
+| `file_id`     | `TYPE_ID`            |
+| `YEAR`        | `INTEGER`            |
+| `MONTH`       | `INTEGER`            |
+| `DAY`         | `INTEGER`            |
+| `HOUR`        | `INTEGER`            |
+| `MINUTE`      | `INTEGER`            |
+| `SECOND`      | `INTEGER`            |
+| `gmt`         | `CHAR(3)`            |
+
+Errors: `50001`, `50004`, `50006`.
+
+---
+
 ### Request logs
 
 **`REQUEST_LOG_INSERT`** — records an incoming request and its response.

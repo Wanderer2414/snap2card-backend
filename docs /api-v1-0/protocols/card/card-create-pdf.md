@@ -13,13 +13,22 @@ Saves a PDF file for the authenticated user and records it in the database via t
 | Header | Type | Required | Description |
 | ------ | ---- | -------- | ----------- |
 | `Authorization` | string | Yes | `Bearer <token>` |
-| `Content-Type` | string | Yes | `multipart/form-data` |
+| `Content-Type` | string | Yes | `application/pdf` |
 
-### Body (multipart/form-data)
+### Body
 
-| Field | Type | Required | Description |
-| ----- | ---- | -------- | ----------- |
-| `file` | PDF file | Yes | The PDF to save. Stored under the `file` field name. |
+The raw PDF file bytes (no multipart wrapper). The request `Content-Type` must
+be `application/pdf` and the body must be a valid PDF file.
+
+For example, with `curl`:
+
+```bash
+curl -X POST \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/pdf" \
+  --data-binary @document.pdf \
+  https://host/snap2card/api/v1.0/cards/pdf
+```
 
 ## Response
 

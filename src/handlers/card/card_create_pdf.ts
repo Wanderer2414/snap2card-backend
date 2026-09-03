@@ -4,17 +4,18 @@ import type { RouteContext } from "../../controllers/router.js";
 import { sendError, sendResponse } from "../../shared_functions/send.js";
 import { errors, resolveDatabaseError } from "../../configs/errors.js";
 import { CardCreate } from "../../definitions/responses.js";
-import { parseMultipartFormData } from "../../shared_functions/request.js";
+import { getRawBody } from "../../shared_functions/request.js";
 import { checkSession } from "../../shared_functions/check_session.js";
 import { saveFile } from "../../shared_functions/file.js";
+import { converters } from "../../shared_functions/converters.js";
 import { extractPdfText, makePdfExtractArgs } from "../../services/pdf_text_extraction.js";
 import { extractWords } from "../../shared_functions/text.js";
 
 export const card_create_pdf_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => {
     try {
-        const multipart = await parseMultipartFormData(req);
-        const file = multipart?.files.find((item) => item.fieldName === "file");
-        if (multipart == null || file == null) {
+        const raw = await getRawBody(req);
+        const pdf = converters.toPdf(raw);
+        if (pdf == null) {
             sendError(req, res, errors.invalidPdf);
             return;
         }
@@ -25,7 +26,7 @@ export const card_create_pdf_handler: Handler = async (req: IncomingMessage, res
             return;
         }
 
-        const result = await saveFile(file, "pdf", owner);
+        const result = await saveFile(pdf.data, pdf.fileName, "pdf", owner);
         if (result == null) {
             sendError(req, res, errors.notFound);
             return;

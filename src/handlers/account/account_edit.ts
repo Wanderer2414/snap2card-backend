@@ -24,6 +24,7 @@ export const account_edit_handler: Handler = async (req: IncomingMessage, res: S
         const name = body["name"] as string | undefined;
         const email = body["email"] as string | undefined;
         const phone = body["phone"] as string | undefined;
+        const dailyGoal = body["dailyGoal"] as number | undefined;
 
         if (type == undefined) {
             sendError(req, res, errors.invalidInputData, rawBody);
@@ -40,8 +41,8 @@ export const account_edit_handler: Handler = async (req: IncomingMessage, res: S
 
         const result = (
             await database_pool.query(
-                "SELECT * FROM UPDATE_ACCOUNT($1, $2, $3, $4);",
-                [account_id, name ?? null, email ?? null, phone ?? null]
+                "SELECT * FROM UPDATE_ACCOUNT($1, $2, $3, $4, $5, $6);",
+                [account_id, name ?? null, email ?? null, phone ?? null, null, dailyGoal ?? null]
             ).catch(
                 (e) => { console.log("DB Error: ", e); throw e; }
             )

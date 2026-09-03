@@ -1,6 +1,8 @@
 
 import { login_handler as account_login_handler } from "./handlers/account/account_login.js";
 import { account_retrieve_handler } from "./handlers/account/account_retrieve.js";
+import { account_avatar_retrieve_handler } from "./handlers/account/account_avatar_retrieve.js";
+import { account_avatar_update_handler } from "./handlers/account/account_avatar_update.js";
 import { account_edit_handler } from "./handlers/account/account_edit.js";
 import { account_logout_handler } from "./handlers/account/account_logout.js";
 import { account_register_handler } from "./handlers/account/account_register.js";
@@ -57,10 +59,12 @@ export interface EndpointDefinition {
 export const endpointDefinitions: readonly EndpointDefinition[] = [
   { name: "account-login", method: "POST", path: "/account/login", auth: false, contentType: "application/json" },
   { name: "account-retrieve", method: "GET", path: "/account", auth: true, contentType: "application/json" },
+  { name: "account-avatar-retrieve", method: "GET", path: "/account/avatar", auth: true, contentType: "application/json" },
+  { name: "account-avatar-update", method: "PUT", path: "/account/avatar", auth: true, contentType: "image/png" },
   { name: "account-edit", method: "PUT", path: "/account", auth: true, contentType: "application/json" },
   { name: "account-logout", method: "POST", path: "/account/logout", auth: true, contentType: "application/json" },
   { name: "activities-retrieve", method: "GET", path: "/activities", auth: true, contentType: "application/json" },
-  { name: "card-create-pdf", method: "POST", path: "/cards/pdf", auth: true, contentType: "multipart/form-data" },
+  { name: "card-create-pdf", method: "POST", path: "/cards/pdf", auth: true, contentType: "application/pdf" },
   { name: "card-create-document", method: "POST", path: "/cards/document", auth: true, contentType: "application/json" },
   { name: "card-create-manual", method: "POST", path: "/cards/manual", auth: true, contentType: "application/json" },
   { name: "card-edit", method: "PUT", path: "/cards", auth: true, contentType: "application/json" },
@@ -81,7 +85,7 @@ export const endpointDefinitions: readonly EndpointDefinition[] = [
   { name: "category-log-related", method: "GET", path: "/categories/logs", auth: true, contentType: "application/json" },
   { name: "exam-completed", method: "POST", path: "/exams/completed", auth: true, contentType: "application/json" },
   { name: "vocabulary-from-text", method: "POST", path: "/vocabulary/from-text", auth: true, contentType: "application/json" },
-  { name: "vocabulary-from-pdf", method: "POST", path: "/vocabulary/from-pdf", auth: true, contentType: "multipart/form-data" },
+  { name: "vocabulary-from-pdf", method: "POST", path: "/vocabulary/from-pdf", auth: true, contentType: "application/pdf" },
 ] as const;
 
 export type EndpointName = (typeof endpointDefinitions)[number]["name"];
@@ -99,6 +103,8 @@ export const handlers = {} as Record<EndpointName, Handler>;
 handlers["account-login"] = account_login_handler;
 handlers["account-register"] = account_register_handler;
 handlers["account-retrieve"] = account_retrieve_handler;
+handlers["account-avatar-retrieve"] = account_avatar_retrieve_handler;
+handlers["account-avatar-update"] = account_avatar_update_handler;
 handlers["account-edit"] = account_edit_handler;
 handlers["account-logout"] = account_logout_handler;
 // handlers["activities-retrieve"] = activities_retrieve_handler;

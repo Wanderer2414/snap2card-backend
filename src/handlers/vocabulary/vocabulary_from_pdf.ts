@@ -1,10 +1,12 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Handler } from "../../shared_type/handler.js";
+import type { RouteContext } from "../../controllers/router.js";
 import { sendError, sendResponse } from "../../shared_functions/send.js";
-import { parseMultipartFormData } from "../../shared_functions/request.js";
+import { getRawBody } from "../../shared_functions/request.js";
+import { converters } from "../../shared_functions/converters.js";
 import { errors, type ApiError } from "../../configs/errors.js";
 import { VocabularyGeneration } from "../../definitions/responses.js";
-import { extractPdfText, type PdfExtractArgs } from "../../services/pdf_text_extraction.js";
+import { extractPdfText } from "../../services/pdf_text_extraction.js";
 import {
   parseVocabularyFromTextRequest,
   VocabularyGenerationService,
@@ -16,16 +18,16 @@ const vocabularyGenerationService = new VocabularyGenerationService();
 const maxPdfPages = 10;
 const minReadableCharacters = 80;
 
-export const vocabulary_from_pdf_handler: Handler = async (req: IncomingMessage, res: ServerResponse) => {
+export const vocabulary_from_pdf_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => {
   try {
-    const multipart = await parseMultipartFormData(req);
-    const file = multipart?.files.find((item) => item.fieldName === "file");
-    if (multipart == null || file == null) {
+    const raw = await getRawBody(req);
+    const pdf = converters.toPdf(raw);
+    if (pdf == null) {
       sendError(req, res, errors.invalidPdf);
       return;
     }
 
-    const includePhrases = parseOptionalBoolean(multipart.fields.includePhrases);
+    const includePhrases = parseOptionalBoolean(ctx.query.get("includePhrases") ?? undefined);
     if (includePhrases === null) {
       sendError(req, res, errors.invalidInputData);
       return;
@@ -33,8 +35,8 @@ export const vocabulary_from_pdf_handler: Handler = async (req: IncomingMessage,
 
     const requestOptions = parseVocabularyFromTextRequest({
       text: "PDF extraction pending",
-      level: multipart.fields.level,
-      count: multipart.fields.count == null ? undefined : Number(multipart.fields.count),
+      level: ctx.query.get("level") ?? undefined,
+      count: ctx.query.get("count") == null ? undefined : Number(ctx.query.get("count")),
       includePhrases,
       sourceType: "pdf",
     });
@@ -45,7 +47,7 @@ export const vocabulary_from_pdf_handler: Handler = async (req: IncomingMessage,
     }
 
     const pdfPath = path.join(process.cwd(), `upload_${Date.now()}.pdf`);
-    await writeFile(pdfPath, file.data);
+    await writeFile(pdfPath, pdf.data);
 
     const result = await extractPdfText({
         pdfPath,

@@ -1,4 +1,4 @@
-import { mkdir, stat, writeFile } from "node:fs/promises";
+import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 export const LocalStorage = {
@@ -23,6 +23,16 @@ export const LocalStorage = {
         await this.ensureDir();
         const filePath = path.join(this.baseDir, filename);
         await writeFile(filePath, data);
+    },
+
+    async read(source: string): Promise<Buffer | null> {
+        const filePath = this.getAbsPath(source);
+        try {
+            return await readFile(filePath);
+        }
+        catch {
+            return null;
+        }
     },
 
     getAbsPath(source: string): string {

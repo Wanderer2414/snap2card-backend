@@ -1,4 +1,4 @@
-import database_pool from "../controllers/db_router.js";
+import database_pool from "../../controllers/db_router.js";
 
 export async function createComponent(text: string, owner: string): Promise<string> {
     const created = (

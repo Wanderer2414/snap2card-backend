@@ -1,14 +1,14 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import type { Handler } from "../shared_type/handler.js";
-import { sendError, sendResponse } from "../shared_functions/send.js";
-import { parseMultipartFormData } from "../shared_functions/request.js";
-import { errors } from "../configs/errors.js";
-import { VocabularyGeneration } from "../definitions/responses.js";
-import { PdfTextExtractionService } from "../services/pdf_text_extraction.js";
+import type { Handler } from "../../shared_type/handler.js";
+import { sendError, sendResponse } from "../../shared_functions/send.js";
+import { parseMultipartFormData } from "../../shared_functions/request.js";
+import { errors } from "../../configs/errors.js";
+import { VocabularyGeneration } from "../../definitions/responses.js";
+import { PdfTextExtractionService } from "../../services/pdf_text_extraction.js";
 import {
   parseVocabularyFromTextRequest,
   VocabularyGenerationService,
-} from "../services/vocabulary_generation.js";
+} from "../../services/vocabulary_generation.js";
 
 const pdfTextExtractionService = new PdfTextExtractionService();
 const vocabularyGenerationService = new VocabularyGenerationService();

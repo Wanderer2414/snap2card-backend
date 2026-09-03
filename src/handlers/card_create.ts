@@ -40,10 +40,9 @@ export const card_create_handler: Handler = async (req: IncomingMessage, res: Se
     try {
         const body = JSON.parse(await getBody(req));
 
-        const name = body["name"] as string | undefined;
         const type = body["type"] as string | undefined;
 
-        if (name == undefined || type == undefined) {
+        if (type == undefined) {
             sendError(req, res, errors.invalidInputData);
             return;
         }
@@ -80,7 +79,6 @@ export const card_create_handler: Handler = async (req: IncomingMessage, res: Se
             }
             console.log(text)
             sendJson(req, res, 501, { status: "error", message: "Not implemented" });
-            frontSide = `${name}`;
             backSide = text;
         } else if (type === "image") {
             sendJson(req, res, 501, { status: "error", message: "Not implemented" });
@@ -89,7 +87,6 @@ export const card_create_handler: Handler = async (req: IncomingMessage, res: Se
                 sendError(req, res, errors.invalidInputData);
                 return;
             }
-            frontSide = `${name}`;
             backSide = image.image;
         } else {
             sendError(req, res, errors.invalidInputData);

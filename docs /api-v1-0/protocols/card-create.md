@@ -19,7 +19,6 @@ Creates a new card for the authenticated user.
 
 ```json
 {
-  "name": "My Card",
   "type": "manual",
   "text": "Full card details text",
   "image": {
@@ -35,7 +34,6 @@ Creates a new card for the authenticated user.
 
 | Field        | Type   | Required | Description                                                  |
 | ------------ | ------ | -------- | ------------------------------------------------------------ |
-| `name`       | string | Yes      | Name of the card.                                            |
 | `type`       | string | Yes      | Creation type: `document`, `image`, or `manual`.      |
 | `text`       | string | No       | Large text input (used when `type` is `document`).        |
 | `image`      | [Image](../definitions/object-types.md#image) | No | Image input (used when `type` is `image`).        |
@@ -52,7 +50,6 @@ Card details are provided as a large text input.
 
 ```json
 {
-  "name": "My Card",
   "type": "document",
   "text": "Full card details text"
 }
@@ -64,7 +61,6 @@ Card details are provided as an image.
 
 ```json
 {
-  "name": "My Card",
   "type": "image",
   "image": {
     "image": "data:image/png;base64,iVBORw0KGgo...",
@@ -79,7 +75,6 @@ Card details are entered manually via front side and back side text.
 
 ```json
 {
-  "name": "My Card",
   "type": "manual",
   "frontSide": "Front card text",
   "backSide": "Back card text"

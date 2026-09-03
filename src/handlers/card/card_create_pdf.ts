@@ -7,6 +7,8 @@ import { CardCreate } from "../../definitions/responses.js";
 import { parseMultipartFormData } from "../../shared_functions/request.js";
 import { checkSession } from "../../shared_functions/check_session.js";
 import { saveFile } from "../../shared_functions/file.js";
+import { extractPdfText, makePdfExtractArgs } from "../../services/pdf_text_extraction.js";
+import { extractWords } from "../../shared_functions/text.js";
 
 export const card_create_pdf_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => {
     try {
@@ -27,6 +29,12 @@ export const card_create_pdf_handler: Handler = async (req: IncomingMessage, res
         if (result == null) {
             sendError(req, res, errors.notFound);
             return;
+        }
+        const text = await extractPdfText(makePdfExtractArgs(result.source, 100, 1))
+        if (text.ok) {
+            const words = extractWords(text.text!)
+            console.log(words)
+
         }
 
         sendResponse(req, res, 201, CardCreate(0, []));

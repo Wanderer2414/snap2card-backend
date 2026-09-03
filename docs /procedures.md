@@ -64,7 +64,10 @@ exam log.
 
 Returns: nothing.
 
-Errors: `50001`, `50004`, `50006`.
+If a result for the same `(p_exam_log_id, p_quiz_id)` already exists, the
+conflict is reported rather than ignored.
+
+Errors: `50001`, `50003`, `50004`, `50006`.
 
 ---
 

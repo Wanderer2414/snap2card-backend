@@ -61,11 +61,12 @@ Errors: `50001`, `50002`.
 
 Returns a table:
 
-| Column           | Type                 |
-| ---------------- | -------------------- |
-| `account_email`  | `TYPE_EMAIL`         |
-| `account_name`   | `TYPE_NAME_ACCOUNT`  |
-| `account_phone`  | `TYPE_PHONE`         |
+| Column                 | Type                 |
+| ---------------------- | -------------------- |
+| `account_email`        | `TYPE_EMAIL`         |
+| `account_name`         | `TYPE_NAME_ACCOUNT`  |
+| `account_phone`        | `TYPE_PHONE`         |
+| `account_daily_goal`   | `INTEGER`            |
 | `YEAR`           | `INTEGER`            |
 | `MONTH`          | `INTEGER`            |
 | `DAY`            | `INTEGER`            |
@@ -78,17 +79,34 @@ Errors: `50001`, `50006`.
 
 ---
 
-**`UPDATE_ACCOUNT`** — updates an account's name, email and/or phone.
+**`ACCOUNT_AVATAR_RETRIEVE`** — retrieves the file id of an account's avatar.
 
-| Parameter      | Type                 |
-| -------------- | -------------------- |
-| `p_account_id` | `TYPE_ID`            |
-| `p_name`       | `TYPE_NAME_ACCOUNT`  |
-| `p_email`      | `TYPE_EMAIL`         |
-| `p_phone`      | `TYPE_PHONE`         |
+| Parameter      | Type      |
+| -------------- | --------- |
+| `p_account_id` | `TYPE_ID` |
 
-`p_name`, `p_email` and `p_phone` are optional; null fields keep the current
-value. At least one field must be provided.
+Returns: `TYPE_ID` — the avatar's file id (`FILE...`), or `NULL` if the account
+has no avatar.
+
+Errors: `50001`, `50004`, `50006`.
+
+---
+
+**`UPDATE_ACCOUNT`** — updates an account's name, email, phone, avatar and/or
+daily goal.
+
+| Parameter       | Type                 |
+| --------------- | -------------------- |
+| `p_account_id`  | `TYPE_ID`            |
+| `p_name`        | `TYPE_NAME_ACCOUNT`  |
+| `p_email`       | `TYPE_EMAIL`         |
+| `p_phone`       | `TYPE_PHONE`         |
+| `p_avatar`      | `TYPE_ID`            |
+| `p_daily_goal`  | `INTEGER`            |
+
+`p_name`, `p_email`, `p_phone`, `p_avatar` and `p_daily_goal` are optional; null
+fields keep the current value. At least one field must be provided. When set,
+`p_avatar` must be a `FILE...` id (`FILE` prefix) referencing an existing file.
 
 Returns: `TYPE_ID` — the updated account id (`ACNT...`).
 

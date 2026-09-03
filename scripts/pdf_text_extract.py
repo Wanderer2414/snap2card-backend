@@ -6,7 +6,7 @@ import string
 import sys
 
 try:
-    import fitz
+    import pymupdf;
 except ImportError:
     print(json.dumps({"ok": False, "code": "PYMUPDF_NOT_INSTALLED", "message": "PyMuPDF is not installed"}))
     sys.exit(0)
@@ -28,7 +28,7 @@ def fail(code: str, message: str) -> None:
 
 def extract(path: str, max_pages: int, min_readable_characters: int) -> None:
     try:
-        doc = fitz.open(path)
+        doc = pymupdf.open(path)
     except Exception:
         fail("INVALID_PDF", "Invalid or corrupted PDF")
         return

@@ -30,7 +30,7 @@ export async function saveFile(file: MultipartFile, fileType: string, ownerId: s
     );
 
     const fileId = created.rows[0].file_id as string | null | undefined;
-    const source = created.rows[0].file_source as string | null | undefined;
+    let source = created.rows[0].file_source as string | null | undefined;
     if (fileId == null || source == null) {
         return null;
     }
@@ -39,6 +39,7 @@ export async function saveFile(file: MultipartFile, fileType: string, ownerId: s
     if (!alreadyExists) {
         await LocalStorage.save(path.basename(source), file.data);
     }
+    source = LocalStorage.getAbsPath(source)
 
     return { fileId, source, fileName, hashCode, fileType };
 }

@@ -78,7 +78,6 @@ export const card_create_handler: Handler = async (req: IncomingMessage, res: Se
                 sendError(req, res, errors.invalidInputData);
                 return;
             }
-            console.log(text)
             sendJson(req, res, 501, { status: "error", message: "Not implemented" });
             frontSide = `${name}`;
             backSide = text;

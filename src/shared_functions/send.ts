@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import type { ApiError } from "../configs/errors.js";
 import type { ApiResponse } from "../definitions/responses.js";
-import { getBody, getHeader } from "./request.js";
+import { getBody } from "./request.js";
 import { getTime } from "./get_time.js";
 
 // FN_REQUEST_LOG_INSERT(
@@ -25,8 +25,9 @@ export function sendJson(
   
   void import("../controllers/db_router.js")
     .then(async ({ default: database_pool }) => {
-      const requestBody = isMultipart(req) ? "[multipart body omitted]" : await getBody(req);
-      return database_pool.query("SELECT FN_REQUEST_LOG_INSERT($1, $2, $3, $4, $5)", [req.url!, getHeader(req), requestBody, status.toString(), JSON.stringify(body)]);
+      const requestBody = shouldOmitRequestBody(req) ? "[request body omitted]" : await getBody(req);
+      const responseBody = shouldOmitLoggedResponseBody(req) ? "[response body omitted]" : JSON.stringify(body);
+      return database_pool.query("SELECT FN_REQUEST_LOG_INSERT($1, $2, $3, $4, $5)", [req.url!, getLoggedHeaders(req), requestBody, status.toString(), responseBody]);
     })
     .catch((e) => {
       console.log("DB Error: ", e);
@@ -37,6 +38,30 @@ export function sendJson(
 function isMultipart(req: IncomingMessage): boolean {
   const contentType = req.headers["content-type"];
   return typeof contentType === "string" && contentType.toLowerCase().startsWith("multipart/form-data");
+}
+
+function shouldOmitRequestBody(req: IncomingMessage): boolean {
+  const url = req.url ?? "";
+  return isMultipart(req) || url.includes("/vocabulary/") || url.includes("/account/login");
+}
+
+function shouldOmitLoggedResponseBody(req: IncomingMessage): boolean {
+  const url = req.url ?? "";
+  return url.includes("/vocabulary/") || url.includes("/account/login");
+}
+
+function getLoggedHeaders(req: IncomingMessage): string {
+  const redactedHeaders = Object.fromEntries(
+    Object.entries(req.headers).map(([key, value]) => [
+      key,
+      isSensitiveHeader(key) ? "[redacted]" : Array.isArray(value) ? value.join(", ") : value ?? "",
+    ])
+  );
+  return JSON.stringify(redactedHeaders);
+}
+
+function isSensitiveHeader(key: string): boolean {
+  return ["authorization", "cookie", "set-cookie"].includes(key.toLowerCase());
 }
 
 export function sendError(req:IncomingMessage, res: ServerResponse, error: ApiError): void {

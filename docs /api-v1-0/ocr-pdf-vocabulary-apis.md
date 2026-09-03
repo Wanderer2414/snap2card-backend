@@ -138,7 +138,7 @@ Required for real vocabulary generation:
 
 Optional configuration:
 
-- `VOCABULARY_LLM_MODEL`, default `gemini-1.5-flash`
+- `VOCABULARY_LLM_MODEL`, default `gemini-2.5-flash`
 - `MAX_VOCABULARY_INPUT_CHARACTERS`, default `12000`
 - `VOCABULARY_LLM_TIMEOUT_MS`, default `30000`
 

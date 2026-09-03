@@ -30,7 +30,7 @@ const supportedLevels = new Set<string>(["A1", "A2", "B1", "B2", "C1", "C2"]);
 const supportedSourceTypes = new Set<string>(["scan", "pdf"]);
 
 export const vocabularyGenerationConfig = {
-  model: process.env.VOCABULARY_LLM_MODEL ?? "gemini-1.5-flash",
+  model: process.env.VOCABULARY_LLM_MODEL ?? "gemini-2.5-flash",
   maxInputCharacters: Number.parseInt(process.env.MAX_VOCABULARY_INPUT_CHARACTERS ?? "12000", 10),
   timeoutMs: Number.parseInt(process.env.VOCABULARY_LLM_TIMEOUT_MS ?? "30000", 10),
 };

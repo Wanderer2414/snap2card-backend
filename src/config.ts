@@ -60,7 +60,7 @@ export const endpointDefinitions: readonly EndpointDefinition[] = [
   { name: "account-login", method: "POST", path: "/account/login", auth: false, contentType: "application/json" },
   { name: "account-retrieve", method: "GET", path: "/account", auth: true, contentType: "application/json" },
   { name: "account-avatar-retrieve", method: "GET", path: "/account/avatar", auth: true, contentType: "application/json" },
-  { name: "account-avatar-update", method: "PUT", path: "/account/avatar", auth: true, contentType: "image/png" },
+  { name: "account-avatar-update", method: "PUT", path: "/account/avatar", auth: true, contentType: "image/" },
   { name: "account-edit", method: "PUT", path: "/account", auth: true, contentType: "application/json" },
   { name: "account-logout", method: "POST", path: "/account/logout", auth: true, contentType: "application/json" },
   { name: "activities-retrieve", method: "GET", path: "/activities", auth: true, contentType: "application/json" },

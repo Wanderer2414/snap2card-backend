@@ -107,7 +107,7 @@ Base URL: `/snap2card/api/v1.0`
 ## Notes
 
 - All endpoints except `POST /account/login` and `POST /account/register` require a `Bearer <token>` in the `Authorization` header.
-- All endpoints require the appropriate `Content-Type` header (`application/json`, `application/pdf` for PDF uploads, or `image/png` for the avatar upload). Missing/mismatched `Content-Type` returns `415 Unsupported Media Type`.
+- All endpoints require the appropriate `Content-Type` header (`application/json`, `application/pdf` for PDF uploads, or one of `image/png`, `image/jpeg`, `image/webp`, `image/bmp`, `image/x-icon` for the avatar upload). Missing/mismatched `Content-Type` returns `415 Unsupported Media Type`.
 - Full request/response details for each endpoint are described in the [Protocols](../protocols/) directory.
 - Shared object definitions are described in [Object Types](../definitions/object-types.md).
 - Error codes and formats are described in [Error Codes](../definitions/errors.md).

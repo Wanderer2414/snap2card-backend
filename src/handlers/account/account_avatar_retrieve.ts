@@ -6,6 +6,7 @@ import database_pool from "../../controllers/db_router.js";
 import { errors, resolveDatabaseError } from "../../configs/errors.js";
 import { checkSession } from "../../shared_functions/check_session.js";
 import { LocalStorage } from "../../shared_functions/storage.js";
+import { mimeTypeForExtension } from "../../shared_functions/converters.js";
 
 export const account_avatar_retrieve_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => {
     try {
@@ -34,6 +35,7 @@ export const account_avatar_retrieve_handler: Handler = async (req: IncomingMess
         );
 
         const source = file.rows[0]?.file_source as string | null | undefined;
+        const fileType = file.rows[0]?.file_type as string | null | undefined;
         if (source == null) {
             sendError(req, res, errors.notFound);
             return;
@@ -45,7 +47,7 @@ export const account_avatar_retrieve_handler: Handler = async (req: IncomingMess
             return;
         }
 
-        res.writeHead(200, { "Content-Type": "image/png", "Content-Length": data.length });
+        res.writeHead(200, { "Content-Type": mimeTypeForExtension(fileType ?? ""), "Content-Length": data.length });
         res.end(data);
     }
     catch (e) {

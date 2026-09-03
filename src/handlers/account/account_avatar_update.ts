@@ -19,13 +19,13 @@ export const account_avatar_update_handler: Handler = async (req: IncomingMessag
         }
 
         const raw = await getRawBody(req);
-        const png = converters.toPng(raw);
-        if (png == null) {
+        const image = converters.toImage(raw);
+        if (image == null) {
             sendError(req, res, errors.invalidInputData);
             return;
         }
 
-        const saved = await saveFile(png.data, png.fileName, "png", account_id);
+        const saved = await saveFile(image.data, image.fileName, image.extension, account_id);
         if (saved == null) {
             sendError(req, res, errors.notFound);
             return;

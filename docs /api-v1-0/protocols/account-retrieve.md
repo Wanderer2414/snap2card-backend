@@ -13,6 +13,7 @@ Retrieves the authenticated user's account details.
 | Header | Type | Required | Description |
 | ------ | ---- | -------- | ----------- |
 | `Authorization` | string | Yes | `Bearer <token>` |
+| `Content-Type` | string | Yes | `application/json` |
 
 ## Response
 

@@ -19,6 +19,7 @@ export const errors = {
   cardNotFound: { code: 404, message: "Card not found" },
   categoryNotFound: { code: 404, message: "Category not found" },
   notFound: { code: 404, message: "Not found" },
+  unsupportedContentType: { code: 415, message: "Unsupported Media Type" },
   internalServerError: { code: 500, message: "Internal server error" },
   versionMismatch: { code: 426, message: "Version mismatch" },
   invalidEmailFormat: { code: 400, message: "Invalid email format" },

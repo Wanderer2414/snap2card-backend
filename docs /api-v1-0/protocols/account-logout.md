@@ -13,6 +13,7 @@ Invalidates the current user's session/token.
 | Header | Type | Required | Description |
 | ------ | ---- | -------- | ----------- |
 | `Authorization` | string | Yes | `Bearer <token>` |
+| `Content-Type` | string | Yes | `application/json` |
 
 ### Body
 

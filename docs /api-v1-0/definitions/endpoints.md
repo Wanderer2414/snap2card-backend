@@ -33,6 +33,8 @@ Base URL: `/snap2card/api/v1.0`
 | POST   | `/exams/result`  | Bearer token | Saves a quiz result against an exam log. | [Exam Result](../protocols/exam-result.md) |
 | GET    | `/exams/review`  | Bearer token | Retrieves the quizzes for reviewing an exam. | [Exam Review](../protocols/exam-review.md) |
 | POST   | `/exams/completed` | Bearer token | Finalizes an exam log and grades the exam. | [Exam Completed](../protocols/exam-completed.md) |
+| POST   | `/vocabulary/from-text` | Bearer token | Generates vocabulary cards from a text document. | [Vocabulary From Text](../protocols/vocabulary-from-text.md) |
+| POST   | `/vocabulary/from-pdf` | Bearer token | Generates vocabulary cards from a PDF file. | [Vocabulary From PDF](../protocols/vocabulary-from-pdf.md) |
 
 ## Endpoint Details
 
@@ -91,9 +93,17 @@ Base URL: `/snap2card/api/v1.0`
 | `GET /exams/review`   | Retrieves the review questions (quizzes) of an exam.             |
 | `POST /exams/completed` | Finalizes an exam log, setting its end time and grading it.    |
 
+### Vocabulary
+
+| Endpoint                     | Function                                                        |
+| ---------------------------- | --------------------------------------------------------------- |
+| `POST /vocabulary/from-text` | Generates vocabulary cards from a text document.                |
+| `POST /vocabulary/from-pdf`  | Generates vocabulary cards from a PDF file (multipart upload).  |
+
 ## Notes
 
 - All endpoints except `POST /account/login` and `POST /account/register` require a `Bearer <token>` in the `Authorization` header.
+- All endpoints require the appropriate `Content-Type` header (`application/json`, or `multipart/form-data` for PDF uploads). Missing/mismatched `Content-Type` returns `415 Unsupported Media Type`.
 - Full request/response details for each endpoint are described in the [Protocols](../protocols/) directory.
 - Shared object definitions are described in [Object Types](../definitions/object-types.md).
 - Error codes and formats are described in [Error Codes](../definitions/errors.md).

@@ -46,6 +46,14 @@ Returned when an unexpected server failure occurs.
 | ----------------------- | ----------------- |
 | `Internal server error` | All endpoints     |
 
+## 415 Unsupported Media Type
+
+Returned when the `Content-Type` header does not match the required media type for the endpoint.
+
+| Message                       | Occurrence                            |
+| ----------------------------- | ------------------------------------- |
+| `Unsupported Media Type`      | All endpoints that require a body     |
+
 ## 426 Version Mismatch
 
 Returned when the requested API version does not match the supported version.

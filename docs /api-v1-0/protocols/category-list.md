@@ -13,6 +13,7 @@ Lists the categories for the authenticated user.
 | Header | Type | Required | Description |
 | ------ | ---- | -------- | ----------- |
 | `Authorization` | string | Yes | `Bearer <token>` |
+| `Content-Type` | string | Yes | `application/json` |
 
 ## Response
 

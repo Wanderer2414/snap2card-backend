@@ -36,6 +36,7 @@ export interface Endpoint {
   method: HttpMethod;
   path: string;
   auth: boolean;
+  contentType: string;
 }
 
 
@@ -45,34 +46,42 @@ export const config = {
   basePath: "/snap2card/api/v1.0",
 };
 
-export const endpointDefinitions = [
-  { name: "account-login", method: "POST", path: "/account/login", auth: false },
-  { name: "account-retrieve", method: "GET", path: "/account", auth: true },
-  { name: "account-edit", method: "PUT", path: "/account", auth: true },
-  { name: "account-logout", method: "POST", path: "/account/logout", auth: true },
-  { name: "activities-retrieve", method: "GET", path: "/activities", auth: true },
-  { name: "card-create-pdf", method: "POST", path: "/cards/pdf", auth: true },
-  { name: "card-create-document", method: "POST", path: "/cards/document", auth: true },
-  { name: "card-create-manual", method: "POST", path: "/cards/manual", auth: true },
-  { name: "card-edit", method: "PUT", path: "/cards", auth: true },
-  { name: "card-list", method: "GET", path: "/cards/list", auth: true },
-  { name: "card-retrieve", method: "GET", path: "/cards", auth: true },
-  { name: "category-edit", method: "PUT", path: "/categories", auth: true },
-  { name: "category-list", method: "GET", path: "/categories/list", auth: true },
-  { name: "category-retrieve", method: "GET", path: "/categories", auth: true },
-  { name: "history-retrieve", method: "GET", path: "/history", auth: true },
-  { name: "exam-create", method: "POST", path: "/exams/create", auth: true },
-  { name: "exam-start", method: "POST", path: "/exams/start", auth: true },
-  { name: "exam-result", method: "POST", path: "/exams/result", auth: true },
-  { name: "exam-review", method: "GET", path: "/exams/review", auth: true },
-  { name: "account-register", method: "POST", path: "/account/register", auth: false },
-  { name: "category-create", method: "POST", path: "/categories", auth: true },
-  { name: "category-to-card", method: "POST", path: "/cards/categorize", auth: true },
-  { name: "card-to-category", method: "POST", path: "/categories/categorize", auth: true },
-  { name: "category-log-related", method: "GET", path: "/categories/logs", auth: true },
-  { name: "exam-completed", method: "POST", path: "/exams/completed", auth: true },
-  { name: "vocabulary-from-text", method: "POST", path: "/vocabulary/from-text", auth: true },
-  { name: "vocabulary-from-pdf", method: "POST", path: "/vocabulary/from-pdf", auth: true },
+export interface EndpointDefinition {
+  name: string;
+  method: HttpMethod;
+  path: string;
+  auth: boolean;
+  contentType: string;
+}
+
+export const endpointDefinitions: readonly EndpointDefinition[] = [
+  { name: "account-login", method: "POST", path: "/account/login", auth: false, contentType: "application/json" },
+  { name: "account-retrieve", method: "GET", path: "/account", auth: true, contentType: "application/json" },
+  { name: "account-edit", method: "PUT", path: "/account", auth: true, contentType: "application/json" },
+  { name: "account-logout", method: "POST", path: "/account/logout", auth: true, contentType: "application/json" },
+  { name: "activities-retrieve", method: "GET", path: "/activities", auth: true, contentType: "application/json" },
+  { name: "card-create-pdf", method: "POST", path: "/cards/pdf", auth: true, contentType: "multipart/form-data" },
+  { name: "card-create-document", method: "POST", path: "/cards/document", auth: true, contentType: "application/json" },
+  { name: "card-create-manual", method: "POST", path: "/cards/manual", auth: true, contentType: "application/json" },
+  { name: "card-edit", method: "PUT", path: "/cards", auth: true, contentType: "application/json" },
+  { name: "card-list", method: "GET", path: "/cards/list", auth: true, contentType: "application/json" },
+  { name: "card-retrieve", method: "GET", path: "/cards", auth: true, contentType: "application/json" },
+  { name: "category-edit", method: "PUT", path: "/categories", auth: true, contentType: "application/json" },
+  { name: "category-list", method: "GET", path: "/categories/list", auth: true, contentType: "application/json" },
+  { name: "category-retrieve", method: "GET", path: "/categories", auth: true, contentType: "application/json" },
+  { name: "history-retrieve", method: "GET", path: "/history", auth: true, contentType: "application/json" },
+  { name: "exam-create", method: "POST", path: "/exams/create", auth: true, contentType: "application/json" },
+  { name: "exam-start", method: "POST", path: "/exams/start", auth: true, contentType: "application/json" },
+  { name: "exam-result", method: "POST", path: "/exams/result", auth: true, contentType: "application/json" },
+  { name: "exam-review", method: "GET", path: "/exams/review", auth: true, contentType: "application/json" },
+  { name: "account-register", method: "POST", path: "/account/register", auth: false, contentType: "application/json" },
+  { name: "category-create", method: "POST", path: "/categories", auth: true, contentType: "application/json" },
+  { name: "category-to-card", method: "POST", path: "/cards/categorize", auth: true, contentType: "application/json" },
+  { name: "card-to-category", method: "POST", path: "/categories/categorize", auth: true, contentType: "application/json" },
+  { name: "category-log-related", method: "GET", path: "/categories/logs", auth: true, contentType: "application/json" },
+  { name: "exam-completed", method: "POST", path: "/exams/completed", auth: true, contentType: "application/json" },
+  { name: "vocabulary-from-text", method: "POST", path: "/vocabulary/from-text", auth: true, contentType: "application/json" },
+  { name: "vocabulary-from-pdf", method: "POST", path: "/vocabulary/from-pdf", auth: true, contentType: "multipart/form-data" },
 ] as const;
 
 export type EndpointName = (typeof endpointDefinitions)[number]["name"];
@@ -81,7 +90,8 @@ export const endpoints: readonly Endpoint[] = endpointDefinitions.map((definitio
   name: definition.name,
   method: definition.method,
   path: definition.path,
-  auth: definition.auth
+  auth: definition.auth,
+  contentType: definition.contentType,
 }));
 
 export const handlers = {} as Record<EndpointName, Handler>;

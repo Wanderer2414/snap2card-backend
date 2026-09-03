@@ -77,6 +77,11 @@ export const router = {
       return;
     }
 
+    if (!(req.headers["content-type"] ?? "").toLowerCase().includes(endpoint.contentType)) {
+      sendError(req, res, errors.unsupportedContentType);
+      return;
+    }
+
     var handler = undefined;
     try {
       handler = handlers[endpoint.name as EndpointName];

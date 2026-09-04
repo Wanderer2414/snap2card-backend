@@ -50,7 +50,10 @@ Errors: `50001`, `50008`.
 
 Returns: `TYPE_ID` — the new account id (`ACNT...`).
 
-Errors: `50001`, `50002`.
+If an account with the same email already exists, the conflict is reported
+rather than ignored.
+
+Errors: `50001`, `50002`, `50003`.
 
 ---
 

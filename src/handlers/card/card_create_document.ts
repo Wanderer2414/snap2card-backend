@@ -22,13 +22,13 @@ export const card_create_document_handler: Handler = async (req: IncomingMessage
 
         rawBody = await getBody(req);
 
-        const generation = await getVocabularyGenerationService().generateFromText(VocabularyFromText(rawBody, 'B1', 20));
-        if (!generation.ok) {
-          sendError(req, res, generation.error);
-          return;
-        }
+        // const generation = await getVocabularyGenerationService().generateFromText(VocabularyFromText(rawBody, 'B1', 20));
+        // if (!generation.ok) {
+        //   sendError(req, res, generation.error);
+        //   return;
+        // }
 
-        console.log(generation)
+        // console.log(generation)
 
         sendResponse(req, res, 201, CardCreateText(2, [CardCreateItem('mandatory', 'required by law'), CardCreateItem('compulsory ', 'that must be done because of a law or a rule')]), rawBody);
         // else

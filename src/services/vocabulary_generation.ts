@@ -7,6 +7,7 @@ import {
 } from "../definitions/responses.js";
 import { LlmProviderError, OpenAIVocabularyClient, type LlmVocabularyClient } from "./llm_vocabulary_client.js";
 import { buildVocabularyPrompt } from "./vocabulary_prompt.js";
+import { getModel } from "../shared_functions/certificate.js";
 
 export type CefrLevel = "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
 
@@ -33,7 +34,7 @@ const supportedLevels = new Set<string>(["A1", "A2", "B1", "B2", "C1", "C2"]);
 const supportedSourceTypes = new Set<string>(["scan", "pdf"]);
 
 export const vocabularyGenerationConfig = {
-  model: process.env.VOCABULARY_LLM_MODEL ?? "gpt-4o-mini",
+  model: getModel(),
   maxInputCharacters: Number.parseInt(process.env.MAX_VOCABULARY_INPUT_CHARACTERS ?? "12000", 10),
   timeoutMs: Number.parseInt(process.env.VOCABULARY_LLM_TIMEOUT_MS ?? "30000", 10),
 };
@@ -98,6 +99,7 @@ export class VocabularyGenerationService {
       safeGenerationLog(request, cards.length, Date.now() - start);
       return { ok: true, data: cards };
     } catch (error) {
+      console.log(error)
       safeGenerationErrorLog(request, error);
       return { ok: false, error: mapGenerationError(error) };
     }

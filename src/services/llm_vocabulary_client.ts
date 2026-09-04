@@ -6,6 +6,8 @@ export type LlmProviderErrorCategory =
   | "provider-unavailable"
   | "malformed-response";
 
+import { getOpenAIKey } from "../shared_functions/certificate.js";
+
 export class LlmProviderError extends Error {
   constructor(
     readonly category: LlmProviderErrorCategory,
@@ -35,7 +37,7 @@ interface OpenAIChatCompletionsResponse {
 
 export class OpenAIVocabularyClient implements LlmVocabularyClient {
   async generateVocabulary(prompt: string, options: LlmVocabularyClientOptions): Promise<unknown> {
-    const apiKey = process.env.OPENAI_API_KEY;
+    const apiKey = getOpenAIKey();
     if (apiKey == null || apiKey.trim().length === 0) {
       throw new LlmProviderError("missing-api-key", "Missing OpenAI API key");
     }

@@ -54,7 +54,7 @@ export const card_create_handler: Handler = async (req: IncomingMessage, res: Se
             )
         );
         if (card.rows[0].card_insert != null)
-            sendResponse(req, res, 201, CardCreateId(card.rowCount!, [CardIdItem(card.rows[0].card_id)]), rawBody);
+            sendResponse(req, res, 201, CardCreateId(card.rowCount!, [CardIdItem(card.rows[0].card_insert)]), rawBody);
         else
             sendResponse(req, res, 201, CardCreateId(0, []), rawBody);
     }

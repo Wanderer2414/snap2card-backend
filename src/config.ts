@@ -8,12 +8,14 @@ import { account_logout_handler } from "./handlers/account/account_logout.js";
 import { account_register_handler } from "./handlers/account/account_register.js";
 import { activities_retrieve_handler } from "./handlers/activities/activities_retrieve.js";
 import { card_create_handler } from "./handlers/card/card_create.js";
+import { card_delete_handler } from "./handlers/card/card_delete.js";
 import { card_create_document_handler } from "./handlers/card/card_create_document.js";
 import { card_create_pdf_handler } from "./handlers/card/card_create_pdf.js";
 import { card_edit_handler } from "./handlers/card/card_edit.js";
 import { card_list_handler } from "./handlers/card/card_list.js";
 import { card_retrieve_handler } from "./handlers/card/card_retrieve.js";
 import { card_to_category_handler } from "./handlers/card/card_to_category.js";
+import { category_delete_handler } from "./handlers/category/category_delete.js";
 import { category_create_handler } from "./handlers/category/category_create.js";
 import { category_edit_handler } from "./handlers/category/category_edit.js";
 import { category_list_handler } from "./handlers/category/category_list.js";
@@ -69,9 +71,11 @@ export const endpointDefinitions: readonly EndpointDefinition[] = [
   { name: "card-create-document", method: "POST", path: "/cards/document", auth: true, contentType: "application/json" },
   { name: "card-create", method: "POST", path: "/cards", auth: true, contentType: "application/json" },
   { name: "card-edit", method: "PUT", path: "/cards", auth: true, contentType: "application/json" },
+  { name: "card-delete", method: "DELETE", path: "/cards", auth: true, contentType: "application/json" },
   { name: "card-list", method: "GET", path: "/cards/list", auth: true, contentType: "application/json" },
   { name: "card-retrieve", method: "GET", path: "/cards", auth: true, contentType: "application/json" },
   { name: "category-edit", method: "PUT", path: "/categories", auth: true, contentType: "application/json" },
+  { name: "category-delete", method: "DELETE", path: "/categories", auth: true, contentType: "application/json" },
   { name: "category-list", method: "GET", path: "/categories/list", auth: true, contentType: "application/json" },
   { name: "category-retrieve", method: "GET", path: "/categories", auth: true, contentType: "application/json" },
   { name: "history-retrieve", method: "GET", path: "/history", auth: true, contentType: "application/json" },
@@ -113,10 +117,12 @@ handlers["account-logout"] = account_logout_handler;
 handlers["card-create-pdf"] = card_create_pdf_handler;
 handlers["card-create-document"] = card_create_document_handler;
 handlers["card-create"] = card_create_handler;
+handlers["card-delete"] = card_delete_handler;
 // handlers["card-edit"] = card_edit_handler;
 handlers["card-list"] = card_list_handler;
 handlers["card-retrieve"] = card_retrieve_handler;
 // handlers["category-edit"] = category_edit_handler;
+handlers["category-delete"] = category_delete_handler;
 handlers["category-list"] = category_list_handler;
 handlers["category-retrieve"] = category_retrieve_handler;
 handlers["category-create"] = category_create_handler;

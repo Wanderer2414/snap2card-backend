@@ -20,9 +20,11 @@ Base URL: `/snap2card/api/v1.0`
 | POST   | `/cards/document` | Bearer token | Creates a new card from a text document. | [Card Create Document](../protocols/card/card-create-document.md) |
 | POST   | `/cards`         | Bearer token | Creates a new card from front/back text manually. | [Card Create](../protocols/card/card-create.md) |
 | PUT    | `/cards`         | Bearer token | Updates an existing card for the authenticated user. | [Card Edit](../protocols/card/card-edit.md) |
+| DELETE | `/cards`         | Bearer token | Deletes a card, or un-haves it if not the creator. | [Card Delete](../protocols/card/card-delete.md) |
 | GET    | `/cards/list`    | Bearer token | Lists the cards for the authenticated user.        | [Card List](../protocols/card/card-list.md) |
 | GET    | `/cards`         | Bearer token | Retrieves one or more cards for the authenticated user. | [Card Retrieve](../protocols/card/card-retrieve.md) |
 | PUT    | `/categories`    | Bearer token | Updates an existing category for the authenticated user. | [Category Edit](../protocols/category/category-edit.md) |
+| DELETE | `/categories`    | Bearer token | Deletes a category, or unfollows it if not the owner. | [Category Delete](../protocols/category/category-delete.md) |
 | POST   | `/categories`    | Bearer token | Creates a new category for the authenticated user. | [Category Create](../protocols/category/category-create.md) |
 | GET    | `/categories/list` | Bearer token | Lists the categories for the authenticated user. | [Category List](../protocols/category/category-list.md) |
 | GET    | `/categories`    | Bearer token | Retrieves a single category with its cards for the authenticated user. | [Category Retrieve](../protocols/category/category-retrieve.md) |
@@ -67,6 +69,7 @@ Base URL: `/snap2card/api/v1.0`
 | `POST /cards/document`| Creates a new card from a large text document.                     |
 | `POST /cards`         | Creates a new card from manually entered `frontSide`/`backSide`.   |
 | `PUT /cards`          | Updates a card's front/back side text and its categories.       |
+| `DELETE /cards`       | Deletes a card, or un-haves it if the account is not the creator. |
 | `GET /cards/list`     | Lists all cards (id and front side text).                       |
 | `GET /cards`          | Retrieves one or more cards by `ids`, or all when omitted.      |
 
@@ -76,6 +79,7 @@ Base URL: `/snap2card/api/v1.0`
 | ------------------------- | --------------------------------------------------------------- |
 | `PUT /categories`         | Updates a category name.                                        |
 | `POST /categories`        | Creates a new category from a name.                             |
+| `DELETE /categories`      | Deletes a category, or unfollows it if the account is not the owner. |
 | `GET /categories/list`    | Lists all categories (id, name, numOfCard, and createdAt). |
 | `GET /categories`         | Retrieves a single category by `id`, including its `cardIds`. |
 | `POST /cards/categorize`  | Assigns a card to one or more categories.                       |

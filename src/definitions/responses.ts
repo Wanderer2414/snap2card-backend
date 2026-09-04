@@ -78,6 +78,8 @@ export interface CardCreateTextResponse extends SuccessResponse {
 
 export type CardEditResponse = SuccessResponse;
 
+export type CardDeleteResponse = SuccessResponse;
+
 export interface CardListItem {
   id: string;
   frontSide: string;
@@ -101,6 +103,8 @@ export interface CardRetrieveResponse extends SuccessResponse {
 }
 
 export type CategoryEditResponse = SuccessResponse;
+
+export type CategoryDeleteResponse = SuccessResponse;
 
 export interface CategoryItem {
   id: string;
@@ -245,9 +249,11 @@ export type ApiResponse =
   | CardCreateTextResponse
   | CardCreateIdResponse
   | CardEditResponse
+  | CardDeleteResponse
   | CardListResponse
   | CardRetrieveResponse
   | CategoryEditResponse
+  | CategoryDeleteResponse
   | CategoryListResponse
   | CategoryRetrieveResponse
   | RecentCategoryTakeListResponse
@@ -332,6 +338,10 @@ export function CardEdit(): CardEditResponse {
   return { status: "success" };
 }
 
+export function CardDelete(): CardDeleteResponse {
+  return { status: "success" };
+}
+
 export function CardListItem(id: string, frontSide: string): CardListItem {
   return { id, frontSide };
 }
@@ -353,6 +363,10 @@ export function CardRetrieve(data: CardRetrieveItem[]): CardRetrieveResponse {
 }
 
 export function CategoryEdit(): CategoryEditResponse {
+  return { status: "success" };
+}
+
+export function CategoryDelete(): CategoryDeleteResponse {
   return { status: "success" };
 }
 

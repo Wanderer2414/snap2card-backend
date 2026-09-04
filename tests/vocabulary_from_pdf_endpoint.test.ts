@@ -7,6 +7,11 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync
 import { request } from "node:http";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import type { LlmVocabularyClient, LlmVocabularyClientOptions } from "../src/services/llm_vocabulary_client.js";
+import {
+  setVocabularyGenerationServiceForTest,
+  VocabularyGenerationService,
+} from "../src/services/vocabulary_generation.js";
 
 process.env.SNAP2CARD_SKIP_REQUEST_LOG = "1";
 
@@ -21,7 +26,8 @@ const { router } = await import("../src/controllers/router.js");
 const { handlers } = await import("../src/config.js");
 if (createdCertPassword) rmSync("certs/postgres_password.txt", { force: true });
 
-test("POST /vocabulary/from-pdf extracts PDF text and returns mock vocabulary schema", async () => {
+test("POST /vocabulary/from-pdf extracts PDF text and returns real-generation vocabulary schema", async () => {
+  setVocabularyGenerationServiceForTest(new VocabularyGenerationService(new StaticVocabularyClient()));
   const dir = mkdtempSync(path.join(tmpdir(), "snap2card-pdf-route-test-"));
   const server = createServer((req, res) => router.route(req, res, handlers));
   try {
@@ -48,6 +54,7 @@ test("POST /vocabulary/from-pdf extracts PDF text and returns mock vocabulary sc
 });
 
 test("POST /vocabulary/from-pdf accepts multi-page text PDF", async () => {
+  setVocabularyGenerationServiceForTest(new VocabularyGenerationService(new StaticVocabularyClient()));
   const dir = mkdtempSync(path.join(tmpdir(), "snap2card-pdf-route-test-"));
   const server = createServer((req, res) => router.route(req, res, handlers));
   try {
@@ -70,6 +77,7 @@ test("POST /vocabulary/from-pdf accepts multi-page text PDF", async () => {
 });
 
 test("POST /vocabulary/from-pdf accepts PDF with headings and paragraphs", async () => {
+  setVocabularyGenerationServiceForTest(new VocabularyGenerationService(new StaticVocabularyClient()));
   const dir = mkdtempSync(path.join(tmpdir(), "snap2card-pdf-route-test-"));
   const server = createServer((req, res) => router.route(req, res, handlers));
   try {
@@ -186,6 +194,24 @@ test("POST /vocabulary/from-pdf rejects too-large PDF", async () => {
 
 function listen(server: ReturnType<typeof createServer>): Promise<void> {
   return new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+}
+
+class StaticVocabularyClient implements LlmVocabularyClient {
+  async generateVocabulary(_prompt: string, _options: LlmVocabularyClientOptions): Promise<unknown> {
+    return {
+      cards: [
+        {
+          term: "exacerbate",
+          definition: "To make a problem or bad situation worse.",
+          translation: "làm trầm trọng thêm",
+          partOfSpeech: "verb",
+          example: "Pollution can exacerbate health problems.",
+          sourceSentence: "Climate change can exacerbate inequality.",
+          difficulty: "B1",
+        },
+      ],
+    };
+  }
 }
 
 function postMultipart(

@@ -13,21 +13,22 @@ Creates a new card for the authenticated user from a large text document.
 | Header | Type | Required | Description |
 | ------ | ---- | -------- | ----------- |
 | `Authorization` | string | Yes | `Bearer <token>` |
-| `Content-Type` | string | Yes | `application/json` |
+| `Content-Type` | string | Yes | `text/plain` |
 
 ### Body
 
-```json
-{
-  "text": "Full card details text"
-}
+The raw plain text content (no JSON wrapper). The request `Content-Type` must be
+`text/plain` and the body must be the text used to create the card.
+
+For example, with `curl`:
+
+```bash
+curl -X POST \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: text/plain" \
+  --data-binary "Full card details text" \
+  https://host/snap2card/api/v1.0/cards/document
 ```
-
-### Parameters
-
-| Field | Type   | Required | Description          |
-| ----- | ------ | -------- | -------------------- |
-| `text`| string | Yes      | Large text input used to create the card. |
 
 ## Response
 

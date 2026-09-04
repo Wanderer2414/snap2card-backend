@@ -29,8 +29,6 @@ import { exam_start_handler } from "./handlers/exam/exam_start.js";
 import { exam_result_handler } from "./handlers/exam/exam_result.js";
 import { exam_review_handler } from "./handlers/exam/exam_review.js";
 import { exam_completed_handler } from "./handlers/exam/exam_completed.js";
-import { vocabulary_from_pdf_handler } from "./handlers/vocabulary/vocabulary_from_pdf.js";
-import { vocabulary_from_text_handler } from "./handlers/vocabulary/vocabulary_from_text.js";
 import { sendJson } from "./shared_functions/send.js";
 import type { Handler } from "./shared_type/handler.js";
 
@@ -68,7 +66,7 @@ export const endpointDefinitions: readonly EndpointDefinition[] = [
   { name: "account-logout", method: "POST", path: "/account/logout", auth: true, contentType: "application/json" },
   { name: "activities-retrieve", method: "GET", path: "/activities", auth: true, contentType: "application/json" },
   { name: "card-create-pdf", method: "POST", path: "/cards/pdf", auth: true, contentType: "application/pdf" },
-  { name: "card-create-document", method: "POST", path: "/cards/document", auth: true, contentType: "application/json" },
+  { name: "card-create-document", method: "POST", path: "/cards/document", auth: true, contentType: "text/plain" },
   { name: "card-create", method: "POST", path: "/cards", auth: true, contentType: "application/json" },
   { name: "card-edit", method: "PUT", path: "/cards", auth: true, contentType: "application/json" },
   { name: "card-delete", method: "DELETE", path: "/cards", auth: true, contentType: "application/json" },
@@ -90,8 +88,8 @@ export const endpointDefinitions: readonly EndpointDefinition[] = [
   { name: "category-log-related", method: "GET", path: "/categories/logs", auth: true, contentType: "application/json" },
   { name: "recent-category-take-list", method: "GET", path: "/categories/recent", auth: true, contentType: "application/json" },
   { name: "exam-completed", method: "POST", path: "/exams/completed", auth: true, contentType: "application/json" },
-  { name: "vocabulary-from-text", method: "POST", path: "/vocabulary/from-text", auth: true, contentType: "application/json" },
-  { name: "vocabulary-from-pdf", method: "POST", path: "/vocabulary/from-pdf", auth: true, contentType: "application/pdf" },
+  // { name: "vocabulary-from-text", method: "POST", path: "/vocabulary/from-text", auth: true, contentType: "application/json" },
+  // { name: "vocabulary-from-pdf", method: "POST", path: "/vocabulary/from-pdf", auth: true, contentType: "application/pdf" },
 ] as const;
 
 export type EndpointName = (typeof endpointDefinitions)[number]["name"];
@@ -136,8 +134,8 @@ handlers["exam-result"] = exam_result_handler;
 handlers["exam-review"] = exam_review_handler;
 handlers["exam-completed"] = exam_completed_handler;
 // handlers["history-retrieve"] = history_retrieve_handler;
-handlers["vocabulary-from-text"] = vocabulary_from_text_handler;
-handlers["vocabulary-from-pdf"] = vocabulary_from_pdf_handler;
+// handlers["vocabulary-from-text"] = vocabulary_from_text_handler;
+// handlers["vocabulary-from-pdf"] = vocabulary_from_pdf_handler;
 
 for (const definition of endpointDefinitions) {
   if (handlers[definition.name] == null)

@@ -15,9 +15,7 @@ export const card_retrieve_handler: Handler = async (req: IncomingMessage, res: 
             sendError(req, res, errors.invalidOrExpiredToken);
             return;
         }
-
-        const idsParam = ctx.query.get("ids");
-        const card_id = idsParam != null && idsParam.length > 0 ? idsParam.split(",") : undefined;
+        const card_id = ctx.query.getAll("ids");
 
         if (!isValidIds(card_id)) {
             sendError(req, res, errors.invalidCardIdFormat);

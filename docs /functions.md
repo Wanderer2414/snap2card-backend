@@ -663,7 +663,8 @@ exam log.
 Returns: nothing (`void`).
 
 If a result for the same `(p_exam_log_id, p_quiz_id)` already exists, the
-conflict is reported rather than ignored.
+conflict is reported rather than ignored. Recording a result on an exam log
+that has already been completed (`end_time IS NOT NULL`) is also rejected.
 
 Errors: `50001`, `50003`, `50004`, `50006`.
 

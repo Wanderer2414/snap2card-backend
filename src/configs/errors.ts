@@ -44,6 +44,8 @@ export const errors = {
     message: `${field} must not exceed ${max} characters`,
   }),
   frontAndBackSame: { code: 400, message: "frontside and backside must be different" },
+  examLogConflict: { code: 409, message: "A result for this quiz already exists on this exam log" },
+  examAlreadyCompleted: { code: 422, message: "Exam log has already been completed" },
 } as const;
 
 export interface DbError {

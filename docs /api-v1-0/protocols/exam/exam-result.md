@@ -49,6 +49,10 @@ See [Error Codes](../definitions/errors.md) for the full description and format 
 
 | Code | Error                  |
 | ---- | ---------------------- |
-| 401  | Unauthorized |
+| 400  | Bad Request / Invalid input data |
+| 401  | Unauthorized / Invalid token |
+| 404  | Not Found (invalid exam log or quiz) |
+| 409  | Conflict (a result for this quiz already exists on this exam log) |
+| 422  | Exam log has already been completed |
 | 500  | Internal Server Error |
 | 426  | Version Mismatch |

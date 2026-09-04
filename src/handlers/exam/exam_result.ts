@@ -37,6 +37,15 @@ export const exam_result_handler: Handler = async (req: IncomingMessage, res: Se
     }
     catch (e) {
         console.log("Error: ", e);
+        const sqlstate = (e as { code?: string } | null | undefined)?.code;
+        if (sqlstate === "50003") {
+            sendError(req, res, errors.examLogConflict, rawBody);
+            return;
+        }
+        if (sqlstate === "50005") {
+            sendError(req, res, errors.examAlreadyCompleted, rawBody);
+            return;
+        }
         sendError(req, res, resolveDatabaseError(e), rawBody);
     }
 }

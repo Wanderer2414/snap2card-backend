@@ -5,7 +5,7 @@ import {
   type GeneratedVocabularyCard as GeneratedVocabularyCardResponse,
   type VocabularyGenerationSource,
 } from "../definitions/responses.js";
-import { GeminiVocabularyClient, LlmProviderError, type LlmVocabularyClient } from "./llm_vocabulary_client.js";
+import { LlmProviderError, OpenAIVocabularyClient, type LlmVocabularyClient } from "./llm_vocabulary_client.js";
 import { buildVocabularyPrompt } from "./vocabulary_prompt.js";
 
 export type CefrLevel = "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
@@ -30,7 +30,7 @@ const supportedLevels = new Set<string>(["A1", "A2", "B1", "B2", "C1", "C2"]);
 const supportedSourceTypes = new Set<string>(["scan", "pdf"]);
 
 export const vocabularyGenerationConfig = {
-  model: process.env.VOCABULARY_LLM_MODEL ?? "gemini-2.5-flash",
+  model: process.env.VOCABULARY_LLM_MODEL ?? "gpt-4o-mini",
   maxInputCharacters: Number.parseInt(process.env.MAX_VOCABULARY_INPUT_CHARACTERS ?? "12000", 10),
   timeoutMs: Number.parseInt(process.env.VOCABULARY_LLM_TIMEOUT_MS ?? "30000", 10),
 };
@@ -76,7 +76,7 @@ export function parseVocabularyFromTextRequest(body: unknown): ValidationResult 
 }
 
 export class VocabularyGenerationService {
-  constructor(private readonly llmClient: LlmVocabularyClient = new GeminiVocabularyClient()) {}
+  constructor(private readonly llmClient: LlmVocabularyClient = new OpenAIVocabularyClient()) {}
 
   async generateFromText(request: VocabularyFromTextRequest): Promise<ServiceResult<GeneratedVocabularyCardResponse[]>> {
     if (request.text.length > vocabularyGenerationConfig.maxInputCharacters) {

@@ -134,11 +134,11 @@ Relevant errors:
 
 Required for real vocabulary generation:
 
-- `GEMINI_API_KEY`
+- `OPENAI_API_KEY`
 
 Optional configuration:
 
-- `VOCABULARY_LLM_MODEL`, default `gemini-2.5-flash`
+- `VOCABULARY_LLM_MODEL`, default `gpt-4o-mini`
 - `MAX_VOCABULARY_INPUT_CHARACTERS`, default `12000`
 - `VOCABULARY_LLM_TIMEOUT_MS`, default `30000`
 
@@ -146,4 +146,4 @@ Optional configuration:
 
 - Android camera/image OCR runs on-device with ML Kit. The backend does not receive scan image files for OCR.
 - Both scan text and PDF text converge on the same LLM vocabulary generator.
-- Vocabulary generation is real when `GEMINI_API_KEY` is configured. There is no production fallback to mock cards.
+- Vocabulary generation is real when `OPENAI_API_KEY` is configured. There is no production fallback to mock cards.

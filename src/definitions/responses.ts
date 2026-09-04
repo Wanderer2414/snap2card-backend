@@ -53,6 +53,18 @@ export interface CardCreateResponse extends SuccessResponse {
   };
 }
 
+export interface CardCreateItem {
+  frontSide: string;
+  backSide: string;
+}
+
+export interface CardCreateTextResponse extends SuccessResponse {
+  data: {
+    numOfCard: number;
+    cards: CardCreateItem[];
+  };
+}
+
 export type CardEditResponse = SuccessResponse;
 
 export interface CardListItem {
@@ -219,6 +231,7 @@ export type ApiResponse =
   | AccountLogoutResponse
   | ActivitiesRetrieveResponse
   | CardCreateResponse
+  | CardCreateTextResponse
   | CardEditResponse
   | CardListResponse
   | CardRetrieveResponse
@@ -284,6 +297,14 @@ export function ActivitiesRetrieve(
 }
 
 export function CardCreate(numOfCard: number, cards: CardListItem[]): CardCreateResponse {
+  return { status: "success", data: { numOfCard, cards } };
+}
+
+export function CardCreateItem(frontSide: string, backSide: string): CardCreateItem {
+  return { frontSide, backSide };
+}
+
+export function CardCreateText(numOfCard: number, cards: CardCreateItem[]): CardCreateTextResponse {
   return { status: "success", data: { numOfCard, cards } };
 }
 

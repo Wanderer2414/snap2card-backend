@@ -67,7 +67,7 @@ export const endpointDefinitions: readonly EndpointDefinition[] = [
   { name: "activities-retrieve", method: "GET", path: "/activities", auth: true, contentType: "application/json" },
   { name: "card-create-pdf", method: "POST", path: "/cards/pdf", auth: true, contentType: "application/pdf" },
   { name: "card-create-document", method: "POST", path: "/cards/document", auth: true, contentType: "application/json" },
-  { name: "card-create-manual", method: "POST", path: "/cards/manual", auth: true, contentType: "application/json" },
+  { name: "card-create", method: "POST", path: "/cards", auth: true, contentType: "application/json" },
   { name: "card-edit", method: "PUT", path: "/cards", auth: true, contentType: "application/json" },
   { name: "card-list", method: "GET", path: "/cards/list", auth: true, contentType: "application/json" },
   { name: "card-retrieve", method: "GET", path: "/cards", auth: true, contentType: "application/json" },
@@ -112,7 +112,7 @@ handlers["account-logout"] = account_logout_handler;
 // handlers["activities-retrieve"] = activities_retrieve_handler;
 handlers["card-create-pdf"] = card_create_pdf_handler;
 handlers["card-create-document"] = card_create_document_handler;
-handlers["card-create-manual"] = card_create_manual_handler;
+handlers["card-create"] = card_create_manual_handler;
 // handlers["card-edit"] = card_edit_handler;
 handlers["card-list"] = card_list_handler;
 handlers["card-retrieve"] = card_retrieve_handler;

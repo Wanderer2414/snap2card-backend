@@ -1,9 +1,9 @@
-# Card Create Manual
+# Card Create
 
 Creates a new card for the authenticated user from manually entered front and back side text.
 
 - **Method:** `POST`
-- **Endpoint:** `/snap2card/api/v1.0/cards/manual`
+- **Endpoint:** `/snap2card/api/v1.0/cards`
 - **Auth:** Bearer token
 
 ## Request

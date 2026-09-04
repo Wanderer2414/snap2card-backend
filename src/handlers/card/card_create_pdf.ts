@@ -3,7 +3,7 @@ import type { Handler } from "../../shared_type/handler.js";
 import type { RouteContext } from "../../controllers/router.js";
 import { sendError, sendResponse } from "../../shared_functions/send.js";
 import { errors, resolveDatabaseError } from "../../configs/errors.js";
-import { CardCreate } from "../../definitions/responses.js";
+import { CardCreateItem, CardCreateText } from "../../definitions/responses.js";
 import { getRawBody } from "../../shared_functions/request.js";
 import { checkSession } from "../../shared_functions/check_session.js";
 import { saveFile } from "../../shared_functions/file.js";
@@ -34,11 +34,10 @@ export const card_create_pdf_handler: Handler = async (req: IncomingMessage, res
         const text = await extractPdfText(makePdfExtractArgs(result.source, 100, 1))
         if (text.ok) {
             const words = extractWords(text.text!)
-            console.log(words)
-
+            // console.log(words)
         }
 
-        sendResponse(req, res, 201, CardCreate(0, []));
+        sendResponse(req, res, 201, CardCreateText(2, [CardCreateItem('mandatory', 'required by law'), CardCreateItem('compulsory ', 'that must be done because of a law or a rule')]));
     }
     catch (e) {
         console.log("Error: ", e);

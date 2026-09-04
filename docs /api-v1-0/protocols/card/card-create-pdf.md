@@ -44,6 +44,25 @@ curl -X POST \
 }
 ```
 
+Each card in `cards` contains only the generated card's front and back side text
+(no `id` is returned):
+
+```json
+{
+  "frontSide": "Front card text",
+  "backSide": "Back card text"
+}
+```
+
+### Response Parameters
+
+| Field             | Type   | Description                                  |
+| ----------------- | ------ | -------------------------------------------- |
+| `numOfCard`       | number | Number of created cards.                     |
+| `cards`           | array  | The created cards (id is omitted).           |
+| `cards[].frontSide` | string | Front side text of the generated card.     |
+| `cards[].backSide`  | string | Back side text of the generated card.      |
+
 ## Errors
 
 See [Error Codes](../definitions/errors.md) for the full description and format of each error.

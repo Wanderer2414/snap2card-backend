@@ -40,13 +40,22 @@ Creates a new card for the authenticated user from a large text document.
     "numOfCard": 1,
     "cards": [
       {
-        "id": "CARD1234567890",
-        "frontSide": "Full card details text"
+        "frontSide": "Full card details text",
+        "backSide": "Full card details text"
       }
     ]
   }
 }
 ```
+
+### Response Parameters
+
+| Field                | Type   | Description                                  |
+| -------------------- | ------ | -------------------------------------------- |
+| `numOfCard`          | number | Number of created cards.                     |
+| `cards`              | array  | The created cards (id is omitted).           |
+| `cards[].frontSide`  | string | Front side text of the created card.         |
+| `cards[].backSide`   | string | Back side text of the created card.          |
 
 ## Errors
 

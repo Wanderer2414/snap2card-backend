@@ -18,7 +18,7 @@ Base URL: `/snap2card/api/v1.0`
 | GET    | `/activities`    | Bearer token | Retrieves activity history for the authenticated user. | [Activities Retrieve](../protocols/activities/activies-retrieve.md) |
 | POST   | `/cards/pdf`     | Bearer token | Saves a PDF file and records it in the database. | [Card Create PDF](../protocols/card/card-create-pdf.md) |
 | POST   | `/cards/document` | Bearer token | Creates a new card from a text document. | [Card Create Document](../protocols/card/card-create-document.md) |
-| POST   | `/cards/manual`  | Bearer token | Creates a new card from front/back text manually. | [Card Create Manual](../protocols/card/card-create-manual.md) |
+| POST   | `/cards`         | Bearer token | Creates a new card from front/back text manually. | [Card Create](../protocols/card/card-create.md) |
 | PUT    | `/cards`         | Bearer token | Updates an existing card for the authenticated user. | [Card Edit](../protocols/card/card-edit.md) |
 | GET    | `/cards/list`    | Bearer token | Lists the cards for the authenticated user.        | [Card List](../protocols/card/card-list.md) |
 | GET    | `/cards`         | Bearer token | Retrieves one or more cards for the authenticated user. | [Card Retrieve](../protocols/card/card-retrieve.md) |
@@ -65,7 +65,7 @@ Base URL: `/snap2card/api/v1.0`
 | --------------------- | --------------------------------------------------------------- |
 | `POST /cards/pdf`     | Saves a PDF file and records it via `FILE_INSERT`.                 |
 | `POST /cards/document`| Creates a new card from a large text document.                     |
-| `POST /cards/manual`  | Creates a new card from manually entered `frontSide`/`backSide`.   |
+| `POST /cards`         | Creates a new card from manually entered `frontSide`/`backSide`.   |
 | `PUT /cards`          | Updates a card's front/back side text and its categories.       |
 | `GET /cards/list`     | Lists all cards (id and front side text).                       |
 | `GET /cards`          | Retrieves one or more cards by `ids`, or all when omitted.      |

@@ -33,7 +33,7 @@ export function sendJson(
   void import("../controllers/db_router.js")
     .then(async ({ default: database_pool }) => {
       const requestBody = shouldOmitRequestBody(req) ? "[request body omitted]" : truncateLoggedBody(headerBody);
-      const responseBody = shouldOmitLoggedResponseBody(req) ? "[response body omitted]" : JSON.stringify(body);
+      const responseBody = shouldOmitLoggedResponseBody(req) ? "[response body omitted]" : truncateLoggedBody(JSON.stringify(body));
       return database_pool.query("SELECT FN_REQUEST_LOG_INSERT($1, $2, $3, $4, $5)", [req.url!, getLoggedHeaders(req), requestBody, status.toString(), responseBody]);
     })
     .catch((e) => {

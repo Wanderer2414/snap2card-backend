@@ -58,6 +58,17 @@ export interface CardCreateItem {
   backSide: string;
 }
 
+export interface CardIdItem {
+  id: string;
+}
+
+export interface CardCreateIdResponse extends SuccessResponse {
+  data: {
+    numOfCard: number;
+    cards: CardIdItem[];
+  };
+}
+
 export interface CardCreateTextResponse extends SuccessResponse {
   data: {
     numOfCard: number;
@@ -232,6 +243,7 @@ export type ApiResponse =
   | ActivitiesRetrieveResponse
   | CardCreateResponse
   | CardCreateTextResponse
+  | CardCreateIdResponse
   | CardEditResponse
   | CardListResponse
   | CardRetrieveResponse
@@ -305,6 +317,14 @@ export function CardCreateItem(frontSide: string, backSide: string): CardCreateI
 }
 
 export function CardCreateText(numOfCard: number, cards: CardCreateItem[]): CardCreateTextResponse {
+  return { status: "success", data: { numOfCard, cards } };
+}
+
+export function CardIdItem(id: string): CardIdItem {
+  return { id };
+}
+
+export function CardCreateId(numOfCard: number, cards: CardIdItem[]): CardCreateIdResponse {
   return { status: "success", data: { numOfCard, cards } };
 }
 

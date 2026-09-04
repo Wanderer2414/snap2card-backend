@@ -9,7 +9,7 @@ import { checkSession } from "../../shared_functions/check_session.js";
 import { saveFile } from "../../shared_functions/file.js";
 import { converters } from "../../shared_functions/converters.js";
 import { extractPdfText, makePdfExtractArgs } from "../../services/pdf_text_extraction.js";
-import { extractWords } from "../../shared_functions/text.js";
+import { getVocabularyGenerationService, VocabularyFromText } from "../../services/vocabulary_generation.js";
 
 export const card_create_pdf_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => {
     try {
@@ -31,13 +31,21 @@ export const card_create_pdf_handler: Handler = async (req: IncomingMessage, res
             sendError(req, res, errors.notFound);
             return;
         }
-        const text = await extractPdfText(makePdfExtractArgs(result.source, 100, 1))
-        if (text.ok) {
-            const words = extractWords(text.text!)
-            // console.log(words)
+
+        const text = await extractPdfText(makePdfExtractArgs(result.source, 100, 1));
+        if (!text.ok || !text.text || text.text.trim().length === 0) {
+            sendError(req, res, errors.noReadableText);
+            return;
         }
 
-        sendResponse(req, res, 201, CardCreateText(2, [CardCreateItem('mandatory', 'required by law'), CardCreateItem('compulsory ', 'that must be done because of a law or a rule')]));
+        const generation = await getVocabularyGenerationService().generateFromText(VocabularyFromText(text.text, 'B1', 20));
+        if (!generation.ok) {
+            sendError(req, res, generation.error);
+            return;
+        }
+
+        const cards = generation.data.map((c) => CardCreateItem(c.term, c.definition));
+        sendResponse(req, res, 201, CardCreateText(cards.length, cards));
     }
     catch (e) {
         console.log("Error: ", e);

@@ -3,6 +3,13 @@ import type { ApiError } from "../configs/errors.js";
 import type { ApiResponse } from "../definitions/responses.js";
 import { getTime } from "./get_time.js";
 
+const MAX_LOGGED_BODY_LENGTH = 100 * 1024;
+
+function truncateLoggedBody(body: string): string {
+  if (Buffer.byteLength(body, "utf8") <= MAX_LOGGED_BODY_LENGTH) return body;
+  return Buffer.from(body, "utf8").subarray(0, MAX_LOGGED_BODY_LENGTH).toString("utf8");
+}
+
 // FN_REQUEST_LOG_INSERT(
 //     p_endpoint       VARCHAR(60),
 //     p_header         TEXT,
@@ -25,7 +32,7 @@ export function sendJson(
   
   void import("../controllers/db_router.js")
     .then(async ({ default: database_pool }) => {
-      const requestBody = shouldOmitRequestBody(req) ? "[request body omitted]" : headerBody;
+      const requestBody = shouldOmitRequestBody(req) ? "[request body omitted]" : truncateLoggedBody(headerBody);
       const responseBody = shouldOmitLoggedResponseBody(req) ? "[response body omitted]" : JSON.stringify(body);
       return database_pool.query("SELECT FN_REQUEST_LOG_INSERT($1, $2, $3, $4, $5)", [req.url!, getLoggedHeaders(req), requestBody, status.toString(), responseBody]);
     })

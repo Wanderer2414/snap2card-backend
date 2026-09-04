@@ -15,7 +15,8 @@ Base URL: `/snap2card/api/v1.0`
 | PUT    | `/account/avatar` | Bearer token | Updates the avatar by uploading a PNG file. | [Account Avatar Update](../protocols/account/account-avatar-update.md) |
 | PUT    | `/account`       | Bearer token | Updates the authenticated user's account details.  | [Account Edit](../protocols/account/account-edit.md) |
 | POST   | `/account/logout` | Bearer token | Invalidates the current user's session/token.      | [Account Logout](../protocols/account/account-logout.md) |
-| GET    | `/activities`    | Bearer token | Retrieves activity history for the authenticated user. | [Activities Retrieve](../protocols/activities/activies-retrieve.md) |
+| GET    | `/account/daily-learned-count` | Bearer token | Returns the number of cards learned on a given date. | [Daily Learned Count](../protocols/account/daily-learned-count.md) |
+| GET    | `/account/monthly-learned-count` | Bearer token | Returns the number of cards learned per day this month. | [Monthly Learned Count](../protocols/account/monthly-learned-count.md) |
 | POST   | `/cards/pdf`     | Bearer token | Saves a PDF file and records it in the database. | [Card Create PDF](../protocols/card/card-create-pdf.md) |
 | POST   | `/cards/document` | Bearer token | Creates a new card from a text document. | [Card Create Document](../protocols/card/card-create-document.md) |
 | POST   | `/cards`         | Bearer token | Creates a new card from front/back text manually. | [Card Create](../protocols/card/card-create.md) |
@@ -32,7 +33,6 @@ Base URL: `/snap2card/api/v1.0`
 | POST   | `/categories/categorize` | Bearer token | Assigns one or more cards to a category. | [Card To Category](../protocols/card/card-to-category.md) |
 | GET    | `/categories/logs` | Bearer token | Lists completed exam logs for a category. | [Category Log Related](../protocols/category/category-log-related.md) |
 | GET    | `/categories/recent` | Bearer token | Lists the most recent categories the user took exams in. | [Recent Category Take List](../protocols/category/recent-category-take-list.md) |
-| GET    | `/history`       | Bearer token | Retrieves the transaction/history log for the authenticated user. | [History Retrieve](../protocols/history/history-retrive.md) |
 | POST   | `/exams/create`  | Bearer token | Creates a new exam from a category.  | [Exam Create](../protocols/exam/exam-create.md) |
 | POST   | `/exams/start`   | Bearer token | Starts an exam session.              | [Exam Start](../protocols/exam/exam-start.md) |
 | POST   | `/exams/result`  | Bearer token | Saves a quiz result against an exam log. | [Exam Result](../protocols/exam/exam-result.md) |
@@ -54,12 +54,8 @@ Base URL: `/snap2card/api/v1.0`
 | `PUT /account/avatar`              | Updates the authenticated user's avatar by uploading a PNG file. |
 | `PUT /account`                     | Updates account details. The `type` field selects the field to update: `total`, `name`, `email`, `phone`, or `dailyGoal`. |
 | `POST /account/logout`             | Invalidates the current user's session/token.               |
-
-### Activities
-
-| Endpoint              | Function                                                       |
-| --------------------- | -------------------------------------------------------------- |
-| `GET /activities`     | Retrieves activity stats: streak, cards used this month, and a per-day count array. |
+| `GET /account/daily-learned-count` | Returns the number of cards learned on a given date (query `year`, `month`, `day`). |
+| `GET /account/monthly-learned-count` | Returns the number of cards learned per day in the current month. |
 
 ### Cards
 
@@ -86,12 +82,6 @@ Base URL: `/snap2card/api/v1.0`
 | `POST /categories/categorize` | Assigns one or more cards to a category.                    |
 | `GET /categories/logs`    | Lists completed exam logs whose exams belong to a category.     |
 | `GET /categories/recent`  | Lists the `n` most recent categories the account has taken exams in, with mastery. |
-
-### History
-
-| Endpoint             | Function                                                        |
-| -------------------- | --------------------------------------------------------------- |
-| `GET /history`       | Retrieves the transaction/history log with pagination (`from`, `to`, `limit`, `page`). |
 
 ### Exams
 

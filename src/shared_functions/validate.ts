@@ -39,3 +39,7 @@ export function isValidLength(value: string | null | undefined, max: number): va
 export function isUppercase(value: string | null | undefined): value is string {
     return value != null && value === value.toUpperCase();
 }
+
+export function isValidDate(date: string | null | undefined): date is string {
+    return date != null && /^\d{4}-\d{2}-\d{2}$/.test(date);
+}

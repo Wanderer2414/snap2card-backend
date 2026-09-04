@@ -6,7 +6,8 @@ import { account_avatar_update_handler } from "./handlers/account/account_avatar
 import { account_edit_handler } from "./handlers/account/account_edit.js";
 import { account_logout_handler } from "./handlers/account/account_logout.js";
 import { account_register_handler } from "./handlers/account/account_register.js";
-import { activities_retrieve_handler } from "./handlers/activities/activities_retrieve.js";
+import { daily_learned_count_handler } from "./handlers/account/daily_learned_count.js";
+import { monthly_learned_count_handler } from "./handlers/account/monthly_learned_count.js";
 import { card_create_handler } from "./handlers/card/card_create.js";
 import { card_delete_handler } from "./handlers/card/card_delete.js";
 import { card_create_document_handler } from "./handlers/card/card_create_document.js";
@@ -23,7 +24,6 @@ import { category_retrieve_handler } from "./handlers/category/category_retrieve
 import { category_to_card_handler } from "./handlers/category/category_to_card.js";
 import { category_log_related_handler } from "./handlers/category/category_log_related.js";
 import { recent_category_take_list_handler } from "./handlers/category/recent_category_take_list.js";
-import { history_retrieve_handler } from "./handlers/history/history_retrieve.js";
 import { exam_create_handler } from "./handlers/exam/exam_create.js";
 import { exam_start_handler } from "./handlers/exam/exam_start.js";
 import { exam_result_handler } from "./handlers/exam/exam_result.js";
@@ -64,7 +64,8 @@ export const endpointDefinitions: readonly EndpointDefinition[] = [
   { name: "account-avatar-update", method: "PUT", path: "/account/avatar", auth: true, contentType: "image/" },
   { name: "account-edit", method: "PUT", path: "/account", auth: true, contentType: "application/json" },
   { name: "account-logout", method: "POST", path: "/account/logout", auth: true, contentType: "application/json" },
-  { name: "activities-retrieve", method: "GET", path: "/activities", auth: true, contentType: "application/json" },
+  { name: "daily-learned-count", method: "GET", path: "/account/daily-learned-count", auth: true, contentType: "application/json" },
+  { name: "monthly-learned-count", method: "GET", path: "/account/monthly-learned-count", auth: true, contentType: "application/json" },
   { name: "card-create-pdf", method: "POST", path: "/cards/pdf", auth: true, contentType: "application/pdf" },
   { name: "card-create-document", method: "POST", path: "/cards/document", auth: true, contentType: "text/plain" },
   { name: "card-create", method: "POST", path: "/cards", auth: true, contentType: "application/json" },
@@ -76,7 +77,6 @@ export const endpointDefinitions: readonly EndpointDefinition[] = [
   { name: "category-delete", method: "DELETE", path: "/categories", auth: true, contentType: "application/json" },
   { name: "category-list", method: "GET", path: "/categories/list", auth: true, contentType: "application/json" },
   { name: "category-retrieve", method: "GET", path: "/categories", auth: true, contentType: "application/json" },
-  { name: "history-retrieve", method: "GET", path: "/history", auth: true, contentType: "application/json" },
   { name: "exam-create", method: "POST", path: "/exams/create", auth: true, contentType: "application/json" },
   { name: "exam-start", method: "POST", path: "/exams/start", auth: true, contentType: "application/json" },
   { name: "exam-result", method: "POST", path: "/exams/result", auth: true, contentType: "application/json" },
@@ -111,7 +111,8 @@ handlers["account-avatar-retrieve"] = account_avatar_retrieve_handler;
 handlers["account-avatar-update"] = account_avatar_update_handler;
 handlers["account-edit"] = account_edit_handler;
 handlers["account-logout"] = account_logout_handler;
-// handlers["activities-retrieve"] = activities_retrieve_handler;
+handlers["daily-learned-count"] = daily_learned_count_handler;
+handlers["monthly-learned-count"] = monthly_learned_count_handler;
 handlers["card-create-pdf"] = card_create_pdf_handler;
 handlers["card-create-document"] = card_create_document_handler;
 handlers["card-create"] = card_create_handler;
@@ -133,7 +134,6 @@ handlers["exam-start"] = exam_start_handler;
 handlers["exam-result"] = exam_result_handler;
 handlers["exam-review"] = exam_review_handler;
 handlers["exam-completed"] = exam_completed_handler;
-// handlers["history-retrieve"] = history_retrieve_handler;
 // handlers["vocabulary-from-text"] = vocabulary_from_text_handler;
 // handlers["vocabulary-from-pdf"] = vocabulary_from_pdf_handler;
 

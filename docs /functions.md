@@ -669,8 +669,10 @@ Errors: `50001`, `50003`, `50004`, `50006`.
 
 ---
 
-**`EXAM_COMPLETED`** — finalizes an exam log: sets its end time and grades it by
-counting the number of correctly answered (TRUE) review questions.
+**`EXAM_COMPLETED`** — finalizes an exam log: sets its end time, grades it by
+counting the number of correctly answered (TRUE) review questions, updates the
+`true_count`/`false_count` of each reviewed card in `ACCOUNT_CARD_HAVE`, and
+recomputes the day's learned-card count in `DAILY_LOG`.
 
 | Parameter       | Type      |
 | --------------- | --------- |
@@ -679,3 +681,41 @@ counting the number of correctly answered (TRUE) review questions.
 Returns: nothing (`void`).
 
 Errors: `50001`, `50003`, `50004`, `50006`.
+
+---
+
+### Daily & Monthly Learning
+
+**`DAILY_LEARNED_COUNT`** — returns the number of cards learned by an account on
+a given date. A card is "learned" on a day when it was part of an exam on that
+day, the user answered at least one of its review quizzes correctly, and the
+card's mastery score *before* the exam was less than 1.
+
+| Parameter      | Type      |
+| -------------- | --------- |
+| `p_account_id` | `TYPE_ID` |
+| `p_date`       | `DATE`    |
+
+Returns: `INT` — the number of distinct cards learned on that date (0 if none).
+
+Errors: `50001`, `50004`, `50006`.
+
+---
+
+**`MONTHLY_LEARNED_COUNT`** — returns the number of cards learned by an account
+on each day from the first day of the current month to today.
+
+| Parameter      | Type      |
+| -------------- | --------- |
+| `p_account_id` | `TYPE_ID` |
+
+Returns a table:
+
+| Column       | Type   |
+| ------------ | ------ |
+| `day`        | `DATE` |
+| `card_count` | `INT`  |
+
+Days with no exams return `card_count = 0`.
+
+Errors: `50001`, `50004`, `50006`.

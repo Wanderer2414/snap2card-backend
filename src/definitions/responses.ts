@@ -37,13 +37,19 @@ export type AccountEditResponse = SuccessResponse;
 
 export type AccountLogoutResponse = SuccessResponse;
 
-export interface ActivitiesRetrieveResponse extends SuccessResponse {
+export interface DailyLearnedCountResponse extends SuccessResponse {
   data: {
-    streak: number;
-    cardsThisMonth: number;
-    offset: number;
-    counts: number[];
+    count: number;
   };
+}
+
+export interface MonthlyLearnedCountItem {
+  day: string;
+  cardCount: number;
+}
+
+export interface MonthlyLearnedCountResponse extends SuccessResponse {
+  data: MonthlyLearnedCountItem[];
 }
 
 export interface CardCreateResponse extends SuccessResponse {
@@ -142,24 +148,6 @@ export interface RecentCategoryTakeListResponse extends SuccessResponse {
   data: RecentCategoryItem[];
 }
 
-export interface HistoryItem {
-  id: string;
-  cardId: string;
-  amount: number;
-  currency: string;
-  description: string;
-  occurredAt: Time;
-}
-
-export interface HistoryRetrieveResponse extends SuccessResponse {
-  data: HistoryItem[];
-  meta: {
-    page: number;
-    limit: number;
-    total: number;
-  };
-}
-
 export interface ExamCreateResponse extends SuccessResponse {
   data: {
     examId: string;
@@ -244,7 +232,8 @@ export type ApiResponse =
   | AccountRetrieveResponse
   | AccountEditResponse
   | AccountLogoutResponse
-  | ActivitiesRetrieveResponse
+  | DailyLearnedCountResponse
+  | MonthlyLearnedCountResponse
   | CardCreateResponse
   | CardCreateTextResponse
   | CardCreateIdResponse
@@ -257,7 +246,6 @@ export type ApiResponse =
   | CategoryListResponse
   | CategoryRetrieveResponse
   | RecentCategoryTakeListResponse
-  | HistoryRetrieveResponse
   | ExamCreateResponse
   | ExamStartResponse
   | ExamResultResponse
@@ -305,13 +293,16 @@ export function AccountLogout(): AccountLogoutResponse {
   return { status: "success" };
 }
 
-export function ActivitiesRetrieve(
-  streak: number,
-  cardsThisMonth: number,
-  offset: number,
-  counts: number[]
-): ActivitiesRetrieveResponse {
-  return { status: "success", data: { streak, cardsThisMonth, offset, counts } };
+export function DailyLearnedCount(count: number): DailyLearnedCountResponse {
+  return { status: "success", data: { count } };
+}
+
+export function MonthlyLearnedCountItem(day: string, cardCount: number): MonthlyLearnedCountItem {
+  return { day, cardCount };
+}
+
+export function MonthlyLearnedCount(data: MonthlyLearnedCountItem[]): MonthlyLearnedCountResponse {
+  return { status: "success", data };
 }
 
 export function CardCreate(numOfCard: number, cards: CardListItem[]): CardCreateResponse {
@@ -408,26 +399,6 @@ export function RecentCategoryItem(
 
 export function RecentCategoryTakeList(data: RecentCategoryItem[]): RecentCategoryTakeListResponse {
   return { status: "success", data };
-}
-
-export function HistoryItem(
-  id: string,
-  cardId: string,
-  amount: number,
-  currency: string,
-  description: string,
-  occurredAt: Time
-): HistoryItem {
-  return { id, cardId, amount, currency, description, occurredAt };
-}
-
-export function HistoryRetrieve(
-  data: HistoryItem[],
-  page: number,
-  limit: number,
-  total: number
-): HistoryRetrieveResponse {
-  return { status: "success", data, meta: { page, limit, total } };
 }
 
 export function ExamCreate(examId: string): ExamCreateResponse {

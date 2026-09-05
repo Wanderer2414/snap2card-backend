@@ -28,6 +28,7 @@ import { exam_create_handler } from "./handlers/exam/exam_create.js";
 import { exam_start_handler } from "./handlers/exam/exam_start.js";
 import { exam_result_handler } from "./handlers/exam/exam_result.js";
 import { exam_review_handler } from "./handlers/exam/exam_review.js";
+import { exam_review_log_detail_handler } from "./handlers/exam/exam_review_log_detail.js";
 import { exam_completed_handler } from "./handlers/exam/exam_completed.js";
 import { sendJson } from "./shared_functions/send.js";
 import type { Handler } from "./shared_type/handler.js";
@@ -81,6 +82,7 @@ export const endpointDefinitions: readonly EndpointDefinition[] = [
   { name: "exam-start", method: "POST", path: "/exams/start", auth: true, contentType: "application/json" },
   { name: "exam-result", method: "POST", path: "/exams/result", auth: true, contentType: "application/json" },
   { name: "exam-review", method: "GET", path: "/exams/review", auth: true, contentType: "application/json" },
+  { name: "exam-review-log-detail", method: "GET", path: "/exams/review-log-detail", auth: true, contentType: "application/json" },
   { name: "account-register", method: "POST", path: "/account/register", auth: false, contentType: "application/json" },
   { name: "category-create", method: "POST", path: "/categories", auth: true, contentType: "application/json" },
   { name: "category-to-card", method: "POST", path: "/cards/categorize", auth: true, contentType: "application/json" },
@@ -133,6 +135,7 @@ handlers["exam-create"] = exam_create_handler;
 handlers["exam-start"] = exam_start_handler;
 handlers["exam-result"] = exam_result_handler;
 handlers["exam-review"] = exam_review_handler;
+handlers["exam-review-log-detail"] = exam_review_log_detail_handler;
 handlers["exam-completed"] = exam_completed_handler;
 // handlers["vocabulary-from-text"] = vocabulary_from_text_handler;
 // handlers["vocabulary-from-pdf"] = vocabulary_from_pdf_handler;

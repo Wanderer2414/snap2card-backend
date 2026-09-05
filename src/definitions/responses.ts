@@ -175,6 +175,30 @@ export interface ExamReviewResponse extends SuccessResponse {
   };
 }
 
+export interface ReviewLogQuizResultItem {
+  quizId: string;
+  frontSide: string;
+  backSide: string;
+  accountAnswer: boolean;
+  resultScore: number;
+  totalScore: number;
+}
+
+export interface ReviewLogDetailItem {
+  logId: string;
+  examName: string;
+  examLevel: string;
+  resultScore: number;
+  totalScore: number;
+  numOfQuiz: number;
+  dateDone: Time;
+  quizResults: ReviewLogQuizResultItem[];
+}
+
+export interface ReviewLogDetailResponse extends SuccessResponse {
+  data: ReviewLogDetailItem;
+}
+
 export interface AccountRegisterResponse extends SuccessResponse {
   data: {
     accountId: string;
@@ -250,6 +274,7 @@ export type ApiResponse =
   | ExamStartResponse
   | ExamResultResponse
   | ExamReviewResponse
+  | ReviewLogDetailResponse
   | AccountRegisterResponse
   | CategoryCreateResponse
   | CategoryToCardResponse
@@ -419,6 +444,34 @@ export function ExamQuizItem(quizId: string, frontSide: string, backSide: string
 
 export function ExamReview(numOfQuiz: number, quizzes: ExamQuizItem[]): ExamReviewResponse {
   return { status: "success", data: { numOfQuiz, quizzes } };
+}
+
+export function ReviewLogQuizResultItem(
+  quizId: string,
+  frontSide: string,
+  backSide: string,
+  accountAnswer: boolean,
+  resultScore: number,
+  totalScore: number
+): ReviewLogQuizResultItem {
+  return { quizId, frontSide, backSide, accountAnswer, resultScore, totalScore };
+}
+
+export function ReviewLogDetailItem(
+  logId: string,
+  examName: string,
+  examLevel: string,
+  resultScore: number,
+  totalScore: number,
+  numOfQuiz: number,
+  dateDone: Time,
+  quizResults: ReviewLogQuizResultItem[]
+): ReviewLogDetailItem {
+  return { logId, examName, examLevel, resultScore, totalScore, numOfQuiz, dateDone, quizResults };
+}
+
+export function ReviewLogDetail(data: ReviewLogDetailItem): ReviewLogDetailResponse {
+  return { status: "success", data };
 }
 
 export function AccountRegister(accountId: string): AccountRegisterResponse {

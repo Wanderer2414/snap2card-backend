@@ -31,11 +31,11 @@ export const card_create_pdf_handler: Handler = async (req: IncomingMessage, res
             sendError(req, res, errors.notFound);
             return;
         }
-        const text = await extractPdfText(makePdfExtractArgs(result.source, 100, 1))
-        if (text.ok) {
-            const words = extractWords(text.text!)
-            // console.log(words)
-        }
+        // const text = await extractPdfText(makePdfExtractArgs(result.source, 100, 1))
+        // if (text.ok) {
+        //     const words = extractWords(text.text!)
+        //     // console.log(words)
+        // }
 
         const response = [
             CardCreateItem('embody', 'to represent or express an idea, quality, or principle in a clear and concrete form; to be a good example of something'),

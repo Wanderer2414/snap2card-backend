@@ -9,8 +9,9 @@ import { getBody } from "../../shared_functions/request.js";
 import { isValidEmail, isValidLength } from "../../shared_functions/validate.js";
 
 export const account_register_handler: Handler = async (req: IncomingMessage, res: ServerResponse, ctx: RouteContext) => {
+    let rawBody: string | undefined;
     try {
-        const rawBody = await getBody(req);
+        rawBody = await getBody(req);
         const body = JSON.parse(rawBody);
 
         const name = body["name"] as string | undefined;
@@ -39,6 +40,11 @@ export const account_register_handler: Handler = async (req: IncomingMessage, re
     }
     catch (e) {
         console.log("Error: ", e);
-        sendError(req, res, resolveDatabaseError(e));
+        const sqlstate = (e as { code?: string } | null | undefined)?.code;
+        if (sqlstate === "50003") {
+            sendError(req, res, errors.emailAlreadyExists, rawBody);
+            return;
+        }
+        sendError(req, res, resolveDatabaseError(e), rawBody);
     }
 }

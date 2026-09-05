@@ -46,6 +46,7 @@ export const errors = {
   frontAndBackSame: { code: 400, message: "frontside and backside must be different" },
   examLogConflict: { code: 409, message: "A result for this quiz already exists on this exam log" },
   examAlreadyCompleted: { code: 422, message: "Exam log has already been completed" },
+  emailAlreadyExists: { code: 409, message: "An account with this email already exists" },
 } as const;
 
 export interface DbError {

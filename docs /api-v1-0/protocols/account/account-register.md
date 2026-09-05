@@ -59,6 +59,7 @@ See [Error Codes](../definitions/errors.md) for the full description and format 
 
 | Code | Error                  |
 | ---- | ---------------------- |
-| 400  | Bad Request |
+| 400  | Bad Request / Invalid input data |
+| 409  | Conflict (an account with this email already exists) |
 | 500  | Internal Server Error |
 | 426  | Version Mismatch |

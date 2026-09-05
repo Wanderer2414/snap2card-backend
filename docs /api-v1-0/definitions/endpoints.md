@@ -37,6 +37,7 @@ Base URL: `/snap2card/api/v1.0`
 | POST   | `/exams/start`   | Bearer token | Starts an exam session.              | [Exam Start](../protocols/exam/exam-start.md) |
 | POST   | `/exams/result`  | Bearer token | Saves a quiz result against an exam log. | [Exam Result](../protocols/exam/exam-result.md) |
 | GET    | `/exams/review`  | Bearer token | Retrieves the quizzes for reviewing an exam. | [Exam Review](../protocols/exam/exam-review.md) |
+| GET    | `/exams/review-log-detail` | Bearer token | Retrieves the full detail of a completed exam log. | [Exam Review Log Detail](../protocols/exam/review-log-detail.md) |
 | POST   | `/exams/completed` | Bearer token | Finalizes an exam log and grades the exam. | [Exam Completed](../protocols/exam/exam-completed.md) |
 | POST   | `/vocabulary/from-text` | Bearer token | Generates vocabulary cards from a text document. | [Vocabulary From Text](../protocols/vocabulary/vocabulary-from-text.md) |
 | POST   | `/vocabulary/from-pdf` | Bearer token | Generates vocabulary cards from a PDF file. | [Vocabulary From PDF](../protocols/vocabulary/vocabulary-from-pdf.md) |
@@ -91,6 +92,7 @@ Base URL: `/snap2card/api/v1.0`
 | `POST /exams/start`   | Starts an exam session for an exam, returning a new exam log.    |
 | `POST /exams/result`  | Records a user's answer to a review quiz on an exam log.         |
 | `GET /exams/review`   | Retrieves the review questions (quizzes) of an exam.             |
+| `GET /exams/review-log-detail` | Retrieves the full detail of a completed exam log (header + answered quizzes). |
 | `POST /exams/completed` | Finalizes an exam log, setting its end time and grading it.    |
 
 ### Vocabulary

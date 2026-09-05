@@ -21,6 +21,7 @@ Custom domain types used by protocol signatures:
 | `TYPE_NAME_FILE`    | `VARCHAR(60)`   | Max 60 characters                                 |
 | `TYPE_FILE_TYPE`    | enum            | `pdf`, `png`, `jpg`, `bmp`, `ico`, `webp`         |
 | `TYPE_CARD_INSERT`  | composite       | `(frontSide_id TYPE_ID, backSide_id TYPE_ID)`     |
+| `TYPE_QUIZ_RESULT`  | composite       | `(quiz_id TYPE_ID, front_text, back_text, account_answer, result_score int, total_score int)` |
 
 ## Functions
 
@@ -50,7 +51,10 @@ Errors: `50001`, `50008`.
 
 Returns: `TYPE_ID` — the new account id (`ACNT...`).
 
-Errors: `50001`, `50002`.
+If an account with the same email already exists, the conflict is reported
+rather than ignored.
+
+Errors: `50001`, `50002`, `50003`.
 
 ---
 
@@ -718,5 +722,48 @@ Returns a table:
 | `card_count` | `INT`  |
 
 Days with no exams return `card_count = 0`.
+
+Errors: `50001`, `50004`, `50006`.
+
+---
+
+**`REVIEW_LOG_DETAIL_RETRIEVE`** — returns the full detail of a completed exam
+log: the exam header followed by an array of answered quizzes.
+
+| Parameter       | Type      |
+| --------------- | --------- |
+| `p_exam_log_id` | `TYPE_ID` |
+
+Returns a single-row table:
+
+| Column          | Type              |
+| --------------- | ----------------- |
+| `log_id`        | `TYPE_ID`         |
+| `exam_name`     | `TYPE_NAME_EXAM`  |
+| `exam_level`    | `TEXT`            |
+| `result_score`  | `INT`             |
+| `total_score`   | `INT`             |
+| `num_of_quiz`   | `INT`             |
+| `YEAR_DONE`     | `INTEGER`         |
+| `MONTH_DONE`    | `INTEGER`         |
+| `DAY_DONE`      | `INTEGER`         |
+| `HOUR_DONE`     | `INTEGER`         |
+| `MINUTE_DONE`   | `INTEGER`         |
+| `SECOND_DONE`   | `INTEGER`         |
+| `GMT_DONE`      | `CHAR(3)`         |
+| `quiz_results`  | `TYPE_QUIZ_RESULT[]` |
+
+Each element of `quiz_results` is:
+
+| Field             | Type      |
+| ----------------- | --------- |
+| `quiz_id`         | `TYPE_ID` |
+| `front_text`      | `TEXT`    |
+| `back_text`       | `TEXT`    |
+| `account_answer`  | `BOOLEAN` |
+| `result_score`    | `INT`     |
+| `total_score`     | `INT`     |
+
+`result_score` is 1 when the user answered correctly else 0; `total_score` is 1.
 
 Errors: `50001`, `50004`, `50006`.
